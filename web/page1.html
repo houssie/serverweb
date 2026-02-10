@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Page 1</title></head>
+<body>
+    <h1>Page 1 - Test Cache</h1>
+    <p>Cette page devrait être mise en cache.</p>
+    <p>Heure de génération : <span id="time"></span></p>
+    <p><a href="/">Retour</a></p>
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>

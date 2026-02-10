@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Proxy Test - Accueil</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .backend { color: blue; font-weight: bold; }
+        .time { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Proxy Reverse - Test Load Balancing</h1>
+    <p>Cette page est servie par le proxy.</p>
+    <p>Backend actuel : <span class="backend">PROXY DIRECT</span></p>
+    <p>Heure : <span class="time" id="time"></span></p>
+    <p><a href="/page1.html">Page 1</a> | <a href="/page2.html">Page 2</a></p>
+    <p><a href="/test.php">Tester PHP</a></p>
+    
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString();
+        // Rafraîchir automatiquement pour voir le load balancing
+        setTimeout(() => { location.reload(); }, 2000);
+    </script>
+</body>
+</html>

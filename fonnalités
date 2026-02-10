@@ -1,0 +1,55 @@
+Ce projet apporte une compréhension approfondie des mécanismes 
+d'un serveur proxy reverse en C, incluant l'équilibrage de charge 
+(round-robin avec poids), le cache LRU pour optimiser les performances,
+ les health checks automatiques pour la haute disponibilité, et 
+ une journalisation robuste. Il permet de distribuer le trafic 
+ entre plusieurs backends, de réduire la latence via le cache, 
+ et d'assurer la résilience en cas de panne. Idéal pour apprendre 
+ le multithreading, les sockets, et la gestion de configurations
+  dynamiques, tout en offrant un outil pratique pour des 
+  environnements de production légers.
+
+  Oui, le projet inclut une partie proxy complète : 
+  il agit comme un serveur proxy reverse qui reçoit les requêtes HTTP,
+   les distribue vers les backends via l'équilibrage de charge, 
+   applique le cache, et gère la sécurité (blacklist, rate limiting).
+    Le cœur est dans proxy.c, qui gère les connexions, le parsing des 
+    requêtes, et le dispatch. Si le fichier "fonnalités" est vide, 
+    vous pouvez y noter les fonctionnalités clés pour référence.
+
+    Guide pour tester les fonctionnalités du projet
+Assurez-vous que les backends sont lancés (python3 -m http.server 8081 & python3 -m http.server 8082 & python3 -m http.server 8083 &),
+ le proxy compilé et démarré (./proxy -p 8080 -c config/backends.cfg),
+  et les logs visibles (tail -f proxy.log).
+
+1. Serveur proxy reverse et distribution du trafic
+Ouvrez le navigateur à http://localhost:8080/.
+Rafraîchissez plusieurs fois (F5) : Le proxy reçoit les requêtes HTTP et les distribue.
+Vérifiez les logs : "GET / from 127.0.0.1" et "Selected backend: ...".
+2. Équilibrage de charge (round-robin avec poids)
+Rafraîchissez la page 10+ fois rapidement.
+Observez les logs : Alternance entre backends (e.g., 8081 plus souvent que 8082/8083 selon les poids).
+Commande : for i in {1..10}; do curl -s http://localhost:8080/ > /dev/null; done puis tail proxy.log.
+3. Cache LRU et réduction de latence
+Allez à http://localhost:8080/ (première fois : cache miss).
+Rechargez : Logs montrent "Serving from cache: /" (plus rapide).
+Testez avec fichiers : curl http://localhost:8080/index.html puis rechargez.
+Vérifiez les règles dans config/cache_rules.cfg.
+4. Health checks automatiques et résilience
+Tuez un backend : kill $(ps aux | grep '8081' | awk '{print $2}').
+Rafraîchissez : Logs montrent "Backend ... marked as unhealthy", puis basculement vers les autres.
+Relancez le backend : python3 -m http.server 8081 & – Il redevient healthy automatiquement.
+5. Journalisation robuste
+Toutes les actions sont loggées dans proxy.log (niveaux DEBUG/INFO/WARN/ERROR).
+Testez une erreur : Arrêtez tous les backends, rafraîchissez → "No healthy backends available".
+Vérifiez les stats périodiques (cache, backends).
+6. Sécurité (blacklist, rate limiting)
+Ajoutez une IP dans config/blacklist.txt (e.g., 127.0.0.1).
+Rafraîchissez : Devrait être bloqué (erreur 403 dans logs).
+Pour rate limiting : Envoyez beaucoup de requêtes (ab -n 1000 -c 10 http://localhost:8080/) et observez les rejets.
+7. Multithreading, sockets et configurations
+Lancez plusieurs requêtes simultanées : wrk -t 4 -c 100 -d 10s http://localhost:8080/ (installez wrk si besoin).
+Vérifiez les threads : ps -T -p $(pidof proxy) (montre les threads actifs).
+Modifiez config/backends.cfg et redémarrez pour tester la config dynamique.
+Pour des tests avancés, utilisez des outils comme Apache Bench (ab) ou wrk pour mesurer les performances (temps de réponse, taux de hit cache). Si une fonctionnalité échoue, partagez les logs pour déboguer.
+
