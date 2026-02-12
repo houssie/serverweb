@@ -112,8 +112,9 @@ void* health_check_thread(void *arg) {
     
     log_message(LOG_INFO, "Health check thread started");
     
-    while (1) {
-        for (int i = 0; i < count; i++) {
+    extern volatile int running;
+    while (running) {
+        for (int i = 0; i < count && running; i++) {
             Backend *b = &backends[i];
             
             int sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -148,9 +149,14 @@ void* health_check_thread(void *arg) {
             update_backend_health(b, connected);
         }
         
-        sleep(HEALTH_CHECK_INTERVAL);
+        // Dormir par petits incréments pour réagir vite au shutdown
+        for (int s = 0; s < HEALTH_CHECK_INTERVAL && running; s++) {
+            sleep(1);
+        }
     }
     
+    log_message(LOG_INFO, "Health check thread stopped");
+    free(args);
     return NULL;
 }
 

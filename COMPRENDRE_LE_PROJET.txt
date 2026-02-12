@@ -1,0 +1,663 @@
+================================================================================
+          GUIDE COMPLET - COMPRENDRE TON PROXY REVERSE EN C
+================================================================================
+
+Ce guide t'explique TOUT ton projet, fichier par fichier, ligne par ligne,
+pour que tu le maîtrises parfaitement.
+
+================================================================================
+1. C'EST QUOI UN PROXY REVERSE ?
+================================================================================
+
+Imagine un restaurant :
+- Le CLIENT (navigateur/curl) entre et dit "je veux une pizza"
+- Le PROXY (ton programme) est le serveur qui prend la commande
+- Les BACKENDS (serveurs Python) sont les cuisiniers en arrière
+
+Le client ne sait pas QUEL cuisinier prépare sa pizza.
+Le proxy décide, en fonction de la charge, qui va répondre.
+
+      Client ──> PROXY ──> Backend 1 (port 8081)
+                       ──> Backend 2 (port 8082)
+                       ──> Backend 3 (port 8083)
+
+En plus, le proxy peut :
+- Servir des fichiers directement (HTML, CSS, images)
+- Exécuter du PHP localement
+- Mettre en CACHE les réponses (pour aller plus vite)
+- Bloquer des IPs (blacklist)
+- Limiter le nombre de requêtes (rate limiting)
+- Vérifier que les backends sont en vie (health checks)
+
+
+================================================================================
+2. ARCHITECTURE DU PROJET (Vue d'ensemble)
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────┐
+│                          proxy.c (CERVEAU)                      │
+│                                                                 │
+│  main()                                                         │
+│    │                                                            │
+│    ├── init_logger()          ← logger.c                        │
+│    ├── load_backends()        ← backend_manager.c               │
+│    ├── cache_init()           ← cache.c                         │
+│    ├── cache_rules_load()     ← cache.c                         │
+│    ├── health_check_thread()  ← backend_manager.c (THREAD)      │
+│    ├── create_server_socket() ← utils.c                         │
+│    │                                                            │
+│    └── BOUCLE : accept() → pthread_create(handle_client)        │
+│                                     │                           │
+│         ┌───────────────────────────┘                           │
+│         │                                                       │
+│         ├── is_blacklisted()       ← utils.c                    │
+│         ├── check_rate_limit()     ← utils.c                    │
+│         ├── parse_http_request()   ← proxy.c                    │
+│         ├── serve_static()         ← proxy.c (fichiers locaux)  │
+│         ├── serve_php()            ← proxy.c (scripts PHP)      │
+│         ├── cache_get()            ← cache.c                    │
+│         ├── select_backend()       ← load_balancer.c            │
+│         ├── connect_to_backend()   ← utils.c                    │
+│         └── cache_put()            ← cache.c                    │
+└─────────────────────────────────────────────────────────────────┘
+
+Fichiers de configuration :
+  config/backends.cfg    → Liste des serveurs backend
+  config/blacklist.txt   → IPs bloquées
+  config/cache_rules.cfg → Règles de cache
+
+
+================================================================================
+3. FICHIER PAR FICHIER - EXPLICATION DÉTAILLÉE
+================================================================================
+
+─────────────────────────────────────────
+3.1  config.h — Le fichier de configuration centrale
+─────────────────────────────────────────
+
+RÔLE : Définir TOUTES les structures de données et constantes du projet.
+       Chaque .c inclut ce fichier pour connaître les types.
+
+CONSTANTES IMPORTANTES :
+  MAX_BACKENDS 10         → Maximum 10 serveurs backend
+  MAX_CLIENTS 100         → Maximum 100 connexions simultanées
+  BUFFER_SIZE 8192        → Taille des buffers de lecture (8 Ko)
+  CACHE_CAPACITY 100      → Maximum 100 entrées en cache
+  HEALTH_CHECK_INTERVAL 10 → Vérification des backends toutes les 10s
+  REQUEST_TIMEOUT 30      → Timeout de lecture d'une requête (30s)
+
+STRUCTURES CLÉS :
+
+  Backend : Représente un serveur arrière
+  ┌──────────────────────────────────────┐
+  │ host[256]          "127.0.0.1"       │
+  │ port               8081              │
+  │ weight             3 (priorité)      │
+  │ current_connections 2                │
+  │ is_healthy         1 (oui/non)       │
+  │ failures           0                 │
+  │ max_failures       5                 │
+  │ pthread_mutex_t    (protection)      │
+  └──────────────────────────────────────┘
+
+  CacheEntry : Une entrée dans le cache (liste doublement chaînée)
+  ┌──────────────────────────────────────┐
+  │ key[512]           clé unique        │
+  │ data               réponse HTTP      │
+  │ size               taille en octets  │
+  │ timestamp          quand stockée     │
+  │ expiry             quand elle expire │
+  │ next/prev          liens LRU         │
+  │ hash_key[65]       SHA256 du contenu │
+  └──────────────────────────────────────┘
+
+  Cache : Le système de cache complet
+  ┌──────────────────────────────────────┐
+  │ buckets[]          table de hachage  │
+  │ capacity           100               │
+  │ count              nb entrées        │
+  │ lru_head/lru_tail  tête/queue LRU    │
+  │ pthread_mutex_t    protection        │
+  │ total_size         taille totale     │
+  └──────────────────────────────────────┘
+
+  HttpRequest : Une requête HTTP parsée
+  ┌──────────────────────────────────────┐
+  │ method[16]         "GET"             │
+  │ path[1024]         "/index.html"     │
+  │ protocol[16]       "HTTP/1.1"        │
+  │ host[256]          "localhost"        │
+  │ port               8085              │
+  │ headers[4096]      tous les headers  │
+  └──────────────────────────────────────┘
+
+  LBStrategy : Algorithmes de load balancing
+  ┌──────────────────────────────────────┐
+  │ LB_ROUND_ROBIN      0 → tour à tour │
+  │ LB_LEAST_CONNECTIONS 1 → le - chargé│
+  │ LB_IP_HASH          2 → par IP      │
+  │ LB_WEIGHTED_ROUND_ROBIN 3 → par poids│
+  └──────────────────────────────────────┘
+
+
+─────────────────────────────────────────
+3.2  proxy.c — Le fichier principal (CERVEAU)
+─────────────────────────────────────────
+
+C'est le cœur du projet. Il contient :
+
+A) VARIABLES GLOBALES (partagées entre tous les threads) :
+   volatile int running = 1;     → Flag d'arrêt (volatile = visible par tous les threads)
+   Cache *global_cache;           → Le cache partagé
+   Backend *backends;             → Tableau des backends
+   int active_threads;            → Compteur de threads actifs
+   pthread_mutex_t threads_mutex; → Mutex pour protéger active_threads
+
+B) signal_handler() :
+   Quand tu fais Ctrl+C, le système envoie SIGINT.
+   Cette fonction met running=0, ce qui arrête la boucle accept().
+
+C) parse_http_request() :
+   Transforme du texte brut HTTP en structure HttpRequest.
+   
+   Texte reçu :                     Résultat :
+   "GET /page.html HTTP/1.1\r\n"    method = "GET"
+   "Host: localhost:8085\r\n"        path   = "/page.html"
+   "\r\n"                            protocol = "HTTP/1.1"
+                                     host   = "localhost"
+                                     port   = 8085
+
+   ASTUCE : Gère les deux formats de fin de ligne :
+   - \r\n (Windows/HTTP standard) = CRLF
+   - \n   (Unix/curl parfois)     = LF
+
+D) serve_static() :
+   Sert un fichier du dossier web/ directement au client.
+   
+   1. Construit le chemin : "/page.html" → "web/page.html"
+   2. Vérifie le path traversal (sécurité contre "../../../etc/passwd")
+   3. Ouvre le fichier, lit sa taille
+   4. Détermine le Content-Type selon l'extension
+   5. Envoie les headers HTTP puis le contenu du fichier
+
+E) serve_php() :
+   Exécute un script PHP et renvoie le résultat.
+   
+   1. Construit la commande : "php -f web/index.php"
+   2. Exécute avec popen() (lance un processus enfant)
+   3. Lit la sortie du script PHP
+   4. Envoie au client comme réponse HTTP
+
+F) handle_client() — LE PLUS IMPORTANT :
+   C'est la fonction exécutée par chaque thread client.
+   
+   FLUX COMPLET :
+   ┌─────────────────────────────────────────────────────┐
+   │ 1. Vérifier blacklist → 403 si bloqué              │
+   │ 2. Vérifier rate limit → 429 si trop de requêtes   │
+   │ 3. Lire la requête HTTP du client                   │
+   │ 4. Parser la requête (méthode, chemin, headers)     │
+   │ 5. Le fichier existe localement ?                   │
+   │    ├── OUI + .php → serve_php()                     │
+   │    ├── OUI        → serve_static()                  │
+   │    └── NON        → proxier vers un backend :       │
+   │        a. Vérifier le cache → répondre si HIT       │
+   │        b. Sélectionner un backend (load balancing)   │
+   │        c. Se connecter au backend                    │
+   │        d. Transférer requête → backend               │
+   │        e. Recevoir réponse ← backend                 │
+   │        f. Renvoyer réponse → client                  │
+   │        g. Stocker en cache si applicable             │
+   │ 6. Fermer la connexion, libérer mémoire             │
+   │ 7. Décrémenter active_threads                       │
+   └─────────────────────────────────────────────────────┘
+
+G) main() :
+   Point d'entrée du programme.
+   
+   FLUX :
+   1. Parser les arguments (-p port, -c config, -s stratégie)
+   2. Initialiser le logger
+   3. Charger les backends depuis backends.cfg
+   4. Initialiser le cache et charger les règles
+   5. Lancer le thread de health check (détaché)
+   6. Créer le socket serveur (bind + listen)
+   7. BOUCLE INFINIE :
+      a. accept() → attendre un client
+      b. Vérifier nombre de threads (max 100)
+      c. Incrémenter active_threads
+      d. Allouer ClientArgs (mémoire pour le thread)
+      e. pthread_create() → lancer un thread
+      f. pthread_detach() → le thread se nettoie tout seul
+   8. À l'arrêt : fermer tout, afficher stats
+
+
+─────────────────────────────────────────
+3.3  utils.c — Fonctions utilitaires
+─────────────────────────────────────────
+
+create_server_socket(port) :
+  Crée un socket TCP qui écoute sur un port.
+  Options importantes :
+  - SO_REUSEADDR : permet de réutiliser le port immédiatement
+  - SO_REUSEPORT : permet à plusieurs processus d'écouter le même port
+  
+  Étapes : socket() → setsockopt() → bind() → listen()
+
+connect_to_backend(host, port) :
+  Se connecte à un serveur backend.
+  Étapes : socket() → inet_pton() → connect()
+  Timeout de 5 secondes pour ne pas bloquer.
+
+send_http_response(sock, code, message, type, body) :
+  Fabrique et envoie une réponse HTTP complète.
+  Exemple : send_http_response(sock, 200, "OK", "text/html", "<h1>Hello</h1>")
+  → "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: 14\r\n\r\n<h1>Hello</h1>"
+
+read_http_request(sock, buffer, size) :
+  Lit une requête HTTP depuis un socket.
+  Lit jusqu'à trouver "\r\n\r\n" (fin des headers).
+  A un timeout de REQUEST_TIMEOUT secondes.
+
+is_blacklisted(ip) :
+  Vérifie si une IP est dans config/blacklist.txt.
+  Ouvre le fichier, lit ligne par ligne, compare.
+  Thread-safe avec mutex.
+
+check_rate_limit(ip) :
+  Limite à 100 requêtes par minute par IP.
+  Utilise des variables statiques (persistent entre appels).
+  Thread-safe avec mutex.
+
+match_pattern(pattern, str) :
+  Fait du pattern matching simple (* et ?).
+  Utilisé pour les règles de cache.
+  Exemples : "*.html" matche "page.html", "/*" matche "/api/data"
+
+hash_string(str) :
+  Fonction de hachage DJB2 (Daniel J. Bernstein).
+  Convertit une chaîne en nombre. Utilisée pour :
+  - Le cache (trouver le bucket)
+  - Le load balancing IP Hash
+
+
+─────────────────────────────────────────
+3.4  logger.c — Système de log
+─────────────────────────────────────────
+
+RÔLE : Écrire des messages horodatés dans proxy.log
+
+Niveaux : DEBUG < INFO < WARNING < ERROR
+Format : [2026-02-06 11:20:12.970] [DEBUG] Message ici
+
+THREAD-SAFETY : Chaque écriture est protégée par un mutex.
+Sans mutex, deux threads pourraient écrire en même temps
+et mélanger les lignes dans le fichier.
+
+
+─────────────────────────────────────────
+3.5  cache.c — Système de cache LRU
+─────────────────────────────────────────
+
+RÔLE : Stocker les réponses HTTP en mémoire pour les re-servir
+       rapidement sans interroger le backend.
+
+ALGORITHME LRU (Least Recently Used) :
+  Quand le cache est plein, on éjecte l'élément le MOINS
+  récemment utilisé (celui en queue de liste).
+
+STRUCTURE : Table de hachage + Liste doublement chaînée
+
+  Table de hachage (accès rapide par clé) :
+  ┌───┐
+  │ 0 │──→ entry → entry → NULL
+  │ 1 │──→ NULL
+  │ 2 │──→ entry → NULL
+  │...│
+  │99 │──→ entry → entry → entry → NULL
+  └───┘
+
+  Liste LRU (ordre d'utilisation) :
+  HEAD ←→ entry3 ←→ entry1 ←→ entry7 ←→ TAIL
+  (plus récent)                    (plus ancien → éjecté d'abord)
+
+FONCTIONS :
+  cache_get(key) :    Chercher une entrée. Si trouvée, la déplacer en tête.
+  cache_put(key,data): Ajouter une entrée. Éjecter si plein.
+  cache_remove(key) : Supprimer une entrée.
+  evict_lru() :       Éjecter l'entrée la plus ancienne.
+
+RÈGLES DE CACHE (cache_rules.cfg) :
+  Format : pattern:max_age_seconds:max_size_bytes
+  Exemples :
+    *.html:10:102400      → Cacher les HTML 10s, max 100Ko
+    *.css:30:1048576      → Cacher les CSS 30s, max 1Mo
+    /*:5:51200            → Tout cacher 5s, max 50Ko
+    /api/*:0:0            → Ne PAS cacher l'API (age=0)
+
+THREAD-SAFETY : Toutes les opérations sont protégées par mutex.
+
+
+─────────────────────────────────────────
+3.6  backend_manager.c — Gestion des backends
+─────────────────────────────────────────
+
+RÔLE : Charger, surveiller et gérer les serveurs backend.
+
+load_backends(filename) :
+  Lit config/backends.cfg et crée les structures Backend.
+  Format : host:port:weight:max_failures
+  Exemple : 127.0.0.1:8081:3:5
+
+update_backend_health(backend, is_healthy) :
+  Met à jour l'état de santé d'un backend.
+  Si is_healthy=1 : remise à zéro des failures.
+  Si is_healthy=0 : incrémente failures. Si failures >= max_failures,
+                    marque comme UNHEALTHY.
+
+health_check_thread() :
+  Thread qui tourne en boucle toutes les 10 secondes.
+  Pour chaque backend :
+    1. Ouvre un socket TCP vers le backend
+    2. Si connect() réussit → HEALTHY
+    3. Si connect() échoue → incrémente les failures
+  Ce thread est DÉTACHÉ (pas besoin de le join).
+
+increment/decrement_backend_connections() :
+  Compteur atomique (protégé par mutex) du nombre de
+  connexions actives sur chaque backend.
+
+
+─────────────────────────────────────────
+3.7  load_balancer.c — Algorithmes de répartition
+─────────────────────────────────────────
+
+RÔLE : Choisir QUEL backend va traiter une requête.
+
+4 STRATÉGIES :
+
+1. ROUND ROBIN (tour à tour) :
+   Requête 1 → Backend A
+   Requête 2 → Backend B
+   Requête 3 → Backend C
+   Requête 4 → Backend A (on recommence)
+   
+   Simple et équitable. Utilise un index rotatif protégé par mutex.
+
+2. LEAST CONNECTIONS (le moins chargé) :
+   On choisit le backend avec le MOINS de connexions actives.
+   Bon quand les requêtes ont des durées différentes.
+
+3. IP HASH (par adresse IP) :
+   hash("192.168.1.10") % nb_backends = index
+   Le MÊME client va TOUJOURS au même backend.
+   Utile pour les sessions (panier d'achat, connexion).
+
+4. WEIGHTED ROUND ROBIN (par poids) :
+   Backend A (poids 3) reçoit 3x plus que Backend C (poids 1).
+   Backend B (poids 2) reçoit 2x plus que Backend C.
+   
+   Distribution : A, A, A, B, B, C, A, A, A, B, B, C...
+
+Seuls les backends HEALTHY sont considérés.
+
+
+================================================================================
+4. LE MULTITHREADING — EXPLICATION DÉTAILLÉE
+================================================================================
+
+─────────────────────────────────────────
+4.1  Pourquoi des threads ?
+─────────────────────────────────────────
+
+Sans threads :
+  Client 1 envoie une requête → le proxy traite (3 secondes)
+  Client 2 envoie une requête → ATTEND que Client 1 soit fini !
+  → Un seul client à la fois = LENT
+
+Avec threads :
+  Client 1 envoie une requête → Thread 1 traite
+  Client 2 envoie une requête → Thread 2 traite EN PARALLÈLE
+  → Plusieurs clients simultanés = RAPIDE
+
+─────────────────────────────────────────
+4.2  Comment ça marche dans ton code ?
+─────────────────────────────────────────
+
+Thread principal (main) :
+  ┌─────────────────────────────────────────────┐
+  │  while (running) {                          │
+  │      client = accept();  // attendre client │
+  │      active_threads++;                      │
+  │      pthread_create(handle_client);         │
+  │      pthread_detach(thread);                │
+  │  }                                          │
+  └─────────────────────────────────────────────┘
+
+  Pour chaque nouvelle connexion :
+  1. accept() bloque jusqu'à ce qu'un client se connecte
+  2. On crée un nouveau thread avec pthread_create()
+  3. Le thread exécute handle_client() en parallèle
+  4. pthread_detach() dit : "ce thread se nettoie tout seul"
+
+Thread de health check :
+  ┌─────────────────────────────────────────────┐
+  │  while (running) {                          │
+  │      pour chaque backend :                  │
+  │          tester la connexion TCP             │
+  │      dormir 10 secondes                     │
+  │  }                                          │
+  └─────────────────────────────────────────────┘
+
+─────────────────────────────────────────
+4.3  Les dangers du multithreading
+─────────────────────────────────────────
+
+PROBLÈME 1 : DATA RACE (course aux données)
+  Deux threads modifient la même variable en même temps.
+  
+  Thread 1 : active_threads = active_threads + 1   (lit 5, écrit 6)
+  Thread 2 : active_threads = active_threads + 1   (lit 5, écrit 6)
+  Résultat : 6 au lieu de 7 !
+
+  SOLUTION : Mutex (Mutual Exclusion)
+  ┌─────────────────────────────────────────────┐
+  │  pthread_mutex_lock(&threads_mutex);        │
+  │  active_threads++;    // UN SEUL thread ici │
+  │  pthread_mutex_unlock(&threads_mutex);      │
+  └─────────────────────────────────────────────┘
+
+PROBLÈME 2 : DEADLOCK (blocage mutuel)
+  Thread 1 : lock(A), essaie lock(B) → attend B
+  Thread 2 : lock(B), essaie lock(A) → attend A
+  → Les deux attendent pour toujours !
+
+  BUG CORRIGÉ : cache_get() appelait cache_remove() qui prenait le
+  même lock → DEADLOCK ! Corrigé avec cache_remove_internal() sans lock.
+
+PROBLÈME 3 : LOG MÉLANGÉS
+  Sans mutex sur le logger :
+  "[2026-02-06] [DE[2026-02-06] [INFO] HealthBUG] Cache..." 
+  Deux threads écrivent en même temps → texte mélangé !
+
+  SOLUTION : Mutex dans le logger (ajouté).
+
+─────────────────────────────────────────
+4.4  Tous les mutex de ton projet
+─────────────────────────────────────────
+
+  threads_mutex    → protège active_threads (compteur de threads)
+  cache->lock      → protège toute la structure du cache
+  backend->lock    → protège chaque backend individuellement
+  rr_mutex         → protège l'index round-robin
+  log_mutex        → protège l'écriture dans le fichier log
+  rate_mutex       → protège le compteur de rate limit
+  bl_mutex         → protège la lecture du fichier blacklist
+
+
+================================================================================
+5. LE RÉSEAU — COMMENT MARCHENT LES SOCKETS
+================================================================================
+
+Un socket = un "tuyau" de communication entre deux programmes.
+
+CÔTÉ SERVEUR (ton proxy) :
+  1. socket()   → créer le tuyau (AF_INET = IPv4, SOCK_STREAM = TCP)
+  2. bind()     → attacher à un port (8085)
+  3. listen()   → dire "je suis prêt à recevoir"
+  4. accept()   → attendre qu'un client se connecte → nouveau socket
+
+CÔTÉ CLIENT (curl/navigateur) :
+  1. socket()   → créer le tuyau
+  2. connect()  → se connecter au serveur (localhost:8085)
+  3. send()     → envoyer la requête HTTP
+  4. recv()     → recevoir la réponse
+
+FLUX COMPLET D'UNE REQUÊTE :
+  
+  curl                    proxy                    backend
+   │                        │                        │
+   │── connect() ──────────>│                        │
+   │── send("GET /") ──────>│                        │
+   │                        │── connect() ──────────>│
+   │                        │── send("GET /") ──────>│
+   │                        │<── recv(réponse) ──────│
+   │<── send(réponse) ──────│                        │
+   │── close() ────────────>│── close() ────────────>│
+
+
+================================================================================
+6. LE PROTOCOLE HTTP — CE QUE TON PROXY COMPREND
+================================================================================
+
+REQUÊTE HTTP :
+  ┌──────────────────────────────────────────────┐
+  │ GET /index.html HTTP/1.1\r\n                 │  ← Ligne de requête
+  │ Host: localhost:8085\r\n                     │  ← Headers
+  │ User-Agent: curl/8.5.0\r\n                  │
+  │ Accept: */*\r\n                              │
+  │ \r\n                                         │  ← Ligne vide = fin headers
+  └──────────────────────────────────────────────┘
+
+RÉPONSE HTTP :
+  ┌──────────────────────────────────────────────┐
+  │ HTTP/1.1 200 OK\r\n                          │  ← Ligne de statut
+  │ Content-Type: text/html\r\n                  │  ← Headers
+  │ Content-Length: 847\r\n                      │
+  │ Connection: close\r\n                        │
+  │ \r\n                                         │  ← Ligne vide
+  │ <html>...</html>                             │  ← Body (contenu)
+  └──────────────────────────────────────────────┘
+
+CODES DE STATUT utilisés dans ton proxy :
+  200 OK                  → Tout va bien
+  304 Not Modified        → Le cache est encore valide
+  400 Bad Request         → Requête mal formée
+  403 Forbidden           → IP blacklistée
+  404 Not Found           → Fichier inexistant
+  414 URI Too Long        → Chemin trop long
+  429 Too Many Requests   → Rate limit dépassé
+  500 Internal Server Error → Erreur PHP ou serveur
+  502 Bad Gateway         → Backend injoignable
+  503 Service Unavailable → Aucun backend disponible
+
+
+================================================================================
+7. BUGS CORRIGÉS ET AMÉLIORATIONS APPORTÉES
+================================================================================
+
+BUG 1 — DEADLOCK dans le cache (CRITIQUE)
+  AVANT : cache_get() prenait le lock, puis appelait cache_remove()
+          qui prenait le MÊME lock → blocage infini.
+  APRÈS : Créé cache_remove_internal() sans lock, appelé depuis cache_get().
+
+BUG 2 — Logger non thread-safe
+  AVANT : Deux threads écrivent en même temps → lignes mélangées.
+  APRÈS : Ajouté pthread_mutex_t log_mutex pour sérialiser les écritures.
+
+BUG 3 — Rate limiter non thread-safe
+  AVANT : Variables statiques modifiées par plusieurs threads sans protection.
+  APRÈS : Ajouté pthread_mutex_t rate_mutex.
+
+BUG 4 — Blacklist non thread-safe
+  AVANT : Plusieurs threads ouvrent le même fichier en même temps.
+  APRÈS : Ajouté pthread_mutex_t bl_mutex.
+
+BUG 5 — SIGPIPE crash
+  AVANT : Si le client ferme la connexion pendant l'envoi, le proxy crashe.
+  APRÈS : signal(SIGPIPE, SIG_IGN) → ignore le signal.
+
+BUG 6 — Signal handlers désactivés
+  AVANT : Ctrl+C ne faisait rien de propre.
+  APRÈS : Réactivé signal(SIGINT/SIGTERM) pour arrêt propre.
+
+BUG 7 — Health check thread infini
+  AVANT : while(1) → ne s'arrête jamais même quand le proxy s'arrête.
+  APRÈS : while(running) avec sleep par incréments de 1s.
+
+AMÉLIORATION 1 — Sécurité path traversal
+  AJOUTÉ : Vérification que le chemin ne contient pas ".." ou "//"
+  pour empêcher l'accès à des fichiers hors du dossier web/.
+
+AMÉLIORATION 2 — Variable running globale
+  CHANGÉ : static → global pour que le health check thread puisse y accéder.
+
+
+================================================================================
+8. COMMENT COMPILER ET LANCER
+================================================================================
+
+# Compiler
+make clean && make
+
+# Démarrer les backends (3 terminaux différents)
+python3 -m http.server 8081
+python3 -m http.server 8082
+python3 -m http.server 8083
+
+# Démarrer le proxy
+./proxy -p 8085                    # port 8085, round-robin par défaut
+./proxy -p 8085 -s 1               # least connections
+./proxy -p 8085 -s 2               # IP hash
+./proxy -p 8085 -s 3               # weighted round-robin
+
+# Tester
+curl http://localhost:8085/                   # page d'accueil
+curl http://localhost:8085/index.php          # PHP
+curl http://localhost:8085/nonexistent        # proxying vers backend
+curl -v http://localhost:8085/                # mode verbeux (voir headers)
+
+# Voir les logs en temps réel
+tail -f proxy.log
+
+# Arrêter proprement
+Ctrl+C  ou  kill $(pgrep -f "./proxy")
+
+
+================================================================================
+9. POUR ALLER PLUS LOIN (AMÉLIORATIONS POSSIBLES)
+================================================================================
+
+1. THREAD POOL : Au lieu de créer/détruire un thread par requête,
+   garder un pool de threads réutilisables (plus performant).
+
+2. EPOLL/SELECT : Au lieu d'un thread par connexion, utiliser
+   l'I/O multiplexing pour gérer des milliers de connexions.
+
+3. HTTPS/TLS : Ajouter le support SSL (tu as ssl_handler.c/h prêts).
+
+4. CONFIGURATION DYNAMIQUE : Recharger la config sans redémarrer.
+
+5. MÉTRIQUES : Compteurs de requêtes, temps de réponse moyen,
+   taux de cache hit/miss, exportables en JSON.
+
+6. WEBSOCKET : Support des connexions persistantes bidirectionnelles.
+
+7. COMPRESSION GZIP : Compresser les réponses pour réduire la bande passante.
+
+8. STICKY SESSIONS : Garder un client sur le même backend (cookies).
+
+
+================================================================================
+FIN DU GUIDE — Tu maîtrises maintenant ton projet !
+================================================================================

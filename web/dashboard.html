@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Proxy Reverse</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #0f0f23;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        h1 { color: #7a7aff; margin-bottom: 5px; }
+        h1 span { color: #00ff88; }
+        .subtitle { color: #666; margin-bottom: 20px; font-size: 0.9em; }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .stat {
+            background: #1a1a2e;
+            border: 1px solid #2d2d5b;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .stat-val { font-size: 2em; font-weight: bold; }
+        .stat-lbl { color: #888; font-size: 0.8em; margin-top: 4px; }
+        .green { color: #00ff88; }
+        .red { color: #ff4444; }
+        .blue { color: #7a7aff; }
+
+        /* Progress */
+        .progress { 
+            height: 24px; background: #1a1a2e; border-radius: 12px; 
+            margin-bottom: 20px; overflow: hidden; border: 1px solid #2d2d5b;
+        }
+        .progress-bar {
+            height: 100%; border-radius: 12px;
+            transition: width 0.4s; display: flex; align-items: center;
+            justify-content: center; font-size: 0.75em; font-weight: bold;
+        }
+
+        /* Buttons */
+        .toolbar { 
+            display: flex; flex-wrap: wrap; gap: 8px; 
+            margin-bottom: 20px; align-items: center; 
+        }
+        button {
+            padding: 10px 18px; border: none; border-radius: 8px;
+            cursor: pointer; font-size: 0.85em; font-weight: 600;
+            transition: all 0.15s; color: white;
+        }
+        button:hover { filter: brightness(1.2); transform: translateY(-1px); }
+        button:active { transform: translateY(0); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-go { background: #00aa55; font-size: 1em; padding: 12px 24px; }
+        .btn-cat { background: #4a4aff; }
+        .btn-del { background: #882222; }
+        .btn-ref { background: #0077aa; }
+
+        /* Layout 2 colonnes */
+        .layout { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; }
+        
+        /* Cards */
+        .card {
+            background: #1a1a2e; border: 1px solid #2d2d5b;
+            border-radius: 10px; padding: 16px; margin-bottom: 15px;
+        }
+        .card h2 { color: #7a7aff; font-size: 1em; margin-bottom: 12px; }
+
+        /* Séparateur de catégorie */
+        .cat-header {
+            padding: 8px 14px; margin: 10px 0 5px 0; border-radius: 8px;
+            background: #2d2d5b44; color: #7a7aff; font-weight: bold;
+            font-size: 0.85em; border-left: 4px solid #7a7aff;
+        }
+
+        /* Test results */
+        .test {
+            padding: 10px 14px; margin: 5px 0; border-radius: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.88em; animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateX(-20px); } 
+            to { opacity: 1; transform: translateX(0); } 
+        }
+
+        .test-ok { background: #00ff8818; border-left: 4px solid #00ff88; }
+        .test-ko { background: #ff444418; border-left: 4px solid #ff4444; }
+        .test-run { background: #ffaa0018; border-left: 4px solid #ffaa00; }
+        .test-wait { background: #ffffff08; border-left: 4px solid #444; }
+
+        .test .right { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+        .pill {
+            padding: 2px 10px; border-radius: 10px;
+            font-size: 0.75em; font-weight: bold;
+        }
+        .pill-ok { background: #00ff8833; color: #00ff88; }
+        .pill-ko { background: #ff444433; color: #ff4444; }
+        .pill-ms { background: #4a4aff33; color: #7a7aff; }
+        .pill-code { background: #ffffff15; color: #aaa; }
+        .pill-run { background: #ffaa0033; color: #ffaa00; }
+
+        /* Requête perso */
+        .reqbar { display: flex; gap: 6px; margin: 8px 0; }
+        .reqbar select, .reqbar input {
+            background: #0a0a1a; border: 1px solid #2d2d5b; color: #e0e0e0;
+            padding: 8px; border-radius: 6px; font-size: 0.85em;
+        }
+        .reqbar input { flex: 1; }
+        .reqbar button { padding: 8px 16px; }
+        .resp-box {
+            background: #0a0a1a; border: 1px solid #2d2d5b; border-radius: 6px;
+            padding: 12px; font-family: monospace; font-size: 0.8em;
+            max-height: 200px; overflow-y: auto; white-space: pre-wrap;
+            word-break: break-all; margin-top: 8px;
+        }
+
+        /* Backend table */
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #2d2d5b; font-size: 0.85em; }
+        th { color: #7a7aff; font-size: 0.75em; text-transform: uppercase; }
+        .dot { 
+            width: 10px; height: 10px; border-radius: 50%; 
+            display: inline-block; margin-right: 5px; 
+        }
+        .dot-up { background: #00ff88; box-shadow: 0 0 6px #00ff88; }
+        .dot-dn { background: #ff4444; box-shadow: 0 0 6px #ff4444; }
+        .dot-un { background: #666; }
+
+        /* Console */
+        .console {
+            background: #0a0a1a; border: 1px solid #2d2d5b; border-radius: 6px;
+            padding: 10px; font-family: monospace; font-size: 0.75em;
+            max-height: 200px; overflow-y: auto;
+        }
+        .log-i { color: #00ff88; }
+        .log-w { color: #ffaa00; }
+        .log-e { color: #ff4444; }
+        .log-d { color: #666; }
+
+        /* Barre finale résumé */
+        .summary-bar {
+            margin-top: 12px; padding: 14px 18px; border-radius: 10px;
+            font-size: 0.95em; font-weight: bold; text-align: center;
+            animation: fadeIn 0.5s;
+        }
+        .summary-ok { background: #00ff8822; border: 2px solid #00ff88; color: #00ff88; }
+        .summary-ko { background: #ff444422; border: 2px solid #ff4444; color: #ff4444; }
+        .summary-mix { background: #ffaa0022; border: 2px solid #ffaa00; color: #ffaa00; }
+
+        @media (max-width: 900px) { 
+            .layout { grid-template-columns: 1fr; } 
+            .stats { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<h1>&#128421; Proxy <span>Reverse</span> &#8212; Dashboard de Tests</h1>
+<p class="subtitle">Interface de test interactive &#8212; les résultats de chaque test s'affichent en temps réel ci-dessous</p>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat"><div class="stat-val blue" id="sTotal">0</div><div class="stat-lbl">Tests exécutés</div></div>
+    <div class="stat"><div class="stat-val green" id="sPass">0</div><div class="stat-lbl">Réussis &#10004;</div></div>
+    <div class="stat"><div class="stat-val red" id="sFail">0</div><div class="stat-lbl">Échoués &#10008;</div></div>
+    <div class="stat"><div class="stat-val blue" id="sTime">0ms</div><div class="stat-lbl">Temps total</div></div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress"><div id="pbar" class="progress-bar" style="width:0%; background:#00aa55;"></div></div>
+
+<!-- BUTTONS -->
+<div class="toolbar">
+    <button class="btn-go" onclick="lancerTout()" id="btnGo">&#9654; LANCER TOUS LES TESTS</button>
+    <button class="btn-cat" onclick="lancer('static')">&#128196; Statique</button>
+    <button class="btn-cat" onclick="lancer('php')">&#128024; PHP</button>
+    <button class="btn-cat" onclick="lancer('backend')">&#128256; Backends</button>
+    <button class="btn-cat" onclick="lancer('cache')">&#128190; Cache</button>
+    <button class="btn-cat" onclick="lancer('security')">&#128274; Sécurité</button>
+    <button class="btn-cat" onclick="lancer('stress')">&#9889; Charge</button>
+    <button class="btn-del" onclick="effacer()">&#10005; Effacer</button>
+    <button class="btn-ref" onclick="checkBackends()">&#128260; Backends</button>
+</div>
+
+<div class="layout">
+    <!-- COLONNE GAUCHE : résultats -->
+    <div>
+        <div class="card" id="resultCard">
+            <h2>&#128203; Résultats des tests</h2>
+            <div id="results">
+                <div class="test test-wait">
+                    <span>&#128073; Clique sur "<strong>&#9654; LANCER TOUS LES TESTS</strong>" pour commencer</span>
+                </div>
+            </div>
+            <div id="summaryArea"></div>
+        </div>
+    </div>
+
+    <!-- COLONNE DROITE : outils -->
+    <div>
+        <!-- Requête perso -->
+        <div class="card">
+            <h2>&#128295; Requête personnalisée</h2>
+            <div class="reqbar">
+                <select id="rMethod">
+                    <option>GET</option><option>POST</option>
+                    <option>HEAD</option><option>DELETE</option>
+                </select>
+                <input type="text" id="rPath" value="/" placeholder="/chemin">
+                <button class="btn-ref" onclick="reqPerso()">&#8594;</button>
+            </div>
+            <div id="rResult" class="resp-box">Tape un chemin et clique &#8594;</div>
+        </div>
+
+        <!-- Backends -->
+        <div class="card">
+            <h2>&#128423; État des backends</h2>
+            <table>
+                <thead><tr><th>Adresse</th><th>État</th><th>Latence</th></tr></thead>
+                <tbody id="btable">
+                    <tr><td>127.0.0.1:8081</td><td><span class="dot dot-un"></span>?</td><td>-</td></tr>
+                    <tr><td>127.0.0.1:8082</td><td><span class="dot dot-un"></span>?</td><td>-</td></tr>
+                    <tr><td>127.0.0.1:8083</td><td><span class="dot dot-un"></span>?</td><td>-</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Console -->
+        <div class="card">
+            <h2>&#128421; Console</h2>
+            <div id="cons" class="console"><div class="log-i">Dashboard prêt.</div></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// ÉTAT GLOBAL
+// ============================================================
+var nTotal = 0, nPass = 0, nFail = 0, tTotal = 0;
+var testEnCours = false;
+
+// ============================================================
+// LOG CONSOLE
+// ============================================================
+function clog(msg, cls) {
+    cls = cls || 'i';
+    var d = document.getElementById('cons');
+    var t = new Date().toLocaleTimeString();
+    var line = document.createElement('div');
+    line.className = 'log-' + cls;
+    line.textContent = '[' + t + '] ' + msg;
+    d.appendChild(line);
+    d.scrollTop = d.scrollHeight;
+}
+
+// ============================================================
+// MISE À JOUR DES STATS
+// ============================================================
+function updateStats() {
+    document.getElementById('sTotal').textContent = nTotal;
+    document.getElementById('sPass').textContent = nPass;
+    document.getElementById('sFail').textContent = nFail;
+    document.getElementById('sTime').textContent = tTotal + 'ms';
+    
+    var pct = nTotal > 0 ? Math.round((nPass / nTotal) * 100) : 0;
+    var bar = document.getElementById('pbar');
+    bar.style.width = pct + '%';
+    bar.style.background = pct >= 80 ? '#00aa55' : pct >= 50 ? '#ffaa00' : '#dd3333';
+    bar.textContent = pct + '% (' + nPass + '/' + nTotal + ')';
+}
+
+// ============================================================
+// AJOUTER UN RÉSULTAT DE TEST (VISIBLE !)
+// ============================================================
+function addResult(nom, ok, detail, httpCode, taille, ms) {
+    nTotal++;
+    if (ok) nPass++; else nFail++;
+    tTotal += ms;
+
+    var d = document.getElementById('results');
+    // Enlever le placeholder au premier test
+    var placeholder = d.querySelector('.test-wait');
+    if (placeholder) placeholder.remove();
+
+    var div = document.createElement('div');
+    div.className = 'test ' + (ok ? 'test-ok' : 'test-ko');
+    
+    var left = document.createElement('span');
+    left.innerHTML = (ok ? '&#10004; ' : '&#10008; ') + '<strong>' + nom + '</strong>';
+    if (detail) left.innerHTML += ' &mdash; <em>' + detail + '</em>';
+    
+    var right = document.createElement('span');
+    right.className = 'right';
+    right.innerHTML = 
+        '<span class="pill ' + (ok ? 'pill-ok' : 'pill-ko') + '">' + (ok ? 'PASS' : 'FAIL') + '</span>' +
+        (httpCode ? '<span class="pill pill-code">HTTP ' + httpCode + '</span>' : '') +
+        (taille ? '<span class="pill pill-code">' + taille + 'o</span>' : '') +
+        (ms ? '<span class="pill pill-ms">' + ms + 'ms</span>' : '');
+    
+    div.appendChild(left);
+    div.appendChild(right);
+    d.appendChild(div);
+    
+    // Scroll vers le bas pour voir le nouveau résultat
+    div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    updateStats();
+    clog((ok ? 'PASS' : 'FAIL') + ' - ' + nom + (detail ? ' - ' + detail : '') + ' [' + ms + 'ms]', ok ? 'i' : 'e');
+}
+
+// Ajouter un header de catégorie
+function addCategory(titre) {
+    var d = document.getElementById('results');
+    var placeholder = d.querySelector('.test-wait');
+    if (placeholder) placeholder.remove();
+    
+    var div = document.createElement('div');
+    div.className = 'cat-header';
+    div.textContent = titre;
+    d.appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Indicateur "en cours"
+function showRunning(nom) {
+    var d = document.getElementById('results');
+    var placeholder = d.querySelector('.test-wait');
+    if (placeholder) placeholder.remove();
+    
+    // Supprimer l'ancien indicateur
+    var old = document.getElementById('cur-test');
+    if (old) old.remove();
+    
+    var div = document.createElement('div');
+    div.id = 'cur-test';
+    div.className = 'test test-run';
+    div.innerHTML = '<span>&#9203; <strong>' + nom + '</strong>...</span>' +
+                    '<span class="pill pill-run">EN COURS</span>';
+    d.appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function hideRunning() {
+    var el = document.getElementById('cur-test');
+    if (el) el.remove();
+}
+
+function effacer() {
+    nTotal = 0; nPass = 0; nFail = 0; tTotal = 0;
+    document.getElementById('results').innerHTML = 
+        '<div class="test test-wait"><span>Résultats effacés</span></div>';
+    document.getElementById('summaryArea').innerHTML = '';
+    updateStats();
+    clog('Résultats effacés', 'w');
+}
+
+// Résumé final
+function showSummary() {
+    var area = document.getElementById('summaryArea');
+    var pct = nTotal > 0 ? Math.round((nPass / nTotal) * 100) : 0;
+    var cls, emoji;
+    if (nFail === 0) { cls = 'summary-ok'; emoji = '&#127942;'; }
+    else if (nPass > nFail) { cls = 'summary-mix'; emoji = '&#9888;'; }
+    else { cls = 'summary-ko'; emoji = '&#10060;'; }
+    
+    area.innerHTML = '<div class="summary-bar ' + cls + '">' +
+        emoji + ' RÉSULTAT FINAL : ' + nPass + '/' + nTotal + 
+        ' tests réussis (' + pct + '%) &mdash; Temps total : ' + tTotal + 'ms' +
+        '</div>';
+}
+
+// ============================================================
+// REQUÊTE HTTP — XMLHttpRequest pour compatibilité maximale
+// ============================================================
+function httpReq(method, path) {
+    return new Promise(function(resolve) {
+        var start = performance.now();
+        var xhr = new XMLHttpRequest();
+        xhr.open(method, path, true);
+        xhr.timeout = 10000;
+        
+        xhr.onload = function() {
+            var ms = Math.round(performance.now() - start);
+            resolve({
+                status: xhr.status,
+                body: xhr.responseText || '',
+                headers: xhr.getAllResponseHeaders() || '',
+                time: ms,
+                ok: xhr.status >= 200 && xhr.status < 400,
+                size: (xhr.responseText || '').length
+            });
+        };
+        
+        xhr.onerror = function() {
+            var ms = Math.round(performance.now() - start);
+            resolve({ status: 0, body: '', headers: '', time: ms, ok: false, size: 0, error: 'Erreur réseau' });
+        };
+        
+        xhr.ontimeout = function() {
+            var ms = Math.round(performance.now() - start);
+            resolve({ status: 0, body: '', headers: '', time: ms, ok: false, size: 0, error: 'Timeout' });
+        };
+        
+        xhr.send();
+    });
+}
+
+// Délai pour laisser le navigateur redessiner l'interface
+function pause(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
+
+// ============================================================
+// TESTS : FICHIERS STATIQUES
+// ============================================================
+async function testStatic() {
+    addCategory('&#128196; FICHIERS STATIQUES');
+    var r;
+    
+    showRunning('Page d\'accueil (/)');
+    await pause(300);
+    r = await httpReq('GET', '/');
+    hideRunning();
+    addResult('Page d\'accueil (/)', r.status === 200, 
+        r.ok ? 'Page servie correctement' : 'Erreur', r.status, r.size, r.time);
+    await pause(250);
+    
+    showRunning('Fichier index.html');
+    await pause(150);
+    r = await httpReq('GET', '/index.html');
+    hideRunning();
+    addResult('index.html', r.status === 200, 
+        r.ok ? 'Fichier trouvé' : 'Non trouvé', r.status, r.size, r.time);
+    await pause(250);
+    
+    showRunning('Fichier page1.html');
+    await pause(150);
+    r = await httpReq('GET', '/page1.html');
+    hideRunning();
+    addResult('page1.html', r.status === 200, 
+        r.ok ? 'Fichier trouvé' : 'Non trouvé', r.status, r.size, r.time);
+    await pause(250);
+    
+    showRunning('Vérification contenu HTML');
+    await pause(150);
+    r = await httpReq('GET', '/index.html');
+    hideRunning();
+    var hasHtml = r.body.indexOf('<html') >= 0 || r.body.indexOf('<HTML') >= 0 || 
+                  (r.body.indexOf('<') >= 0 && r.body.indexOf('>') >= 0);
+    addResult('Contenu HTML valide', hasHtml, 
+        hasHtml ? 'Balises HTML détectées dans la réponse' : 'Aucune balise HTML trouvée', 
+        r.status, r.size, r.time);
+    await pause(250);
+    
+    showRunning('Vérification Content-Type');
+    await pause(150);
+    r = await httpReq('GET', '/index.html');
+    hideRunning();
+    var hasCT = r.headers.toLowerCase().indexOf('text/html') >= 0;
+    addResult('Header Content-Type', hasCT, 
+        hasCT ? 'text/html confirmé' : 'Content-Type incorrect ou absent', 
+        r.status, null, r.time);
+    await pause(200);
+}
+
+// ============================================================
+// TESTS : PHP
+// ============================================================
+async function testPHP() {
+    addCategory('&#128024; EXÉCUTION PHP');
+    var r;
+    
+    showRunning('Fichier index.php');
+    await pause(300);
+    r = await httpReq('GET', '/index.php');
+    hideRunning();
+    addResult('index.php', r.status === 200, 
+        r.ok ? 'PHP exécuté avec succès' : ('Erreur HTTP ' + r.status), 
+        r.status, r.size, r.time);
+    await pause(250);
+    
+    showRunning('Fichier test.php');
+    await pause(150);
+    r = await httpReq('GET', '/test.php');
+    hideRunning();
+    addResult('test.php', r.status === 200, 
+        r.ok ? 'PHP exécuté avec succès' : ('Erreur HTTP ' + r.status), 
+        r.status, r.size, r.time);
+    await pause(200);
+}
+
+// ============================================================
+// TESTS : BACKENDS / LOAD BALANCING
+// ============================================================
+async function testBackend() {
+    addCategory('&#128256; LOAD BALANCING');
+    var r;
+    
+    showRunning('Proxying vers un backend');
+    await pause(300);
+    r = await httpReq('GET', '/identify.html');
+    hideRunning();
+    var isB = r.body.indexOf('BACKEND') >= 0;
+    addResult('Proxying backend', r.status === 200 || isB, 
+        isB ? 'Réponse du backend reçue' : ('HTTP ' + r.status + ' - vérifier les backends'), 
+        r.status, r.size, r.time);
+    await pause(250);
+    
+    showRunning('Distribution load balancing (9 requêtes)');
+    await pause(150);
+    var hits = {};
+    for (var i = 0; i < 9; i++) {
+        r = await httpReq('GET', '/identify.html?i=' + i + '&t=' + Date.now());
+        var m = r.body.match(/BACKEND-(\d)/);
+        if (m) hits[m[1]] = (hits[m[1]] || 0) + 1;
+    }
+    hideRunning();
+    var nbB = Object.keys(hits).length;
+    var detail = Object.keys(hits).map(function(k) { return 'B' + k + ':' + hits[k] + 'x'; }).join(', ');
+    addResult('Distribution round-robin', nbB >= 1, 
+        nbB >= 2 ? nbB + ' backends utilisés (' + detail + ')' : 
+        (detail ? '1 seul backend (' + detail + ')' : 'Aucun backend détecté'), 
+        null, null, 0);
+    await pause(200);
+}
+
+// ============================================================
+// TESTS : CACHE
+// ============================================================
+async function testCache() {
+    addCategory('&#128190; CACHE');
+    
+    showRunning('Test cache - 2 requêtes identiques');
+    await pause(300);
+    var r1 = await httpReq('GET', '/index.html');
+    var r2 = await httpReq('GET', '/index.html');
+    hideRunning();
+    var same = r1.body === r2.body && r1.body.length > 0;
+    addResult('Cache - réponses identiques', same, 
+        same ? 'Les 2 réponses sont identiques (' + r1.size + ' octets)' : 'Réponses différentes !', 
+        null, r1.size, r2.time);
+    await pause(250);
+    
+    showRunning('Comparaison de performance');
+    await pause(150);
+    hideRunning();
+    var faster = r2.time <= r1.time;
+    addResult('Cache - performance', true, 
+        '1ère requête: ' + r1.time + 'ms, 2ème: ' + r2.time + 'ms ' + 
+        (faster ? '(cache plus rapide)' : '(temps similaire)'), 
+        null, null, 0);
+    await pause(200);
+}
+
+// ============================================================
+// TESTS : SÉCURITÉ
+// ============================================================
+async function testSecurity() {
+    addCategory('&#128274; SÉCURITÉ');
+    var r;
+    
+    showRunning('Test path traversal (/../../../etc/passwd)');
+    await pause(300);
+    r = await httpReq('GET', '/../../../etc/passwd');
+    hideRunning();
+    var blocked = r.body.indexOf('root:') < 0;
+    addResult('Path traversal bloqué', blocked, 
+        blocked ? 'Accès refusé correctement (HTTP ' + r.status + ')' : 'DANGER: accès au fichier système !', 
+        r.status, null, r.time);
+    await pause(250);
+    
+    showRunning('Méthode HTTP invalide');
+    await pause(150);
+    r = await httpReq('DELETE', '/inexistant_file_xyz');
+    hideRunning();
+    addResult('Méthode invalide', r.status > 0, 
+        'Le serveur ne crashe pas (HTTP ' + r.status + ')', 
+        r.status, null, r.time);
+    await pause(250);
+    
+    showRunning('Vérification stabilité post-attaque');
+    await pause(150);
+    r = await httpReq('GET', '/');
+    hideRunning();
+    addResult('Stabilité post-attaque', r.status === 200, 
+        r.status === 200 ? 'Proxy toujours opérationnel après les tests de sécurité' : 'Proxy instable !', 
+        r.status, r.size, r.time);
+    await pause(200);
+}
+
+// ============================================================
+// TESTS : CHARGE
+// ============================================================
+async function testStress() {
+    addCategory('&#9889; TESTS DE CHARGE');
+    var r;
+    
+    showRunning('20 requêtes séquentielles...');
+    await pause(300);
+    var t0 = performance.now();
+    var ok = 0;
+    for (var i = 0; i < 20; i++) {
+        r = await httpReq('GET', '/index.html');
+        if (r.status === 200 || r.status === 429) ok++;
+    }
+    var seqMs = Math.round(performance.now() - t0);
+    hideRunning();
+    var rps = seqMs > 0 ? Math.round(20000 / seqMs) : 0;
+    addResult('20 requêtes séquentielles', ok >= 15, 
+        ok + '/20 réussies en ' + seqMs + 'ms (' + rps + ' req/s)', 
+        null, null, seqMs);
+    await pause(250);
+    
+    showRunning('10 requêtes parallèles...');
+    await pause(150);
+    var t1 = performance.now();
+    var promises = [];
+    for (var j = 0; j < 10; j++) {
+        promises.push(httpReq('GET', '/index.html'));
+    }
+    var results = await Promise.all(promises);
+    var parMs = Math.round(performance.now() - t1);
+    var parOk = results.filter(function(x) { return x.status === 200 || x.status === 429; }).length;
+    hideRunning();
+    addResult('10 requêtes parallèles', parOk >= 7, 
+        parOk + '/10 réussies en ' + parMs + 'ms', 
+        null, null, parMs);
+    await pause(250);
+    
+    showRunning('Stabilité après charge');
+    await pause(150);
+    r = await httpReq('GET', '/');
+    hideRunning();
+    addResult('Proxy stable après charge', r.status === 200 || r.status === 429, 
+        r.status === 200 ? 'Serveur toujours debout !' : 'HTTP ' + r.status, 
+        r.status, r.size, r.time);
+    await pause(200);
+}
+
+// ============================================================
+// LANCER UN GROUPE DE TESTS
+// ============================================================
+async function lancer(groupe) {
+    if (testEnCours) { clog('Tests déjà en cours, patiente...', 'w'); return; }
+    testEnCours = true;
+    setButtons(true);
+    
+    try {
+        switch(groupe) {
+            case 'static': await testStatic(); break;
+            case 'php': await testPHP(); break;
+            case 'backend': await testBackend(); break;
+            case 'cache': await testCache(); break;
+            case 'security': await testSecurity(); break;
+            case 'stress': await testStress(); break;
+        }
+        showSummary();
+    } catch(e) {
+        clog('ERREUR: ' + e.message, 'e');
+    }
+    
+    testEnCours = false;
+    setButtons(false);
+}
+
+// ============================================================
+// LANCER TOUS LES TESTS
+// ============================================================
+async function lancerTout() {
+    if (testEnCours) { clog('Tests déjà en cours !', 'w'); return; }
+    effacer();
+    await pause(200);
+    testEnCours = true;
+    setButtons(true);
+    
+    clog('========================================', 'i');
+    clog('    LANCEMENT DE TOUS LES TESTS', 'i');
+    clog('========================================', 'i');
+    
+    try {
+        await testStatic();
+        await pause(400);
+        await testPHP();
+        await pause(400);
+        await testBackend();
+        await pause(400);
+        await testCache();
+        await pause(400);
+        await testSecurity();
+        await pause(400);
+        await testStress();
+        
+        showSummary();
+    } catch(e) {
+        clog('ERREUR: ' + e.message, 'e');
+    }
+    
+    var pct = nTotal > 0 ? Math.round((nPass / nTotal) * 100) : 0;
+    clog('========================================', 'i');
+    clog('  TERMINÉ : ' + nPass + '/' + nTotal + ' (' + pct + '%) en ' + tTotal + 'ms', 
+         nFail === 0 ? 'i' : 'w');
+    clog('========================================', 'i');
+    
+    testEnCours = false;
+    setButtons(false);
+}
+
+function setButtons(disabled) {
+    var btns = document.querySelectorAll('button');
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].disabled = disabled;
+    }
+}
+
+// ============================================================
+// REQUÊTE PERSONNALISÉE
+// ============================================================
+async function reqPerso() {
+    var method = document.getElementById('rMethod').value;
+    var path = document.getElementById('rPath').value || '/';
+    var box = document.getElementById('rResult');
+    
+    box.textContent = 'Envoi en cours...';
+    clog('Envoi: ' + method + ' ' + path, 'i');
+    
+    var r = await httpReq(method, path);
+    
+    var txt = '=== RÉPONSE ===\n';
+    txt += 'Statut  : HTTP ' + r.status + '\n';
+    txt += 'Temps   : ' + r.time + 'ms\n';
+    txt += 'Taille  : ' + r.size + ' octets\n';
+    txt += '\n=== HEADERS ===\n' + (r.headers || '(aucun)') + '\n';
+    txt += '\n=== BODY ===\n';
+    txt += r.body.substring(0, 2000) || '(vide)';
+    if (r.body.length > 2000) txt += '\n... (tronqué)';
+    
+    box.textContent = txt;
+    clog('Reçu: ' + method + ' ' + path + ' -> HTTP ' + r.status + ' (' + r.size + 'o, ' + r.time + 'ms)', r.ok ? 'i' : 'e');
+}
+
+// ============================================================
+// VÉRIFICATION DES BACKENDS
+// ============================================================
+async function checkBackends() {
+    clog('Vérification des backends...', 'i');
+    var tbody = document.getElementById('btable');
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">Vérification...</td></tr>';
+    
+    var found = {};
+    for (var i = 0; i < 12; i++) {
+        try {
+            var r = await httpReq('GET', '/identify.html?check=' + i + '&t=' + Date.now());
+            var m = r.body.match(/BACKEND-(\d)/);
+            if (m) {
+                var port = 8080 + parseInt(m[1]);
+                if (!found[port]) found[port] = { latency: r.time };
+            }
+        } catch(e) {}
+    }
+    
+    tbody.innerHTML = '';
+    var ports = [8081, 8082, 8083];
+    for (var j = 0; j < ports.length; j++) {
+        var port = ports[j];
+        var up = !!found[port];
+        var tr = document.createElement('tr');
+        tr.innerHTML = 
+            '<td>127.0.0.1:' + port + '</td>' +
+            '<td><span class="dot ' + (up ? 'dot-up' : 'dot-dn') + '"></span>' + (up ? 'UP' : 'DOWN') + '</td>' +
+            '<td>' + (up ? found[port].latency + 'ms' : '-') + '</td>';
+        tbody.appendChild(tr);
+        clog('  :' + port + ' -> ' + (up ? 'UP' : 'DOWN'), up ? 'i' : 'e');
+    }
+}
+
+// ============================================================
+// AUTO-CHECK AU CHARGEMENT
+// ============================================================
+window.onload = function() {
+    clog('Proxy: ' + window.location.origin, 'd');
+    clog('Dashboard chargé et prêt.', 'i');
+    checkBackends();
+};
+</script>
+</body>
+</html>

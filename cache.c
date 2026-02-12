@@ -94,6 +94,31 @@ static void evict_lru(Cache *cache) {
     free(to_remove);
 }
 
+// Version interne sans lock (appelée quand le lock est déjà pris)
+static void cache_remove_internal(Cache *cache, const char *key) {
+    unsigned int hash = hash_string(key) % cache->capacity;
+    CacheEntry *curr = cache->buckets[hash];
+    CacheEntry *prev = NULL;
+
+    while (curr) {
+        if (strcmp(curr->key, key) == 0) {
+            if (prev) {
+                prev->next = curr->next;
+            } else {
+                cache->buckets[hash] = curr->next;
+            }
+            remove_from_lru(cache, curr);
+            cache->count--;
+            cache->total_size -= curr->size;
+            free(curr->data);
+            free(curr);
+            break;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
+}
+
 char* cache_get(Cache *cache, const char *key) {
     pthread_mutex_lock(&cache->lock);
     
@@ -103,7 +128,7 @@ char* cache_get(Cache *cache, const char *key) {
     while (entry) {
         if (strcmp(entry->key, key) == 0) {
             if (time(NULL) > entry->expiry) {
-                cache_remove(cache, key);
+                cache_remove_internal(cache, key);
                 pthread_mutex_unlock(&cache->lock);
                 return NULL;
             }

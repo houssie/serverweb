@@ -172,20 +172,29 @@ int forward_data(int from_sock, int to_sock, char *buffer, int size) {
 }
 
 int is_blacklisted(const char *ip) {
+    static pthread_mutex_t bl_mutex = PTHREAD_MUTEX_INITIALIZER;
+    
+    pthread_mutex_lock(&bl_mutex);
     FILE *f = fopen("config/blacklist.txt", "r");
-    if (!f) return 0;
+    if (!f) {
+        pthread_mutex_unlock(&bl_mutex);
+        return 0;
+    }
     
     char line[256];
     while (fgets(line, sizeof(line), f)) {
         line[strcspn(line, "\n")] = 0;
-        if (line[0] == '#') continue;
+        line[strcspn(line, "\r")] = 0;  // Supprimer aussi \r
+        if (line[0] == '#' || line[0] == '\0') continue;
         if (strcmp(line, ip) == 0) {
             fclose(f);
+            pthread_mutex_unlock(&bl_mutex);
             return 1;
         }
     }
     
     fclose(f);
+    pthread_mutex_unlock(&bl_mutex);
     return 0;
 }
 
@@ -318,13 +327,15 @@ char* url_decode(const char *src) {
     return result ? result : decoded;
 }
 
-// Dans utils.c, fonction check_rate_limit
+// Rate limiter thread-safe
 int check_rate_limit(const char *ip) {
     static time_t last_request = 0;
     static char last_ip[INET_ADDRSTRLEN] = {0};
     static int request_count = 0;
     static time_t window_start = 0;
+    static pthread_mutex_t rate_mutex = PTHREAD_MUTEX_INITIALIZER;
     
+    pthread_mutex_lock(&rate_mutex);
     time_t now = time(NULL);
     
     // Réinitialiser si nouvelle IP ou fenêtre expirée
@@ -341,6 +352,7 @@ int check_rate_limit(const char *ip) {
     if (request_count >= 100) {
         log_message(LOG_WARNING, "Request limit exceeded for IP: %s (%d requests)", 
                    ip, request_count);
+        pthread_mutex_unlock(&rate_mutex);
         return 0;
     }
     
@@ -356,5 +368,6 @@ int check_rate_limit(const char *ip) {
     
     log_message(LOG_DEBUG, "Rate limit check for %s: %d requests in window", 
                ip, request_count);
+    pthread_mutex_unlock(&rate_mutex);
     return 1;
 }

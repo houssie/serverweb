@@ -10,7 +10,7 @@
 #include <signal.h>
 #include <time.h>
 
-static volatile int running = 1;
+volatile int running = 1;
 static volatile int shutdown_requested = 0;
 static Cache *global_cache = NULL;
 static CacheRules *global_cache_rules = NULL;
@@ -92,6 +92,13 @@ int parse_http_request(const char *raw, HttpRequest *req) {
 }
 
 void serve_static(int client_sock, const char *path) {
+    // Sécurité : bloquer path traversal
+    if (strstr(path, "..") != NULL || strstr(path, "//") != NULL) {
+        log_message(LOG_WARNING, "Path traversal attempt blocked: %s", path);
+        send_http_response(client_sock, 403, "Forbidden", "text/plain", "Access denied");
+        return;
+    }
+    
     char full_path[2048];  // Augmenté pour éviter le warning
     int path_len = snprintf(full_path, sizeof(full_path), "web%s", path);
     
@@ -178,8 +185,16 @@ void serve_static(int client_sock, const char *path) {
 }
 
 void serve_php(int client_sock, const char *path, const char *client_ip) {
-    (void)client_ip;  // Marquer comme utilisé pour éviter le warning
+    (void)client_ip;
     log_message(LOG_DEBUG, "Starting serve_php for path: %s", path);
+    
+    // Sécurité : bloquer path traversal
+    if (strstr(path, "..") != NULL || strstr(path, "//") != NULL) {
+        log_message(LOG_WARNING, "PHP path traversal attempt blocked: %s", path);
+        send_http_response(client_sock, 403, "Forbidden", "text/plain", "Access denied");
+        return;
+    }
+    
     char full_path[2048];  // Augmenté
     int path_len = snprintf(full_path, sizeof(full_path), "web%s", path);
     
@@ -586,9 +601,10 @@ int main(int argc, char *argv[]) {
     init_logger("proxy.log");
     log_message(LOG_INFO, "Starting reverse proxy on port %d", proxy_port);
     
-    // Set up signal handlers
-    // signal(SIGINT, signal_handler);
-    // signal(SIGTERM, signal_handler);
+    // Set up signal handlers pour arrêt propre
+    signal(SIGINT, signal_handler);
+    signal(SIGTERM, signal_handler);
+    signal(SIGPIPE, SIG_IGN);  // Ignorer SIGPIPE pour éviter crash sur écriture socket fermée
     
     backends = load_backends(config_file, &backend_count);
     if (!backends || backend_count == 0) {

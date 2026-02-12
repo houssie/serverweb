@@ -4,9 +4,11 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#include <pthread.h>
 
 static FILE *log_file = NULL;
 static LogLevel current_level = LOG_DEBUG;
+static pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void init_logger(const char *filename) {
     if (filename) {
@@ -39,6 +41,7 @@ void log_message(LogLevel level, const char *format, ...) {
         default: level_str = "UNKNOWN"; break;
     }
     
+    pthread_mutex_lock(&log_mutex);
     fprintf(log_file, "[%s.%.3d] [%s] ", time_buffer, (int)(tv.tv_usec / 1000), level_str);
     
     va_list args;
@@ -48,6 +51,7 @@ void log_message(LogLevel level, const char *format, ...) {
     
     fprintf(log_file, "\n");
     fflush(log_file);
+    pthread_mutex_unlock(&log_mutex);
 }
 
 void close_logger() {

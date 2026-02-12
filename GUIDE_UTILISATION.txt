@@ -1,0 +1,795 @@
+================================================================================
+     GUIDE D'UTILISATION COMPLET — PROXY REVERSE EN C
+================================================================================
+
+Ce guide t'explique comment installer, configurer, lancer et utiliser
+ton proxy reverse pas à pas.
+
+
+================================================================================
+TABLE DES MATIÈRES
+================================================================================
+
+  1. Prérequis (ce qu'il te faut)
+  2. Installation et compilation
+  3. Configuration
+     3.1 Les backends (serveurs arrière)
+     3.2 Le cache
+     3.3 La blacklist
+     3.4 Le contenu web local
+  4. Lancer le proxy
+     4.1 Options en ligne de commande
+     4.2 Stratégies de load balancing
+     4.3 Lancer les backends de test
+  5. Tester le proxy
+     5.1 Tests basiques avec curl
+     5.2 Tests de fichiers statiques
+     5.3 Tests PHP
+     5.4 Tests du load balancing
+     5.5 Tests du cache
+     5.6 Tests de sécurité (blacklist, rate limiting)
+     5.7 Tests de résilience (backends en panne)
+     5.8 Tests de charge
+  6. Surveiller le proxy (logs)
+  7. Arrêter le proxy
+  8. Débugger le proxy
+  9. Déployer en production
+ 10. Commandes rapides (aide-mémoire)
+
+
+================================================================================
+1. PRÉREQUIS
+================================================================================
+
+Vérifie que tu as ces outils installés :
+
+  sudo apt update
+  sudo apt install gcc make libssl-dev curl php-cli
+
+Vérification :
+  gcc --version        → doit afficher la version de GCC
+  make --version       → doit afficher la version de make
+  curl --version       → doit afficher la version de curl
+  php --version        → doit afficher la version de PHP (optionnel)
+
+
+================================================================================
+2. INSTALLATION ET COMPILATION
+================================================================================
+
+A) Compiler le projet :
+
+  cd /chemin/vers/serverweb
+  make clean          # Supprimer les anciens fichiers compilés
+  make                # Compiler tout le projet
+
+  Si tout va bien, tu vois :
+    gcc ... -c proxy.c -o proxy.o
+    gcc ... -c utils.c -o utils.o
+    gcc ... -c logger.c -o logger.o
+    gcc ... -c cache.c -o cache.o
+    gcc ... -c load_balancer.c -o load_balancer.o
+    gcc ... -c backend_manager.c -o backend_manager.o
+    gcc ... -o proxy proxy.o utils.o ...
+
+  Le fichier exécutable "proxy" est créé.
+
+B) Installer globalement (optionnel) :
+
+  sudo make install     # Copie proxy dans /usr/local/bin/
+  sudo make uninstall   # Le retire
+
+
+================================================================================
+3. CONFIGURATION
+================================================================================
+
+Tous les fichiers de configuration sont dans le dossier config/
+
+─────────────────────────────────────────
+3.1  config/backends.cfg — Les serveurs backend
+─────────────────────────────────────────
+
+FORMAT : host:port:poids:max_echecs
+
+  Exemple actuel :
+  ┌──────────────────────────────────────────────────────────┐
+  │ # Format: host:port:weight:max_failures                 │
+  │ 127.0.0.1:8081:3:5                                      │
+  │ 127.0.0.1:8082:2:5                                      │
+  │ 127.0.0.1:8083:1:5                                      │
+  └──────────────────────────────────────────────────────────┘
+
+  Explication de chaque champ :
+    host          → Adresse du serveur (127.0.0.1 = local, ou IP distante)
+    port          → Port du serveur backend
+    weight (poids)→ Priorité pour le weighted round-robin
+                     3 = reçoit 3x plus de requêtes que poids 1
+    max_failures  → Nombre d'échecs avant de marquer le backend DEAD
+                     5 = après 5 échecs consécutifs → backend hors service
+
+  EXEMPLES DE CONFIGURATIONS COURANTES :
+
+  Un seul backend local :
+    127.0.0.1:3000:1:3
+
+  Deux backends distants avec priorités :
+    192.168.1.10:80:5:3
+    192.168.1.11:80:2:3
+
+  Mélange local + distant :
+    127.0.0.1:8080:3:5
+    10.0.0.50:8080:2:5
+    10.0.0.51:8080:1:5
+
+  ⚠️  Maximum 10 backends (MAX_BACKENDS dans config.h)
+
+─────────────────────────────────────────
+3.2  config/cache_rules.cfg — Les règles de cache
+─────────────────────────────────────────
+
+FORMAT : pattern:durée_secondes:taille_max_octets
+
+  Exemple actuel :
+  ┌──────────────────────────────────────────────────────────┐
+  │ # Format: pattern:max_age_seconds:max_size_bytes         │
+  │ *.html:10:102400                                         │
+  │ *.css:30:1048576                                         │
+  │ /*:5:51200                                               │
+  │ /api/*:0:0                                               │
+  └──────────────────────────────────────────────────────────┘
+
+  Explication :
+    *.html:10:102400   → Cacher les HTML pendant 10 secondes, max 100 Ko
+    *.css:30:1048576   → Cacher les CSS pendant 30 secondes, max 1 Mo
+    /*:5:51200         → Tout le reste : 5 secondes, max 50 Ko
+    /api/*:0:0         → API : ne PAS cacher (durée = 0)
+
+  PATTERNS DISPONIBLES :
+    *        → remplace n'importe quoi  (*.html → page.html, index.html)
+    ?        → remplace un seul caractère (file?.txt → file1.txt)
+    /*       → tout chemin commençant par /
+    /api/*   → tout chemin commençant par /api/
+
+  EXEMPLES UTILES :
+
+  Cache agressif pour les images :
+    *.jpg:3600:5242880     # 1 heure, max 5 Mo
+    *.png:3600:5242880
+    *.gif:3600:2097152     # 1 heure, max 2 Mo
+
+  Pas de cache pour les données dynamiques :
+    /api/*:0:0
+    /login:0:0
+    /dashboard:0:0
+
+─────────────────────────────────────────
+3.3  config/blacklist.txt — Les IPs bloquées
+─────────────────────────────────────────
+
+FORMAT : une IP par ligne, lignes # = commentaires
+
+  Exemple actuel :
+  ┌──────────────────────────────────────────────────────────┐
+  │ # IPs bloquées                                          │
+  │ 192.168.1.100                                           │
+  │ 10.0.0.99                                               │
+  └──────────────────────────────────────────────────────────┘
+
+  COMMENT AJOUTER UNE IP :
+    Ouvre le fichier et ajoute une ligne :
+      echo "45.33.32.156" >> config/blacklist.txt
+
+  COMMENT RETIRER UNE IP :
+    Édite le fichier et supprime la ligne, ou commente-la avec #.
+
+  ⚠️  Les changements sont pris en compte IMMÉDIATEMENT
+      (le fichier est relu à chaque requête).
+
+─────────────────────────────────────────
+3.4  Le contenu web local (dossier web/)
+─────────────────────────────────────────
+
+Le proxy peut servir des fichiers directement depuis le dossier web/.
+
+  Structure actuelle :
+  ┌──────────────────────────────────────────────────────────┐
+  │ web/                                                     │
+  │ ├── index.html     → Page d'accueil                     │
+  │ ├── page1.html     → Autre page HTML                    │
+  │ ├── index.php      → Script PHP                         │
+  │ └── test.php       → Script PHP de test                 │
+  └──────────────────────────────────────────────────────────┘
+
+  AJOUTER DU CONTENU :
+
+  Ajouter une page HTML :
+    echo "<h1>Ma Page</h1><p>Bonjour !</p>" > web/mapage.html
+    → Accessible via : http://localhost:8085/mapage.html
+
+  Ajouter un fichier CSS :
+    Créer web/style.css
+    → Accessible via : http://localhost:8085/style.css
+
+  Ajouter un script PHP :
+    Créer web/info.php avec : <?php phpinfo(); ?>
+    → Accessible via : http://localhost:8085/info.php
+
+  TYPES DE FICHIERS SUPPORTÉS :
+    .html → text/html          .css → text/css
+    .js   → application/javascript
+    .json → application/json   .xml → application/xml
+    .jpg  → image/jpeg         .png → image/png
+    .gif  → image/gif          .svg → image/svg+xml
+    .ico  → image/x-icon       .txt → text/plain
+    .pdf  → application/pdf    .php → exécution PHP
+
+  LOGIQUE DE ROUTAGE :
+    1. Le fichier existe dans web/ ?
+       → OUI + extension .php → Exécution PHP
+       → OUI                  → Servir le fichier statique
+       → NON                  → Proxier vers un backend
+
+
+================================================================================
+4. LANCER LE PROXY
+================================================================================
+
+─────────────────────────────────────────
+4.1  Options en ligne de commande
+─────────────────────────────────────────
+
+  ./proxy [OPTIONS]
+
+  OPTIONS :
+  ┌──────────┬──────────────────────────────┬─────────────────┐
+  │ Option   │ Description                  │ Valeur par défaut│
+  ├──────────┼──────────────────────────────┼─────────────────┤
+  │ -p PORT  │ Port d'écoute du proxy       │ 9999            │
+  │ -c FILE  │ Fichier de config backends   │ config/backends.cfg │
+  │ -s NUM   │ Stratégie de load balancing  │ 0 (round-robin) │
+  └──────────┴──────────────────────────────┴─────────────────┘
+
+  EXEMPLES :
+
+  # Port 8085, config par défaut, round-robin
+  ./proxy -p 8085
+
+  # Port 80 (nécessite sudo), fichier de config custom
+  sudo ./proxy -p 80 -c /etc/myproxy/backends.cfg
+
+  # Port 8085, least connections
+  ./proxy -p 8085 -s 1
+
+  # Toutes les options
+  ./proxy -p 8085 -c config/backends.cfg -s 3
+
+─────────────────────────────────────────
+4.2  Stratégies de load balancing (-s)
+─────────────────────────────────────────
+
+  -s 0 → ROUND ROBIN (par défaut)
+         Chaque backend reçoit une requête à tour de rôle.
+         Simple et équitable.
+         Meilleur quand : les backends sont identiques.
+
+  -s 1 → LEAST CONNECTIONS
+         Le backend avec le moins de connexions actives est choisi.
+         S'adapte automatiquement à la charge.
+         Meilleur quand : les requêtes ont des durées différentes.
+
+  -s 2 → IP HASH
+         Le même client va toujours au même backend.
+         Utile pour les sessions (paniers, logins).
+         Meilleur quand : tu as besoin de sessions persistantes.
+
+  -s 3 → WEIGHTED ROUND ROBIN
+         Les backends avec un poids plus élevé reçoivent plus de requêtes.
+         Exemple : poids 3 reçoit 3x plus qu'un poids 1.
+         Meilleur quand : tes serveurs n'ont pas la même puissance.
+
+─────────────────────────────────────────
+4.3  Lancer les backends de test
+─────────────────────────────────────────
+
+Pour tester, on utilise Python comme backend simple.
+Ouvre 3 terminaux différents :
+
+  TERMINAL 1 :
+    python3 -m http.server 8081 --directory web
+    # Écoute sur le port 8081
+
+  TERMINAL 2 :
+    python3 -m http.server 8082 --directory web
+    # Écoute sur le port 8082
+
+  TERMINAL 3 :
+    python3 -m http.server 8083 --directory web
+    # Écoute sur le port 8083
+
+  OU tout en une commande (en arrière-plan) :
+    python3 -m http.server 8081 --directory web &
+    python3 -m http.server 8082 --directory web &
+    python3 -m http.server 8083 --directory web &
+
+Puis dans un 4ème terminal, lance le proxy :
+
+  TERMINAL 4 :
+    ./proxy -p 8085
+
+
+================================================================================
+5. TESTER LE PROXY
+================================================================================
+
+─────────────────────────────────────────
+5.1  Tests basiques avec curl
+─────────────────────────────────────────
+
+  # Requête simple (juste le contenu)
+  curl http://localhost:8085/
+
+  # Requête verbeuse (voir les headers HTTP)
+  curl -v http://localhost:8085/
+
+  # Juste les headers (sans le contenu)
+  curl -I http://localhost:8085/
+
+  # Voir le code HTTP et la taille
+  curl -s -o /dev/null -w "Code: %{http_code}, Taille: %{size_download} octets\n" \
+       http://localhost:8085/
+
+  RÉSULTAT ATTENDU :
+    Code: 200, Taille: 847 octets  (la page index.html)
+
+─────────────────────────────────────────
+5.2  Tests de fichiers statiques
+─────────────────────────────────────────
+
+  # Page d'accueil (/ → /index.html)
+  curl http://localhost:8085/
+  → Doit afficher le contenu de web/index.html
+
+  # Autre page HTML
+  curl http://localhost:8085/page1.html
+  → Doit afficher le contenu de web/page1.html
+
+  # Fichier inexistant (sera proxié vers backend)
+  curl http://localhost:8085/inexistant.html
+  → Si le backend ne l'a pas non plus → erreur 404
+
+  # Vérifier le Content-Type
+  curl -I http://localhost:8085/index.html
+  → Content-Type: text/html
+
+─────────────────────────────────────────
+5.3  Tests PHP
+─────────────────────────────────────────
+
+  ⚠️  PHP doit être installé : sudo apt install php-cli
+
+  # Exécuter un script PHP
+  curl http://localhost:8085/index.php
+  → Doit afficher la sortie du script PHP
+
+  curl http://localhost:8085/test.php
+  → Doit afficher la sortie de test.php
+
+  # Créer un test PHP rapide
+  echo '<?php echo "PHP fonctionne! Date: " . date("Y-m-d H:i:s"); ?>' > web/phptest.php
+  curl http://localhost:8085/phptest.php
+  → Doit afficher "PHP fonctionne! Date: 2026-02-12 ..."
+
+─────────────────────────────────────────
+5.4  Tests du load balancing
+─────────────────────────────────────────
+
+  Pour voir le load balancing en action, les backends doivent servir
+  du contenu DIFFÉRENT (sinon tu vois pas la différence).
+
+  PRÉPARER LES BACKENDS (3 dossiers distincts) :
+    mkdir -p /tmp/web1 /tmp/web2 /tmp/web3
+    echo "<h1>Backend 1 (port 8081)</h1>" > /tmp/web1/hello.html
+    echo "<h1>Backend 2 (port 8082)</h1>" > /tmp/web2/hello.html
+    echo "<h1>Backend 3 (port 8083)</h1>" > /tmp/web3/hello.html
+
+  LANCER LES 3 BACKENDS :
+    python3 -m http.server 8081 --directory /tmp/web1 &
+    python3 -m http.server 8082 --directory /tmp/web2 &
+    python3 -m http.server 8083 --directory /tmp/web3 &
+
+  LANCER LE PROXY :
+    ./proxy -p 8085 -s 0    # Round robin
+
+  TESTER (le fichier hello.html n'existe pas en local → proxy vers backend) :
+    curl http://localhost:8085/hello.html    → Backend 1
+    curl http://localhost:8085/hello.html    → Backend 2
+    curl http://localhost:8085/hello.html    → Backend 3
+    curl http://localhost:8085/hello.html    → Backend 1 (cycle recommence)
+
+  TESTER LEAST CONNECTIONS :
+    # Arrête le proxy, relance avec -s 1
+    ./proxy -p 8085 -s 1
+    curl http://localhost:8085/hello.html    → Va au moins chargé
+
+  TESTER IP HASH :
+    ./proxy -p 8085 -s 2
+    curl http://localhost:8085/hello.html    → Toujours le même backend
+    curl http://localhost:8085/hello.html    → Toujours le même !
+
+  TESTER WEIGHTED ROUND ROBIN :
+    ./proxy -p 8085 -s 3
+    # Avec les poids 3:2:1, sur 6 requêtes :
+    # Backend 1 (poids 3) → 3 fois
+    # Backend 2 (poids 2) → 2 fois
+    # Backend 3 (poids 1) → 1 fois
+
+─────────────────────────────────────────
+5.5  Tests du cache
+─────────────────────────────────────────
+
+  Le cache stocke les réponses en mémoire pour les re-servir plus vite.
+
+  TEST 1 — Vérifier que le cache fonctionne :
+    # Première requête → va au backend (MISS)
+    curl http://localhost:8085/hello.html
+    # Deuxième requête → servie depuis le cache (HIT)
+    curl http://localhost:8085/hello.html
+
+    # Vérifier dans les logs :
+    grep -i "cache" proxy.log
+    → Tu dois voir "Cache HIT" pour la 2ème requête
+
+  TEST 2 — Vérifier l'expiration :
+    # La règle *.html:10:102400 dit : cache 10 secondes
+    curl http://localhost:8085/hello.html    # MISS, stocké en cache
+    sleep 5
+    curl http://localhost:8085/hello.html    # HIT (encore dans le cache)
+    sleep 6
+    curl http://localhost:8085/hello.html    # MISS (cache expiré après 10s)
+
+  TEST 3 — Vérifier que /api/ n'est PAS caché :
+    # La règle /api/*:0:0 dit : ne pas cacher
+    # (il faut un backend qui répond à /api/...)
+    curl http://localhost:8085/api/data      # MISS
+    curl http://localhost:8085/api/data      # Encore MISS (pas de cache)
+
+─────────────────────────────────────────
+5.6  Tests de sécurité
+─────────────────────────────────────────
+
+  A) TEST BLACKLIST :
+
+    # Ajouter ta propre IP à la blacklist
+    echo "127.0.0.1" >> config/blacklist.txt
+
+    # Tester → tu dois recevoir 403 Forbidden
+    curl -v http://localhost:8085/
+    → HTTP/1.1 403 Forbidden
+
+    # Retirer ta propre IP de la blacklist
+    # Éditer config/blacklist.txt et supprimer la ligne 127.0.0.1
+    sed -i '/^127.0.0.1$/d' config/blacklist.txt
+
+    # Retester → doit fonctionner à nouveau
+    curl http://localhost:8085/
+    → HTTP/1.1 200 OK
+
+  B) TEST RATE LIMITING :
+
+    # Envoyer plein de requêtes très vite (plus de 100 par minute)
+    for i in $(seq 1 110); do
+      code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8085/)
+      echo "Requête $i : HTTP $code"
+    done
+
+    # Les ~100 premières → 200 OK
+    # Les suivantes → 429 Too Many Requests
+
+  C) TEST PATH TRAVERSAL (sécurité) :
+
+    # Essayer d'accéder à un fichier hors de web/
+    curl http://localhost:8085/../../../etc/passwd
+    → Doit recevoir 403 Forbidden (et PAS le contenu de /etc/passwd !)
+
+    curl http://localhost:8085/..%2F..%2Fetc%2Fpasswd
+    → Doit aussi être bloqué
+
+─────────────────────────────────────────
+5.7  Tests de résilience (backends en panne)
+─────────────────────────────────────────
+
+  Le proxy détecte automatiquement les backends en panne.
+
+  TEST : Tuer un backend et voir le failover
+    # Lance les 3 backends + proxy
+    python3 -m http.server 8081 --directory /tmp/web1 &
+    python3 -m http.server 8082 --directory /tmp/web2 &
+    python3 -m http.server 8083 --directory /tmp/web3 &
+    ./proxy -p 8085 &
+
+    # Vérifie que tout marche
+    curl http://localhost:8085/hello.html    → OK
+
+    # Tue le backend 1
+    kill $(lsof -ti:8081)
+
+    # Attends 10 secondes (health check)
+    sleep 12
+
+    # Les requêtes vont maintenant aux backends 2 et 3 seulement
+    curl http://localhost:8085/hello.html    → Backend 2 ou 3
+
+    # Relance le backend 1
+    python3 -m http.server 8081 --directory /tmp/web1 &
+
+    # Après 10 secondes, il revient en ligne
+    sleep 12
+    curl http://localhost:8085/hello.html    → Peut être Backend 1 à nouveau
+
+  VÉRIFIER DANS LES LOGS :
+    grep -i "health\|unhealthy\|healthy" proxy.log
+
+─────────────────────────────────────────
+5.8  Tests de charge
+─────────────────────────────────────────
+
+  A) AVEC UNE BOUCLE BASH (simple) :
+
+    # 50 requêtes séquentielles
+    time for i in $(seq 1 50); do
+      curl -s -o /dev/null http://localhost:8085/
+    done
+    # Affiche le temps total
+
+  B) AVEC REQUÊTES PARALLÈLES (xargs) :
+
+    # 100 requêtes, 10 en parallèle
+    seq 100 | xargs -P 10 -I {} curl -s -o /dev/null \
+      -w "Req {}: %{http_code} en %{time_total}s\n" http://localhost:8085/
+
+  C) AVEC AB (Apache Bench) :
+
+    sudo apt install apache2-utils
+
+    # 1000 requêtes, 50 simultanées
+    ab -n 1000 -c 50 http://localhost:8085/
+
+    # Résultat intéressant :
+    # - Requests per second (requêtes par seconde)
+    # - Time per request (temps moyen par requête)
+    # - Failed requests (requêtes échouées → doit être 0)
+
+  D) AVEC WRK (plus avancé) :
+
+    sudo apt install wrk
+
+    # Test de 10 secondes, 4 threads, 100 connexions
+    wrk -t4 -c100 -d10s http://localhost:8085/
+
+  E) AVEC UN NAVIGATEUR :
+
+    Ouvre simplement : http://localhost:8085/
+    dans Firefox ou Chrome pour voir la page d'accueil.
+
+
+================================================================================
+6. SURVEILLER LE PROXY (LOGS)
+================================================================================
+
+  Le proxy écrit tout dans le fichier proxy.log
+
+  A) VOIR LES LOGS EN TEMPS RÉEL :
+    tail -f proxy.log
+
+  B) VOIR LES 50 DERNIÈRES LIGNES :
+    tail -50 proxy.log
+
+  C) CHERCHER DES INFOS SPÉCIFIQUES :
+
+    # Toutes les erreurs
+    grep "ERROR" proxy.log
+
+    # Les problèmes de backends
+    grep "backend\|health\|unhealthy" proxy.log
+
+    # Les hits de cache
+    grep -i "cache" proxy.log
+
+    # Les IPs bloquées
+    grep "blacklist\|blocked\|403" proxy.log
+
+    # Les connexions
+    grep "connection\|Connection" proxy.log
+
+    # Le rate limiting
+    grep "rate\|429" proxy.log
+
+  D) COMPTER LES REQUÊTES :
+    grep -c "New connection" proxy.log
+    → Nombre total de requêtes traitées
+
+  E) VIDER LES LOGS :
+    > proxy.log
+    → Vide le fichier sans arrêter le proxy
+
+  FORMAT DES LOGS :
+    [2026-02-12 14:30:15.123] [INFO] New connection from 127.0.0.1
+    [2026-02-12 14:30:15.125] [DEBUG] Parsed: method=GET, path=/index.html
+    [2026-02-12 14:30:15.126] [INFO] Serving static file: web/index.html
+    [2026-02-12 14:30:15.127] [INFO] Connection closed for 127.0.0.1
+
+  NIVEAUX :
+    DEBUG   → Détails techniques (parsing, buffers, cache)
+    INFO    → Opérations normales (connexion, réponse)
+    WARNING → Problèmes non critiques (config manquante)
+    ERROR   → Erreurs graves (crash backend, mémoire)
+
+
+================================================================================
+7. ARRÊTER LE PROXY
+================================================================================
+
+  MÉTHODE 1 — Ctrl+C (arrêt propre)
+    Le proxy intercepte SIGINT, ferme toutes les connexions,
+    affiche les statistiques des backends et s'arrête.
+
+  MÉTHODE 2 — kill
+    kill $(pgrep -f "./proxy")
+
+  MÉTHODE 3 — killall
+    killall proxy
+
+  ARRÊTER LES BACKENDS AUSSI :
+    pkill -f "python3 -m http.server"
+
+  TOUT ARRÊTER D'UN COUP :
+    pkill -f "./proxy"; pkill -f "python3 -m http.server"
+
+  CE QUI SE PASSE À L'ARRÊT :
+    1. Le signal est reçu → running = 0
+    2. La boucle accept() s'arrête
+    3. Les threads clients en cours finissent leur requête
+    4. Le health check thread s'arrête (vérifie running toutes les secondes)
+    5. Le socket serveur est fermé
+    6. Les stats des backends sont affichées
+    7. La mémoire est libérée
+    8. Le logger est fermé
+
+
+================================================================================
+8. DÉBUGGER LE PROXY
+================================================================================
+
+  A) AVEC VALGRIND (fuites mémoire) :
+
+    make valgrind
+    # ou
+    valgrind --leak-check=full --show-leak-kinds=all ./proxy -p 8085
+
+    # Lance le proxy sous valgrind
+    # Envoie quelques requêtes, puis Ctrl+C
+    # Valgrind affiche les fuites mémoire
+
+  B) AVEC GDB (débogueur) :
+
+    make debug
+    # ou
+    gdb ./proxy
+
+    # Dans gdb :
+    (gdb) run -p 8085               # Lancer le proxy
+    (gdb) break handle_client       # Breakpoint dans handle_client
+    (gdb) continue                  # Continuer l'exécution
+    # Envoie une requête avec curl
+    (gdb) print req.method          # Voir la méthode HTTP
+    (gdb) print req.path            # Voir le chemin
+    (gdb) next                      # Ligne suivante
+    (gdb) step                      # Entrer dans une fonction
+    (gdb) backtrace                 # Voir la pile d'appels
+    (gdb) quit                      # Quitter
+
+  C) AVEC STRACE (appels système) :
+
+    strace -e trace=network ./proxy -p 8085
+    # Voir tous les appels réseau (socket, connect, send, recv)
+
+    strace -e trace=open,read,write ./proxy -p 8085
+    # Voir les accès fichiers
+
+  D) AVEC LES LOGS DEBUG :
+
+    Les logs DEBUG montrent beaucoup de détails.
+    tail -f proxy.log | grep DEBUG
+
+
+================================================================================
+9. DÉPLOYER EN PRODUCTION
+================================================================================
+
+  ⚠️  En production, des précautions supplémentaires s'imposent :
+
+  A) Utiliser un port standard :
+    sudo ./proxy -p 80     # HTTP standard
+    sudo ./proxy -p 443    # HTTPS (si TLS configuré)
+
+  B) Lancer en arrière-plan avec nohup :
+    nohup ./proxy -p 80 &
+    # Continue à tourner même après fermeture du terminal
+
+  C) Créer un service systemd :
+    Créer /etc/systemd/system/reverseproxy.service :
+    ┌──────────────────────────────────────────────────────────┐
+    │ [Unit]                                                   │
+    │ Description=Reverse Proxy Server                         │
+    │ After=network.target                                     │
+    │                                                          │
+    │ [Service]                                                │
+    │ Type=simple                                              │
+    │ ExecStart=/usr/local/bin/proxy -p 80 -c /etc/proxy/backends.cfg│
+    │ Restart=always                                           │
+    │ RestartSec=5                                             │
+    │                                                          │
+    │ [Install]                                                │
+    │ WantedBy=multi-user.target                               │
+    └──────────────────────────────────────────────────────────┘
+
+    sudo systemctl enable reverseproxy    # Démarrage auto
+    sudo systemctl start reverseproxy     # Démarrer
+    sudo systemctl status reverseproxy    # Vérifier
+    sudo systemctl stop reverseproxy      # Arrêter
+    sudo journalctl -u reverseproxy -f    # Voir les logs
+
+  D) Configurer les vrais backends dans backends.cfg :
+    app1.example.com:80:3:5
+    app2.example.com:80:2:5
+    app3.example.com:80:1:5
+
+
+================================================================================
+10. COMMANDES RAPIDES (AIDE-MÉMOIRE)
+================================================================================
+
+  ┌────────────────────────────────────────────────────────────────┐
+  │ COMPILATION                                                   │
+  │   make                  Compiler                              │
+  │   make clean            Nettoyer                              │
+  │   make clean && make    Recompiler de zéro                    │
+  ├────────────────────────────────────────────────────────────────┤
+  │ LANCEMENT                                                     │
+  │   ./proxy -p 8085              Port 8085, round-robin         │
+  │   ./proxy -p 8085 -s 1        Least connections               │
+  │   ./proxy -p 8085 -s 2        IP hash                         │
+  │   ./proxy -p 8085 -s 3        Weighted round-robin            │
+  ├────────────────────────────────────────────────────────────────┤
+  │ BACKENDS DE TEST                                              │
+  │   python3 -m http.server 8081 --directory web &               │
+  │   python3 -m http.server 8082 --directory web &               │
+  │   python3 -m http.server 8083 --directory web &               │
+  ├────────────────────────────────────────────────────────────────┤
+  │ TESTS                                                         │
+  │   curl http://localhost:8085/               Page d'accueil    │
+  │   curl -v http://localhost:8085/            Mode verbeux      │
+  │   curl -I http://localhost:8085/            Headers seuls     │
+  │   curl http://localhost:8085/index.php      PHP               │
+  ├────────────────────────────────────────────────────────────────┤
+  │ LOGS                                                          │
+  │   tail -f proxy.log            Temps réel                     │
+  │   grep ERROR proxy.log         Erreurs                        │
+  │   grep -c "connection" proxy.log   Compteur                  │
+  ├────────────────────────────────────────────────────────────────┤
+  │ ARRÊT                                                         │
+  │   Ctrl+C                       Arrêt propre                   │
+  │   pkill -f "./proxy"           Tuer le proxy                  │
+  │   pkill -f "python3 -m http"   Tuer les backends              │
+  ├────────────────────────────────────────────────────────────────┤
+  │ DÉBUGGING                                                     │
+  │   make valgrind                Fuites mémoire                 │
+  │   make debug                   GDB                            │
+  │   tail -f proxy.log | grep DEBUG   Logs détaillés             │
+  └────────────────────────────────────────────────────────────────┘
+
+
+================================================================================
+FIN DU GUIDE D'UTILISATION
+================================================================================
