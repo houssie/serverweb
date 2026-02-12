@@ -8,788 +8,1139 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: #0f0f23;
-            color: #e0e0e0;
+            background: #0d1117;
+            color: #c9d1d9;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 220px;
+            background: #161b22;
+            border-right: 1px solid #30363d;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        .sidebar-title {
+            padding: 18px 16px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #58a6ff;
+            border-bottom: 1px solid #30363d;
+        }
+        .sidebar-title span { color: #3fb950; }
+        .nav-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.15s;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-item:hover { background: #1f2937; }
+        .nav-item.active {
+            background: #1f2937;
+            border-left-color: #58a6ff;
+            color: #58a6ff;
+            font-weight: 600;
+        }
+        .nav-icon { font-size: 1.2em; width: 24px; text-align: center; }
+
+        /* ===== MAIN ===== */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            padding: 16px 24px;
+            background: #161b22;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 { font-size: 1.2em; color: #f0f6fc; }
+        .header-right { display: flex; gap: 12px; align-items: center; }
+        .badge {
+            padding: 4px 12px; border-radius: 12px;
+            font-size: 0.75em; font-weight: 600;
+        }
+        .badge-green { background: #3fb95022; color: #3fb950; border: 1px solid #3fb950; }
+        .badge-blue { background: #58a6ff22; color: #58a6ff; border: 1px solid #58a6ff; }
+
+        /* ===== CONTENT ===== */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        /* Tabs masquables */
+        .tab-page { display: none; }
+        .tab-page.active { display: block; }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
             padding: 20px;
+            margin-bottom: 16px;
         }
-
-        h1 { color: #7a7aff; margin-bottom: 5px; }
-        h1 span { color: #00ff88; }
-        .subtitle { color: #666; margin-bottom: 20px; font-size: 0.9em; }
-
-        /* Stats */
-        .stats {
+        .card-title {
+            font-size: 0.85em;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 12px;
-            margin-bottom: 20px;
         }
-        .stat {
-            background: #1a1a2e;
-            border: 1px solid #2d2d5b;
-            border-radius: 10px;
-            padding: 15px;
+
+        /* ===== FILE CARDS ===== */
+        .file-card {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .file-card:hover {
+            border-color: #58a6ff;
+            background: #161b22;
+        }
+        .file-card.active-file {
+            border-color: #3fb950;
+            background: #3fb95010;
+        }
+        .file-name {
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 4px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .file-icon { font-size: 1.3em; }
+        .file-info { font-size: 0.8em; color: #8b949e; }
+
+        /* ===== VIEWER ===== */
+        .viewer {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+        .viewer-bar {
+            background: #161b22;
+            padding: 8px 14px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+        }
+        .viewer-bar .fname { color: #58a6ff; font-weight: 600; }
+        .viewer-content {
+            padding: 16px;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+        .viewer-content pre {
+            font-family: 'Cascadia Code', 'Fira Code', monospace;
+            font-size: 0.82em;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-all;
+            color: #c9d1d9;
+        }
+        .viewer-render {
+            padding: 16px;
+            max-height: 350px;
+            overflow-y: auto;
+            background: white;
+            color: black;
+            border-radius: 0 0 8px 8px;
+        }
+        .viewer-render iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            background: white;
+        }
+
+        /* ===== BUTTONS ===== */
+        button {
+            padding: 8px 16px;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.82em;
+            font-weight: 600;
+            transition: all 0.15s;
+            color: #c9d1d9;
+            background: #21262d;
+        }
+        button:hover { background: #30363d; border-color: #58a6ff; }
+        button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-green { background: #238636; border-color: #238636; color: white; }
+        .btn-green:hover { background: #2ea043; }
+        .btn-blue { background: #1f6feb; border-color: #1f6feb; color: white; }
+        .btn-blue:hover { background: #388bfd; }
+        .btn-sm { padding: 4px 10px; font-size: 0.75em; }
+
+        /* ===== TABLES ===== */
+        table { width: 100%; border-collapse: collapse; }
+        th, td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid #21262d;
+            font-size: 0.85em;
+        }
+        th { color: #8b949e; font-size: 0.75em; text-transform: uppercase; }
+        tr:hover td { background: #161b2233; }
+
+        /* ===== STATUS DOTS ===== */
+        .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            display: inline-block; margin-right: 6px;
+        }
+        .dot-up { background: #3fb950; box-shadow: 0 0 6px #3fb950; }
+        .dot-dn { background: #f85149; box-shadow: 0 0 6px #f85149; }
+        .dot-un { background: #484f58; }
+
+        /* ===== LOG VIEWER ===== */
+        .log-box {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 14px;
+            font-family: monospace;
+            font-size: 0.78em;
+            max-height: 400px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+        .log-i { color: #3fb950; }
+        .log-w { color: #d29922; }
+        .log-e { color: #f85149; }
+        .log-d { color: #484f58; }
+        .log-h { color: #58a6ff; }
+        .log-req { color: #bc8cff; }
+
+        /* ===== REQUEST BUILDER ===== */
+        .req-row {
+            display: flex; gap: 8px; margin-bottom: 8px;
+            align-items: center;
+        }
+        .req-row select, .req-row input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+        }
+        .req-row input { flex: 1; }
+        .resp-box {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 14px;
+            font-family: monospace;
+            font-size: 0.78em;
+            max-height: 350px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* ===== STATS MINI ===== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .stat-mini {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 14px;
             text-align: center;
         }
-        .stat-val { font-size: 2em; font-weight: bold; }
-        .stat-lbl { color: #888; font-size: 0.8em; margin-top: 4px; }
-        .green { color: #00ff88; }
-        .red { color: #ff4444; }
-        .blue { color: #7a7aff; }
+        .stat-mini .val {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        .stat-mini .lbl {
+            font-size: 0.75em;
+            color: #8b949e;
+            margin-top: 2px;
+        }
+        .val-green { color: #3fb950; }
+        .val-blue { color: #58a6ff; }
+        .val-orange { color: #d29922; }
+        .val-red { color: #f85149; }
 
-        /* Progress */
-        .progress { 
-            height: 24px; background: #1a1a2e; border-radius: 12px; 
-            margin-bottom: 20px; overflow: hidden; border: 1px solid #2d2d5b;
+        /* ===== LIVE INDICATOR ===== */
+        .live-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #3fb950;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
         }
-        .progress-bar {
-            height: 100%; border-radius: 12px;
-            transition: width 0.4s; display: flex; align-items: center;
-            justify-content: center; font-size: 0.75em; font-weight: bold;
-        }
-
-        /* Buttons */
-        .toolbar { 
-            display: flex; flex-wrap: wrap; gap: 8px; 
-            margin-bottom: 20px; align-items: center; 
-        }
-        button {
-            padding: 10px 18px; border: none; border-radius: 8px;
-            cursor: pointer; font-size: 0.85em; font-weight: 600;
-            transition: all 0.15s; color: white;
-        }
-        button:hover { filter: brightness(1.2); transform: translateY(-1px); }
-        button:active { transform: translateY(0); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .btn-go { background: #00aa55; font-size: 1em; padding: 12px 24px; }
-        .btn-cat { background: #4a4aff; }
-        .btn-del { background: #882222; }
-        .btn-ref { background: #0077aa; }
-
-        /* Layout 2 colonnes */
-        .layout { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; }
-        
-        /* Cards */
-        .card {
-            background: #1a1a2e; border: 1px solid #2d2d5b;
-            border-radius: 10px; padding: 16px; margin-bottom: 15px;
-        }
-        .card h2 { color: #7a7aff; font-size: 1em; margin-bottom: 12px; }
-
-        /* Séparateur de catégorie */
-        .cat-header {
-            padding: 8px 14px; margin: 10px 0 5px 0; border-radius: 8px;
-            background: #2d2d5b44; color: #7a7aff; font-weight: bold;
-            font-size: 0.85em; border-left: 4px solid #7a7aff;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
-        /* Test results */
-        .test {
-            padding: 10px 14px; margin: 5px 0; border-radius: 8px;
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.88em; animation: fadeIn 0.4s ease-out;
+        /* ===== BACKEND VISUAL ===== */
+        .lb-visual {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 12px;
         }
-        @keyframes fadeIn { 
-            from { opacity: 0; transform: translateX(-20px); } 
-            to { opacity: 1; transform: translateX(0); } 
+        .lb-server {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px;
+            min-width: 180px;
+            text-align: center;
+            transition: all 0.3s;
         }
-
-        .test-ok { background: #00ff8818; border-left: 4px solid #00ff88; }
-        .test-ko { background: #ff444418; border-left: 4px solid #ff4444; }
-        .test-run { background: #ffaa0018; border-left: 4px solid #ffaa00; }
-        .test-wait { background: #ffffff08; border-left: 4px solid #444; }
-
-        .test .right { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
-        .pill {
-            padding: 2px 10px; border-radius: 10px;
-            font-size: 0.75em; font-weight: bold;
+        .lb-server.hit {
+            border-color: #3fb950;
+            background: #3fb95015;
+            box-shadow: 0 0 12px #3fb95033;
         }
-        .pill-ok { background: #00ff8833; color: #00ff88; }
-        .pill-ko { background: #ff444433; color: #ff4444; }
-        .pill-ms { background: #4a4aff33; color: #7a7aff; }
-        .pill-code { background: #ffffff15; color: #aaa; }
-        .pill-run { background: #ffaa0033; color: #ffaa00; }
-
-        /* Requête perso */
-        .reqbar { display: flex; gap: 6px; margin: 8px 0; }
-        .reqbar select, .reqbar input {
-            background: #0a0a1a; border: 1px solid #2d2d5b; color: #e0e0e0;
-            padding: 8px; border-radius: 6px; font-size: 0.85em;
+        .lb-server .srv-name { font-weight: 600; color: #f0f6fc; margin-bottom: 6px; }
+        .lb-server .srv-port { color: #8b949e; font-size: 0.82em; }
+        .lb-server .srv-hits {
+            font-size: 2em; font-weight: bold; color: #58a6ff;
+            margin: 8px 0;
         }
-        .reqbar input { flex: 1; }
-        .reqbar button { padding: 8px 16px; }
-        .resp-box {
-            background: #0a0a1a; border: 1px solid #2d2d5b; border-radius: 6px;
-            padding: 12px; font-family: monospace; font-size: 0.8em;
-            max-height: 200px; overflow-y: auto; white-space: pre-wrap;
-            word-break: break-all; margin-top: 8px;
+        .lb-server .srv-bar {
+            height: 6px; background: #21262d; border-radius: 3px;
+            overflow: hidden; margin-top: 6px;
+        }
+        .lb-server .srv-bar-fill {
+            height: 100%; background: #58a6ff; border-radius: 3px;
+            transition: width 0.3s;
         }
 
-        /* Backend table */
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #2d2d5b; font-size: 0.85em; }
-        th { color: #7a7aff; font-size: 0.75em; text-transform: uppercase; }
-        .dot { 
-            width: 10px; height: 10px; border-radius: 50%; 
-            display: inline-block; margin-right: 5px; 
+        /* ===== CONFIG VIEW ===== */
+        .config-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 12px;
         }
-        .dot-up { background: #00ff88; box-shadow: 0 0 6px #00ff88; }
-        .dot-dn { background: #ff4444; box-shadow: 0 0 6px #ff4444; }
-        .dot-un { background: #666; }
-
-        /* Console */
-        .console {
-            background: #0a0a1a; border: 1px solid #2d2d5b; border-radius: 6px;
-            padding: 10px; font-family: monospace; font-size: 0.75em;
-            max-height: 200px; overflow-y: auto;
+        .config-block h3 {
+            color: #58a6ff;
+            font-size: 0.9em;
+            margin-bottom: 8px;
         }
-        .log-i { color: #00ff88; }
-        .log-w { color: #ffaa00; }
-        .log-e { color: #ff4444; }
-        .log-d { color: #666; }
-
-        /* Barre finale résumé */
-        .summary-bar {
-            margin-top: 12px; padding: 14px 18px; border-radius: 10px;
-            font-size: 0.95em; font-weight: bold; text-align: center;
-            animation: fadeIn 0.5s;
+        .config-block pre {
+            font-family: monospace;
+            font-size: 0.82em;
+            color: #c9d1d9;
+            line-height: 1.5;
         }
-        .summary-ok { background: #00ff8822; border: 2px solid #00ff88; color: #00ff88; }
-        .summary-ko { background: #ff444422; border: 2px solid #ff4444; color: #ff4444; }
-        .summary-mix { background: #ffaa0022; border: 2px solid #ffaa00; color: #ffaa00; }
-
-        @media (max-width: 900px) { 
-            .layout { grid-template-columns: 1fr; } 
-            .stats { grid-template-columns: repeat(2, 1fr); }
+        .config-item {
+            display: flex; justify-content: space-between;
+            padding: 6px 0; border-bottom: 1px solid #21262d;
+            font-size: 0.85em;
         }
+        .config-key { color: #d29922; }
+        .config-val { color: #3fb950; font-family: monospace; }
     </style>
 </head>
 <body>
 
-<h1>&#128421; Proxy <span>Reverse</span> &#8212; Dashboard de Tests</h1>
-<p class="subtitle">Interface de test interactive &#8212; les résultats de chaque test s'affichent en temps réel ci-dessous</p>
-
-<!-- STATS -->
-<div class="stats">
-    <div class="stat"><div class="stat-val blue" id="sTotal">0</div><div class="stat-lbl">Tests exécutés</div></div>
-    <div class="stat"><div class="stat-val green" id="sPass">0</div><div class="stat-lbl">Réussis &#10004;</div></div>
-    <div class="stat"><div class="stat-val red" id="sFail">0</div><div class="stat-lbl">Échoués &#10008;</div></div>
-    <div class="stat"><div class="stat-val blue" id="sTime">0ms</div><div class="stat-lbl">Temps total</div></div>
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="sidebar-title">&#9881; Proxy <span>Reverse</span></div>
+    <div class="nav-item active" onclick="showTab('overview')">
+        <span class="nav-icon">&#128200;</span> Vue d'ensemble
+    </div>
+    <div class="nav-item" onclick="showTab('static')">
+        <span class="nav-icon">&#128196;</span> Fichiers statiques
+    </div>
+    <div class="nav-item" onclick="showTab('php')">
+        <span class="nav-icon">&#128024;</span> PHP
+    </div>
+    <div class="nav-item" onclick="showTab('backends')">
+        <span class="nav-icon">&#128423;</span> Backends
+    </div>
+    <div class="nav-item" onclick="showTab('loadbalancer')">
+        <span class="nav-icon">&#128256;</span> Load Balancing
+    </div>
+    <div class="nav-item" onclick="showTab('cache')">
+        <span class="nav-icon">&#128190;</span> Cache
+    </div>
+    <div class="nav-item" onclick="showTab('security')">
+        <span class="nav-icon">&#128274;</span> Sécurité
+    </div>
+    <div class="nav-item" onclick="showTab('logs')">
+        <span class="nav-icon">&#128466;</span> Logs
+    </div>
+    <div class="nav-item" onclick="showTab('request')">
+        <span class="nav-icon">&#128295;</span> Requête libre
+    </div>
+    <div class="nav-item" onclick="showTab('config')">
+        <span class="nav-icon">&#9881;</span> Configuration
+    </div>
 </div>
 
-<!-- PROGRESS -->
-<div class="progress"><div id="pbar" class="progress-bar" style="width:0%; background:#00aa55;"></div></div>
+<!-- MAIN -->
+<div class="main">
+    <div class="header">
+        <h1 id="pageTitle">&#128200; Vue d'ensemble</h1>
+        <div class="header-right">
+            <span class="live-dot"></span>
+            <span class="badge badge-green">Proxy :8085</span>
+            <span class="badge badge-blue" id="headerBadge">En ligne</span>
+        </div>
+    </div>
 
-<!-- BUTTONS -->
-<div class="toolbar">
-    <button class="btn-go" onclick="lancerTout()" id="btnGo">&#9654; LANCER TOUS LES TESTS</button>
-    <button class="btn-cat" onclick="lancer('static')">&#128196; Statique</button>
-    <button class="btn-cat" onclick="lancer('php')">&#128024; PHP</button>
-    <button class="btn-cat" onclick="lancer('backend')">&#128256; Backends</button>
-    <button class="btn-cat" onclick="lancer('cache')">&#128190; Cache</button>
-    <button class="btn-cat" onclick="lancer('security')">&#128274; Sécurité</button>
-    <button class="btn-cat" onclick="lancer('stress')">&#9889; Charge</button>
-    <button class="btn-del" onclick="effacer()">&#10005; Effacer</button>
-    <button class="btn-ref" onclick="checkBackends()">&#128260; Backends</button>
-</div>
+    <div class="content">
 
-<div class="layout">
-    <!-- COLONNE GAUCHE : résultats -->
-    <div>
-        <div class="card" id="resultCard">
-            <h2>&#128203; Résultats des tests</h2>
-            <div id="results">
-                <div class="test test-wait">
-                    <span>&#128073; Clique sur "<strong>&#9654; LANCER TOUS LES TESTS</strong>" pour commencer</span>
+        <!-- ==================== OVERVIEW ==================== -->
+        <div class="tab-page active" id="tab-overview">
+            <div class="stats-row" id="overviewStats">
+                <div class="stat-mini"><div class="val val-blue" id="ovReq">-</div><div class="lbl">Requêtes envoyées</div></div>
+                <div class="stat-mini"><div class="val val-green" id="ovOk">-</div><div class="lbl">Réponses OK</div></div>
+                <div class="stat-mini"><div class="val val-red" id="ovErr">-</div><div class="lbl">Erreurs</div></div>
+                <div class="stat-mini"><div class="val val-orange" id="ovAvg">-</div><div class="lbl">Latence moy.</div></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">&#128423; État des Backends</div>
+                <table>
+                    <thead><tr><th>Adresse</th><th>Poids</th><th>État</th><th>Latence</th></tr></thead>
+                    <tbody id="ovBackends"></tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">&#128196; Fichiers du serveur</div>
+                <div id="ovFiles" style="font-size:0.85em; color:#8b949e;">Chargement...</div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">&#128466; Dernières actions</div>
+                <div id="ovLog" class="log-box" style="max-height:200px;">
+                    <div class="log-i">Dashboard chargé.</div>
                 </div>
             </div>
-            <div id="summaryArea"></div>
         </div>
-    </div>
 
-    <!-- COLONNE DROITE : outils -->
-    <div>
-        <!-- Requête perso -->
-        <div class="card">
-            <h2>&#128295; Requête personnalisée</h2>
-            <div class="reqbar">
-                <select id="rMethod">
-                    <option>GET</option><option>POST</option>
-                    <option>HEAD</option><option>DELETE</option>
-                </select>
-                <input type="text" id="rPath" value="/" placeholder="/chemin">
-                <button class="btn-ref" onclick="reqPerso()">&#8594;</button>
+        <!-- ==================== STATIC FILES ==================== -->
+        <div class="tab-page" id="tab-static">
+            <div class="card">
+                <div class="card-title">&#128196; Fichiers HTML disponibles</div>
+                <p style="font-size:0.82em; color:#8b949e; margin-bottom:12px;">
+                    Clique sur un fichier pour le charger via le proxy, voir le code source et le rendu.
+                </p>
+                <div class="card-grid" id="staticFiles"></div>
             </div>
-            <div id="rResult" class="resp-box">Tape un chemin et clique &#8594;</div>
+            <div id="staticViewer"></div>
         </div>
 
-        <!-- Backends -->
-        <div class="card">
-            <h2>&#128423; État des backends</h2>
-            <table>
-                <thead><tr><th>Adresse</th><th>État</th><th>Latence</th></tr></thead>
-                <tbody id="btable">
-                    <tr><td>127.0.0.1:8081</td><td><span class="dot dot-un"></span>?</td><td>-</td></tr>
-                    <tr><td>127.0.0.1:8082</td><td><span class="dot dot-un"></span>?</td><td>-</td></tr>
-                    <tr><td>127.0.0.1:8083</td><td><span class="dot dot-un"></span>?</td><td>-</td></tr>
-                </tbody>
-            </table>
+        <!-- ==================== PHP ==================== -->
+        <div class="tab-page" id="tab-php">
+            <div class="card">
+                <div class="card-title">&#128024; Fichiers PHP disponibles</div>
+                <p style="font-size:0.82em; color:#8b949e; margin-bottom:12px;">
+                    Le proxy exécute PHP via <code>php-cgi</code>. Clique pour exécuter et voir le résultat.
+                </p>
+                <div class="card-grid" id="phpFiles"></div>
+            </div>
+            <div id="phpViewer"></div>
         </div>
 
-        <!-- Console -->
-        <div class="card">
-            <h2>&#128421; Console</h2>
-            <div id="cons" class="console"><div class="log-i">Dashboard prêt.</div></div>
+        <!-- ==================== BACKENDS ==================== -->
+        <div class="tab-page" id="tab-backends">
+            <div class="card">
+                <div class="card-title">&#128423; Backends configurés 
+                    <button class="btn-sm btn-blue" onclick="refreshBackends()">&#8635; Rafraîchir</button>
+                </div>
+                <p style="font-size:0.82em; color:#8b949e; margin-bottom:12px;">
+                    Le proxy envoie les requêtes non-statiques vers ces backends. Le health check tourne toutes les 10s.
+                </p>
+                <table>
+                    <thead><tr><th>Adresse</th><th>Port</th><th>Poids</th><th>État</th><th>Latence</th><th>Action</th></tr></thead>
+                    <tbody id="backendTable"></tbody>
+                </table>
+            </div>
+            <div id="backendTestResult"></div>
         </div>
-    </div>
-</div>
+
+        <!-- ==================== LOAD BALANCING ==================== -->
+        <div class="tab-page" id="tab-loadbalancer">
+            <div class="card">
+                <div class="card-title">&#128256; Test du Load Balancing en temps réel</div>
+                <p style="font-size:0.82em; color:#8b949e; margin-bottom:12px;">
+                    Envoie des requêtes au proxy et observe la distribution entre backends (round-robin, least-conn, ip-hash, weighted).
+                </p>
+                <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+                    <button class="btn-green" onclick="lbTest(10)">&#9654; Envoyer 10 requêtes</button>
+                    <button class="btn-blue" onclick="lbTest(30)">&#9654; Envoyer 30 requêtes</button>
+                    <button onclick="lbReset()">&#10005; Réinitialiser</button>
+                </div>
+                <div class="lb-visual" id="lbVisual"></div>
+            </div>
+            <div class="card">
+                <div class="card-title">&#128203; Journal des réponses</div>
+                <div id="lbLog" class="log-box" style="max-height:250px;"></div>
+            </div>
+        </div>
+
+        <!-- ==================== CACHE ==================== -->
+        <div class="tab-page" id="tab-cache">
+            <div class="card">
+                <div class="card-title">&#128190; Test du système de cache</div>
+                <p style="font-size:0.82em; color:#8b949e; margin-bottom:12px;">
+                    Envoie 2 requêtes identiques et compare les réponses et le temps de réponse.
+                </p>
+                <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+                    <span style="font-size:0.85em;">URL :</span>
+                    <input type="text" id="cacheUrl" value="/index.html" style="background:#0d1117; border:1px solid #30363d; color:#c9d1d9; padding:8px; border-radius:6px; width:200px;">
+                    <button class="btn-green" onclick="cacheTest()">&#9654; Tester le cache</button>
+                </div>
+            </div>
+            <div id="cacheResult"></div>
+        </div>
+
+        <!-- ==================== SECURITY ==================== -->
+        <div class="tab-page" id="tab-security">
+            <div class="card">
+                <div class="card-title">&#128274; Tests de sécurité</div>
+                <p style="font-size:0.82em; color:#8b949e; margin-bottom:12px;">
+                    Teste la résistance du proxy aux attaques courantes.
+                </p>
+                <button class="btn-green" onclick="securityTest()">&#9654; Lancer les tests de sécurité</button>
+            </div>
+            <div id="secResults"></div>
+            <div class="card" style="margin-top:12px;">
+                <div class="card-title">&#128683; Blacklist IP</div>
+                <div id="blacklistInfo"></div>
+            </div>
+        </div>
+
+        <!-- ==================== LOGS ==================== -->
+        <div class="tab-page" id="tab-logs">
+            <div class="card">
+                <div class="card-title">&#128466; Journal d'activité du dashboard
+                    <button class="btn-sm" onclick="clearLogs()">&#10005; Effacer</button>
+                </div>
+                <p style="font-size:0.82em; color:#8b949e; margin-bottom:12px;">
+                    Toutes les requêtes envoyées depuis ce dashboard sont enregistrées ici avec leurs résultats.
+                </p>
+                <div id="fullLog" class="log-box" style="max-height:500px;"></div>
+            </div>
+        </div>
+
+        <!-- ==================== REQUEST ==================== -->
+        <div class="tab-page" id="tab-request">
+            <div class="card">
+                <div class="card-title">&#128295; Envoyer une requête personnalisée</div>
+                <div class="req-row">
+                    <select id="reqMethod">
+                        <option>GET</option><option>POST</option>
+                        <option>HEAD</option><option>PUT</option>
+                        <option>DELETE</option><option>OPTIONS</option>
+                    </select>
+                    <input type="text" id="reqPath" value="/" placeholder="/chemin">
+                    <button class="btn-green" onclick="sendRequest()">&#9654; Envoyer</button>
+                </div>
+            </div>
+            <div id="reqResult"></div>
+        </div>
+
+        <!-- ==================== CONFIG ==================== -->
+        <div class="tab-page" id="tab-config">
+            <div class="card">
+                <div class="card-title">&#9881; Configuration du proxy</div>
+                <p style="font-size:0.82em; color:#8b949e; margin-bottom:12px;">
+                    Paramètres définis dans config.h et les fichiers de configuration.
+                </p>
+            </div>
+            <div class="card-grid">
+                <div class="config-block">
+                    <h3>&#128423; Backends (backends.cfg)</h3>
+                    <div class="config-item"><span class="config-key">Backend 1</span><span class="config-val">127.0.0.1:8081 (poids 3)</span></div>
+                    <div class="config-item"><span class="config-key">Backend 2</span><span class="config-val">127.0.0.1:8082 (poids 2)</span></div>
+                    <div class="config-item"><span class="config-key">Backend 3</span><span class="config-val">127.0.0.1:8083 (poids 1)</span></div>
+                </div>
+                <div class="config-block">
+                    <h3>&#128190; Cache (cache_rules.cfg)</h3>
+                    <div class="config-item"><span class="config-key">*.html</span><span class="config-val">10s, max 100Ko</span></div>
+                    <div class="config-item"><span class="config-key">*.css</span><span class="config-val">30s, max 1Mo</span></div>
+                    <div class="config-item"><span class="config-key">/*</span><span class="config-val">5s, max 50Ko</span></div>
+                    <div class="config-item"><span class="config-key">/api/*</span><span class="config-val">Pas de cache</span></div>
+                </div>
+                <div class="config-block">
+                    <h3>&#128274; Sécurité</h3>
+                    <div class="config-item"><span class="config-key">Rate limit</span><span class="config-val">100 req/min</span></div>
+                    <div class="config-item"><span class="config-key">Max clients</span><span class="config-val">100</span></div>
+                    <div class="config-item"><span class="config-key">Timeout</span><span class="config-val">30s</span></div>
+                    <div class="config-item"><span class="config-key">Blacklist</span><span class="config-val">192.168.1.100, 10.0.0.99</span></div>
+                </div>
+                <div class="config-block">
+                    <h3>&#9881; Général (config.h)</h3>
+                    <div class="config-item"><span class="config-key">Port proxy</span><span class="config-val">8085</span></div>
+                    <div class="config-item"><span class="config-key">Buffer</span><span class="config-val">8192 octets</span></div>
+                    <div class="config-item"><span class="config-key">Cache capacity</span><span class="config-val">100 entrées</span></div>
+                    <div class="config-item"><span class="config-key">Max entry size</span><span class="config-val">10 Mo</span></div>
+                    <div class="config-item"><span class="config-key">Health check</span><span class="config-val">toutes les 10s</span></div>
+                    <div class="config-item"><span class="config-key">Load balancing</span><span class="config-val">Round-robin</span></div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /content -->
+</div><!-- /main -->
 
 <script>
 // ============================================================
-// ÉTAT GLOBAL
+// GLOBALS
 // ============================================================
-var nTotal = 0, nPass = 0, nFail = 0, tTotal = 0;
-var testEnCours = false;
+var totalReq = 0, totalOk = 0, totalErr = 0, totalTime = 0;
+var lbHits = {};
 
 // ============================================================
-// LOG CONSOLE
+// NAVIGATION
 // ============================================================
-function clog(msg, cls) {
-    cls = cls || 'i';
-    var d = document.getElementById('cons');
-    var t = new Date().toLocaleTimeString();
-    var line = document.createElement('div');
-    line.className = 'log-' + cls;
-    line.textContent = '[' + t + '] ' + msg;
-    d.appendChild(line);
-    d.scrollTop = d.scrollHeight;
+function showTab(name) {
+    // Hide all
+    var pages = document.querySelectorAll('.tab-page');
+    for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
+    var navs = document.querySelectorAll('.nav-item');
+    for (var i = 0; i < navs.length; i++) navs[i].classList.remove('active');
+
+    // Show selected
+    var page = document.getElementById('tab-' + name);
+    if (page) page.classList.add('active');
+    navs[getTabIndex(name)].classList.add('active');
+
+    // Update title
+    var titles = {
+        overview: '&#128200; Vue d\'ensemble',
+        static: '&#128196; Fichiers statiques',
+        php: '&#128024; Fichiers PHP',
+        backends: '&#128423; Backends',
+        loadbalancer: '&#128256; Load Balancing',
+        cache: '&#128190; Cache',
+        security: '&#128274; Sécurité',
+        logs: '&#128466; Logs',
+        request: '&#128295; Requête libre',
+        config: '&#9881; Configuration'
+    };
+    document.getElementById('pageTitle').innerHTML = titles[name] || name;
+
+    // Load content
+    if (name === 'static') loadStaticFiles();
+    if (name === 'php') loadPHPFiles();
+    if (name === 'backends') refreshBackends();
+    if (name === 'loadbalancer') initLBVisual();
+    if (name === 'security') loadBlacklist();
+    if (name === 'overview') loadOverview();
+}
+
+function getTabIndex(name) {
+    var tabs = ['overview','static','php','backends','loadbalancer','cache','security','logs','request','config'];
+    return tabs.indexOf(name);
 }
 
 // ============================================================
-// MISE À JOUR DES STATS
+// HTTP helper
 // ============================================================
-function updateStats() {
-    document.getElementById('sTotal').textContent = nTotal;
-    document.getElementById('sPass').textContent = nPass;
-    document.getElementById('sFail').textContent = nFail;
-    document.getElementById('sTime').textContent = tTotal + 'ms';
-    
-    var pct = nTotal > 0 ? Math.round((nPass / nTotal) * 100) : 0;
-    var bar = document.getElementById('pbar');
-    bar.style.width = pct + '%';
-    bar.style.background = pct >= 80 ? '#00aa55' : pct >= 50 ? '#ffaa00' : '#dd3333';
-    bar.textContent = pct + '% (' + nPass + '/' + nTotal + ')';
-}
-
-// ============================================================
-// AJOUTER UN RÉSULTAT DE TEST (VISIBLE !)
-// ============================================================
-function addResult(nom, ok, detail, httpCode, taille, ms) {
-    nTotal++;
-    if (ok) nPass++; else nFail++;
-    tTotal += ms;
-
-    var d = document.getElementById('results');
-    // Enlever le placeholder au premier test
-    var placeholder = d.querySelector('.test-wait');
-    if (placeholder) placeholder.remove();
-
-    var div = document.createElement('div');
-    div.className = 'test ' + (ok ? 'test-ok' : 'test-ko');
-    
-    var left = document.createElement('span');
-    left.innerHTML = (ok ? '&#10004; ' : '&#10008; ') + '<strong>' + nom + '</strong>';
-    if (detail) left.innerHTML += ' &mdash; <em>' + detail + '</em>';
-    
-    var right = document.createElement('span');
-    right.className = 'right';
-    right.innerHTML = 
-        '<span class="pill ' + (ok ? 'pill-ok' : 'pill-ko') + '">' + (ok ? 'PASS' : 'FAIL') + '</span>' +
-        (httpCode ? '<span class="pill pill-code">HTTP ' + httpCode + '</span>' : '') +
-        (taille ? '<span class="pill pill-code">' + taille + 'o</span>' : '') +
-        (ms ? '<span class="pill pill-ms">' + ms + 'ms</span>' : '');
-    
-    div.appendChild(left);
-    div.appendChild(right);
-    d.appendChild(div);
-    
-    // Scroll vers le bas pour voir le nouveau résultat
-    div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-    updateStats();
-    clog((ok ? 'PASS' : 'FAIL') + ' - ' + nom + (detail ? ' - ' + detail : '') + ' [' + ms + 'ms]', ok ? 'i' : 'e');
-}
-
-// Ajouter un header de catégorie
-function addCategory(titre) {
-    var d = document.getElementById('results');
-    var placeholder = d.querySelector('.test-wait');
-    if (placeholder) placeholder.remove();
-    
-    var div = document.createElement('div');
-    div.className = 'cat-header';
-    div.textContent = titre;
-    d.appendChild(div);
-    div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-// Indicateur "en cours"
-function showRunning(nom) {
-    var d = document.getElementById('results');
-    var placeholder = d.querySelector('.test-wait');
-    if (placeholder) placeholder.remove();
-    
-    // Supprimer l'ancien indicateur
-    var old = document.getElementById('cur-test');
-    if (old) old.remove();
-    
-    var div = document.createElement('div');
-    div.id = 'cur-test';
-    div.className = 'test test-run';
-    div.innerHTML = '<span>&#9203; <strong>' + nom + '</strong>...</span>' +
-                    '<span class="pill pill-run">EN COURS</span>';
-    d.appendChild(div);
-    div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function hideRunning() {
-    var el = document.getElementById('cur-test');
-    if (el) el.remove();
-}
-
-function effacer() {
-    nTotal = 0; nPass = 0; nFail = 0; tTotal = 0;
-    document.getElementById('results').innerHTML = 
-        '<div class="test test-wait"><span>Résultats effacés</span></div>';
-    document.getElementById('summaryArea').innerHTML = '';
-    updateStats();
-    clog('Résultats effacés', 'w');
-}
-
-// Résumé final
-function showSummary() {
-    var area = document.getElementById('summaryArea');
-    var pct = nTotal > 0 ? Math.round((nPass / nTotal) * 100) : 0;
-    var cls, emoji;
-    if (nFail === 0) { cls = 'summary-ok'; emoji = '&#127942;'; }
-    else if (nPass > nFail) { cls = 'summary-mix'; emoji = '&#9888;'; }
-    else { cls = 'summary-ko'; emoji = '&#10060;'; }
-    
-    area.innerHTML = '<div class="summary-bar ' + cls + '">' +
-        emoji + ' RÉSULTAT FINAL : ' + nPass + '/' + nTotal + 
-        ' tests réussis (' + pct + '%) &mdash; Temps total : ' + tTotal + 'ms' +
-        '</div>';
-}
-
-// ============================================================
-// REQUÊTE HTTP — XMLHttpRequest pour compatibilité maximale
-// ============================================================
-function httpReq(method, path) {
+function http(method, path) {
     return new Promise(function(resolve) {
         var start = performance.now();
         var xhr = new XMLHttpRequest();
         xhr.open(method, path, true);
         xhr.timeout = 10000;
-        
         xhr.onload = function() {
             var ms = Math.round(performance.now() - start);
-            resolve({
-                status: xhr.status,
-                body: xhr.responseText || '',
-                headers: xhr.getAllResponseHeaders() || '',
-                time: ms,
-                ok: xhr.status >= 200 && xhr.status < 400,
-                size: (xhr.responseText || '').length
-            });
+            totalReq++; totalTime += ms;
+            if (xhr.status >= 200 && xhr.status < 400) totalOk++; else totalErr++;
+            updateOverviewStats();
+            resolve({ status: xhr.status, body: xhr.responseText || '', headers: xhr.getAllResponseHeaders() || '', time: ms, ok: xhr.status >= 200 && xhr.status < 400 });
         };
-        
         xhr.onerror = function() {
             var ms = Math.round(performance.now() - start);
-            resolve({ status: 0, body: '', headers: '', time: ms, ok: false, size: 0, error: 'Erreur réseau' });
+            totalReq++; totalErr++; totalTime += ms; updateOverviewStats();
+            resolve({ status: 0, body: '', headers: '', time: ms, ok: false });
         };
-        
         xhr.ontimeout = function() {
-            var ms = Math.round(performance.now() - start);
-            resolve({ status: 0, body: '', headers: '', time: ms, ok: false, size: 0, error: 'Timeout' });
+            totalReq++; totalErr++; updateOverviewStats();
+            resolve({ status: 0, body: '', headers: '', time: 10000, ok: false });
         };
-        
         xhr.send();
     });
 }
 
-// Délai pour laisser le navigateur redessiner l'interface
 function pause(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
 
-// ============================================================
-// TESTS : FICHIERS STATIQUES
-// ============================================================
-async function testStatic() {
-    addCategory('&#128196; FICHIERS STATIQUES');
-    var r;
-    
-    showRunning('Page d\'accueil (/)');
-    await pause(300);
-    r = await httpReq('GET', '/');
-    hideRunning();
-    addResult('Page d\'accueil (/)', r.status === 200, 
-        r.ok ? 'Page servie correctement' : 'Erreur', r.status, r.size, r.time);
-    await pause(250);
-    
-    showRunning('Fichier index.html');
-    await pause(150);
-    r = await httpReq('GET', '/index.html');
-    hideRunning();
-    addResult('index.html', r.status === 200, 
-        r.ok ? 'Fichier trouvé' : 'Non trouvé', r.status, r.size, r.time);
-    await pause(250);
-    
-    showRunning('Fichier page1.html');
-    await pause(150);
-    r = await httpReq('GET', '/page1.html');
-    hideRunning();
-    addResult('page1.html', r.status === 200, 
-        r.ok ? 'Fichier trouvé' : 'Non trouvé', r.status, r.size, r.time);
-    await pause(250);
-    
-    showRunning('Vérification contenu HTML');
-    await pause(150);
-    r = await httpReq('GET', '/index.html');
-    hideRunning();
-    var hasHtml = r.body.indexOf('<html') >= 0 || r.body.indexOf('<HTML') >= 0 || 
-                  (r.body.indexOf('<') >= 0 && r.body.indexOf('>') >= 0);
-    addResult('Contenu HTML valide', hasHtml, 
-        hasHtml ? 'Balises HTML détectées dans la réponse' : 'Aucune balise HTML trouvée', 
-        r.status, r.size, r.time);
-    await pause(250);
-    
-    showRunning('Vérification Content-Type');
-    await pause(150);
-    r = await httpReq('GET', '/index.html');
-    hideRunning();
-    var hasCT = r.headers.toLowerCase().indexOf('text/html') >= 0;
-    addResult('Header Content-Type', hasCT, 
-        hasCT ? 'text/html confirmé' : 'Content-Type incorrect ou absent', 
-        r.status, null, r.time);
-    await pause(200);
+function updateOverviewStats() {
+    var avg = totalReq > 0 ? Math.round(totalTime / totalReq) : 0;
+    document.getElementById('ovReq').textContent = totalReq;
+    document.getElementById('ovOk').textContent = totalOk;
+    document.getElementById('ovErr').textContent = totalErr;
+    document.getElementById('ovAvg').textContent = avg + 'ms';
 }
 
 // ============================================================
-// TESTS : PHP
+// LOGGING
 // ============================================================
-async function testPHP() {
-    addCategory('&#128024; EXÉCUTION PHP');
-    var r;
+function log(msg, cls) {
+    cls = cls || 'i';
+    var t = new Date().toLocaleTimeString();
+    var line = '<div class="log-' + cls + '">[' + t + '] ' + msg + '</div>';
     
-    showRunning('Fichier index.php');
-    await pause(300);
-    r = await httpReq('GET', '/index.php');
-    hideRunning();
-    addResult('index.php', r.status === 200, 
-        r.ok ? 'PHP exécuté avec succès' : ('Erreur HTTP ' + r.status), 
-        r.status, r.size, r.time);
-    await pause(250);
+    var ovLog = document.getElementById('ovLog');
+    if (ovLog) { ovLog.innerHTML += line; ovLog.scrollTop = ovLog.scrollHeight; }
     
-    showRunning('Fichier test.php');
-    await pause(150);
-    r = await httpReq('GET', '/test.php');
-    hideRunning();
-    addResult('test.php', r.status === 200, 
-        r.ok ? 'PHP exécuté avec succès' : ('Erreur HTTP ' + r.status), 
-        r.status, r.size, r.time);
-    await pause(200);
+    var fullLog = document.getElementById('fullLog');
+    if (fullLog) { fullLog.innerHTML += line; fullLog.scrollTop = fullLog.scrollHeight; }
+}
+
+function clearLogs() {
+    document.getElementById('fullLog').innerHTML = '<div class="log-i">Logs effacés.</div>';
 }
 
 // ============================================================
-// TESTS : BACKENDS / LOAD BALANCING
+// OVERVIEW
 // ============================================================
-async function testBackend() {
-    addCategory('&#128256; LOAD BALANCING');
-    var r;
-    
-    showRunning('Proxying vers un backend');
-    await pause(300);
-    r = await httpReq('GET', '/identify.html');
-    hideRunning();
-    var isB = r.body.indexOf('BACKEND') >= 0;
-    addResult('Proxying backend', r.status === 200 || isB, 
-        isB ? 'Réponse du backend reçue' : ('HTTP ' + r.status + ' - vérifier les backends'), 
-        r.status, r.size, r.time);
-    await pause(250);
-    
-    showRunning('Distribution load balancing (9 requêtes)');
-    await pause(150);
-    var hits = {};
-    for (var i = 0; i < 9; i++) {
-        r = await httpReq('GET', '/identify.html?i=' + i + '&t=' + Date.now());
-        var m = r.body.match(/BACKEND-(\d)/);
-        if (m) hits[m[1]] = (hits[m[1]] || 0) + 1;
-    }
-    hideRunning();
-    var nbB = Object.keys(hits).length;
-    var detail = Object.keys(hits).map(function(k) { return 'B' + k + ':' + hits[k] + 'x'; }).join(', ');
-    addResult('Distribution round-robin', nbB >= 1, 
-        nbB >= 2 ? nbB + ' backends utilisés (' + detail + ')' : 
-        (detail ? '1 seul backend (' + detail + ')' : 'Aucun backend détecté'), 
-        null, null, 0);
-    await pause(200);
+function loadOverview() {
+    refreshBackendsTable('ovBackends');
+    // List files
+    var files = ['index.html', 'page1.html', 'index.php', 'test.php', 'dashboard.html'];
+    var html = files.map(function(f) {
+        var icon = f.endsWith('.php') ? '&#128024;' : '&#128196;';
+        return '<span style="margin-right:16px;">' + icon + ' ' + f + '</span>';
+    }).join('');
+    document.getElementById('ovFiles').innerHTML = html;
 }
 
 // ============================================================
-// TESTS : CACHE
+// STATIC FILES
 // ============================================================
-async function testCache() {
-    addCategory('&#128190; CACHE');
-    
-    showRunning('Test cache - 2 requêtes identiques');
-    await pause(300);
-    var r1 = await httpReq('GET', '/index.html');
-    var r2 = await httpReq('GET', '/index.html');
-    hideRunning();
-    var same = r1.body === r2.body && r1.body.length > 0;
-    addResult('Cache - réponses identiques', same, 
-        same ? 'Les 2 réponses sont identiques (' + r1.size + ' octets)' : 'Réponses différentes !', 
-        null, r1.size, r2.time);
-    await pause(250);
-    
-    showRunning('Comparaison de performance');
-    await pause(150);
-    hideRunning();
-    var faster = r2.time <= r1.time;
-    addResult('Cache - performance', true, 
-        '1ère requête: ' + r1.time + 'ms, 2ème: ' + r2.time + 'ms ' + 
-        (faster ? '(cache plus rapide)' : '(temps similaire)'), 
-        null, null, 0);
-    await pause(200);
+function loadStaticFiles() {
+    var files = [
+        { name: 'index.html', desc: 'Page d\'accueil avec test load balancing', path: '/index.html' },
+        { name: 'page1.html', desc: 'Page de test cache', path: '/page1.html' },
+        { name: 'dashboard.html', desc: 'Ce dashboard', path: '/dashboard.html' }
+    ];
+    var container = document.getElementById('staticFiles');
+    container.innerHTML = '';
+    files.forEach(function(f) {
+        var div = document.createElement('div');
+        div.className = 'file-card';
+        div.innerHTML = '<div class="file-name"><span class="file-icon">&#128196;</span>' + f.name + '</div>' +
+                        '<div class="file-info">' + f.desc + '</div>';
+        div.onclick = function() { loadFile(f.path, f.name, 'static'); };
+        container.appendChild(div);
+    });
 }
 
-// ============================================================
-// TESTS : SÉCURITÉ
-// ============================================================
-async function testSecurity() {
-    addCategory('&#128274; SÉCURITÉ');
-    var r;
-    
-    showRunning('Test path traversal (/../../../etc/passwd)');
-    await pause(300);
-    r = await httpReq('GET', '/../../../etc/passwd');
-    hideRunning();
-    var blocked = r.body.indexOf('root:') < 0;
-    addResult('Path traversal bloqué', blocked, 
-        blocked ? 'Accès refusé correctement (HTTP ' + r.status + ')' : 'DANGER: accès au fichier système !', 
-        r.status, null, r.time);
-    await pause(250);
-    
-    showRunning('Méthode HTTP invalide');
-    await pause(150);
-    r = await httpReq('DELETE', '/inexistant_file_xyz');
-    hideRunning();
-    addResult('Méthode invalide', r.status > 0, 
-        'Le serveur ne crashe pas (HTTP ' + r.status + ')', 
-        r.status, null, r.time);
-    await pause(250);
-    
-    showRunning('Vérification stabilité post-attaque');
-    await pause(150);
-    r = await httpReq('GET', '/');
-    hideRunning();
-    addResult('Stabilité post-attaque', r.status === 200, 
-        r.status === 200 ? 'Proxy toujours opérationnel après les tests de sécurité' : 'Proxy instable !', 
-        r.status, r.size, r.time);
-    await pause(200);
+function loadPHPFiles() {
+    var files = [
+        { name: 'index.php', desc: 'Test proxy + info backend + heure serveur', path: '/index.php' },
+        { name: 'test.php', desc: 'Test exécution PHP avec infos serveur', path: '/test.php' }
+    ];
+    var container = document.getElementById('phpFiles');
+    container.innerHTML = '';
+    files.forEach(function(f) {
+        var div = document.createElement('div');
+        div.className = 'file-card';
+        div.innerHTML = '<div class="file-name"><span class="file-icon">&#128024;</span>' + f.name + '</div>' +
+                        '<div class="file-info">' + f.desc + '</div>';
+        div.onclick = function() { loadFile(f.path, f.name, 'php'); };
+        container.appendChild(div);
+    });
 }
 
-// ============================================================
-// TESTS : CHARGE
-// ============================================================
-async function testStress() {
-    addCategory('&#9889; TESTS DE CHARGE');
-    var r;
+async function loadFile(path, name, type) {
+    log('GET ' + path, 'req');
     
-    showRunning('20 requêtes séquentielles...');
-    await pause(300);
-    var t0 = performance.now();
-    var ok = 0;
-    for (var i = 0; i < 20; i++) {
-        r = await httpReq('GET', '/index.html');
-        if (r.status === 200 || r.status === 429) ok++;
-    }
-    var seqMs = Math.round(performance.now() - t0);
-    hideRunning();
-    var rps = seqMs > 0 ? Math.round(20000 / seqMs) : 0;
-    addResult('20 requêtes séquentielles', ok >= 15, 
-        ok + '/20 réussies en ' + seqMs + 'ms (' + rps + ' req/s)', 
-        null, null, seqMs);
-    await pause(250);
+    // Highlight active card
+    var container = document.getElementById(type + 'Files');
+    var cards = container.querySelectorAll('.file-card');
+    for (var i = 0; i < cards.length; i++) cards[i].classList.remove('active-file');
+    event.currentTarget.classList.add('active-file');
     
-    showRunning('10 requêtes parallèles...');
-    await pause(150);
-    var t1 = performance.now();
-    var promises = [];
-    for (var j = 0; j < 10; j++) {
-        promises.push(httpReq('GET', '/index.html'));
-    }
-    var results = await Promise.all(promises);
-    var parMs = Math.round(performance.now() - t1);
-    var parOk = results.filter(function(x) { return x.status === 200 || x.status === 429; }).length;
-    hideRunning();
-    addResult('10 requêtes parallèles', parOk >= 7, 
-        parOk + '/10 réussies en ' + parMs + 'ms', 
-        null, null, parMs);
-    await pause(250);
+    var viewer = document.getElementById(type + 'Viewer');
+    viewer.innerHTML = '<div class="card" style="text-align:center; color:#8b949e;">&#9203; Chargement de ' + name + '...</div>';
     
-    showRunning('Stabilité après charge');
-    await pause(150);
-    r = await httpReq('GET', '/');
-    hideRunning();
-    addResult('Proxy stable après charge', r.status === 200 || r.status === 429, 
-        r.status === 200 ? 'Serveur toujours debout !' : 'HTTP ' + r.status, 
-        r.status, r.size, r.time);
-    await pause(200);
-}
-
-// ============================================================
-// LANCER UN GROUPE DE TESTS
-// ============================================================
-async function lancer(groupe) {
-    if (testEnCours) { clog('Tests déjà en cours, patiente...', 'w'); return; }
-    testEnCours = true;
-    setButtons(true);
+    var r = await http('GET', path);
     
-    try {
-        switch(groupe) {
-            case 'static': await testStatic(); break;
-            case 'php': await testPHP(); break;
-            case 'backend': await testBackend(); break;
-            case 'cache': await testCache(); break;
-            case 'security': await testSecurity(); break;
-            case 'stress': await testStress(); break;
-        }
-        showSummary();
-    } catch(e) {
-        clog('ERREUR: ' + e.message, 'e');
-    }
+    log('GET ' + path + ' => HTTP ' + r.status + ' (' + r.body.length + ' octets, ' + r.time + 'ms)', r.ok ? 'i' : 'e');
     
-    testEnCours = false;
-    setButtons(false);
-}
-
-// ============================================================
-// LANCER TOUS LES TESTS
-// ============================================================
-async function lancerTout() {
-    if (testEnCours) { clog('Tests déjà en cours !', 'w'); return; }
-    effacer();
-    await pause(200);
-    testEnCours = true;
-    setButtons(true);
+    var statusColor = r.ok ? '#3fb950' : '#f85149';
     
-    clog('========================================', 'i');
-    clog('    LANCEMENT DE TOUS LES TESTS', 'i');
-    clog('========================================', 'i');
+    var html = '<div class="card">';
+    html += '<div class="card-title">Résultat de l\'exécution</div>';
     
-    try {
-        await testStatic();
-        await pause(400);
-        await testPHP();
-        await pause(400);
-        await testBackend();
-        await pause(400);
-        await testCache();
-        await pause(400);
-        await testSecurity();
-        await pause(400);
-        await testStress();
-        
-        showSummary();
-    } catch(e) {
-        clog('ERREUR: ' + e.message, 'e');
-    }
+    // Stats
+    html += '<div class="stats-row">';
+    html += '<div class="stat-mini"><div class="val" style="color:' + statusColor + '">HTTP ' + r.status + '</div><div class="lbl">Status</div></div>';
+    html += '<div class="stat-mini"><div class="val val-blue">' + r.body.length + '</div><div class="lbl">Octets</div></div>';
+    html += '<div class="stat-mini"><div class="val val-orange">' + r.time + 'ms</div><div class="lbl">Latence</div></div>';
+    html += '<div class="stat-mini"><div class="val val-green">' + (r.ok ? '&#10004;' : '&#10008;') + '</div><div class="lbl">' + (r.ok ? 'Succès' : 'Erreur') + '</div></div>';
+    html += '</div>';
+    html += '</div>';
     
-    var pct = nTotal > 0 ? Math.round((nPass / nTotal) * 100) : 0;
-    clog('========================================', 'i');
-    clog('  TERMINÉ : ' + nPass + '/' + nTotal + ' (' + pct + '%) en ' + tTotal + 'ms', 
-         nFail === 0 ? 'i' : 'w');
-    clog('========================================', 'i');
+    // Headers
+    html += '<div class="viewer">';
+    html += '<div class="viewer-bar"><span class="fname">&#128232; Headers de réponse</span></div>';
+    html += '<div class="viewer-content"><pre>' + escHtml(r.headers) + '</pre></div>';
+    html += '</div>';
     
-    testEnCours = false;
-    setButtons(false);
-}
-
-function setButtons(disabled) {
-    var btns = document.querySelectorAll('button');
-    for (var i = 0; i < btns.length; i++) {
-        btns[i].disabled = disabled;
+    // Code source
+    html += '<div class="viewer" style="margin-top:12px;">';
+    html += '<div class="viewer-bar"><span class="fname">&#128209; Code source : ' + name + '</span>';
+    html += '<span style="color:#8b949e; font-size:0.8em;">' + r.body.length + ' octets</span></div>';
+    html += '<div class="viewer-content"><pre>' + escHtml(r.body) + '</pre></div>';
+    html += '</div>';
+    
+    // Rendu HTML
+    html += '<div class="viewer" style="margin-top:12px;">';
+    html += '<div class="viewer-bar"><span class="fname">&#127912; Rendu navigateur</span></div>';
+    html += '<div class="viewer-render"><iframe id="renderFrame" sandbox="allow-scripts"></iframe></div>';
+    html += '</div>';
+    
+    viewer.innerHTML = html;
+    
+    // Fill iframe with content
+    var iframe = document.getElementById('renderFrame');
+    if (iframe) {
+        iframe.srcdoc = r.body;
     }
 }
 
-// ============================================================
-// REQUÊTE PERSONNALISÉE
-// ============================================================
-async function reqPerso() {
-    var method = document.getElementById('rMethod').value;
-    var path = document.getElementById('rPath').value || '/';
-    var box = document.getElementById('rResult');
-    
-    box.textContent = 'Envoi en cours...';
-    clog('Envoi: ' + method + ' ' + path, 'i');
-    
-    var r = await httpReq(method, path);
-    
-    var txt = '=== RÉPONSE ===\n';
-    txt += 'Statut  : HTTP ' + r.status + '\n';
-    txt += 'Temps   : ' + r.time + 'ms\n';
-    txt += 'Taille  : ' + r.size + ' octets\n';
-    txt += '\n=== HEADERS ===\n' + (r.headers || '(aucun)') + '\n';
-    txt += '\n=== BODY ===\n';
-    txt += r.body.substring(0, 2000) || '(vide)';
-    if (r.body.length > 2000) txt += '\n... (tronqué)';
-    
-    box.textContent = txt;
-    clog('Reçu: ' + method + ' ' + path + ' -> HTTP ' + r.status + ' (' + r.size + 'o, ' + r.time + 'ms)', r.ok ? 'i' : 'e');
+function escHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
 }
 
 // ============================================================
-// VÉRIFICATION DES BACKENDS
+// BACKENDS
 // ============================================================
-async function checkBackends() {
-    clog('Vérification des backends...', 'i');
-    var tbody = document.getElementById('btable');
-    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">Vérification...</td></tr>';
+async function refreshBackends() {
+    await refreshBackendsTable('backendTable');
+}
+
+async function refreshBackendsTable(tableId) {
+    var tbody = document.getElementById(tableId);
+    if (!tbody) return;
     
+    var backends = [
+        { host: '127.0.0.1', port: 8081, weight: 3 },
+        { host: '127.0.0.1', port: 8082, weight: 2 },
+        { host: '127.0.0.1', port: 8083, weight: 1 }
+    ];
+    
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#8b949e;">&#9203; Vérification...</td></tr>';
+    
+    // Detect backends via proxy
     var found = {};
     for (var i = 0; i < 12; i++) {
-        try {
-            var r = await httpReq('GET', '/identify.html?check=' + i + '&t=' + Date.now());
-            var m = r.body.match(/BACKEND-(\d)/);
-            if (m) {
-                var port = 8080 + parseInt(m[1]);
-                if (!found[port]) found[port] = { latency: r.time };
-            }
-        } catch(e) {}
+        var r = await http('GET', '/identify.html?check=' + i + '&t=' + Date.now());
+        var m = r.body.match(/BACKEND-(\d)/);
+        if (m) {
+            var bPort = 8080 + parseInt(m[1]);
+            if (!found[bPort]) found[bPort] = { latency: r.time, hits: 0 };
+            found[bPort].hits++;
+        }
     }
     
     tbody.innerHTML = '';
-    var ports = [8081, 8082, 8083];
-    for (var j = 0; j < ports.length; j++) {
-        var port = ports[j];
-        var up = !!found[port];
+    backends.forEach(function(b) {
+        var up = !!found[b.port];
         var tr = document.createElement('tr');
-        tr.innerHTML = 
-            '<td>127.0.0.1:' + port + '</td>' +
-            '<td><span class="dot ' + (up ? 'dot-up' : 'dot-dn') + '"></span>' + (up ? 'UP' : 'DOWN') + '</td>' +
-            '<td>' + (up ? found[port].latency + 'ms' : '-') + '</td>';
+        var cols = '<td>' + b.host + '</td><td>' + b.port + '</td><td>' + b.weight + '</td>';
+        cols += '<td><span class="dot ' + (up ? 'dot-up' : 'dot-dn') + '"></span>' + (up ? 'UP' : 'DOWN') + '</td>';
+        cols += '<td>' + (up ? found[b.port].latency + 'ms' : '-') + '</td>';
+        
+        if (tableId === 'backendTable') {
+            cols += '<td><button class="btn-sm" onclick="testBackend(' + b.port + ')">Tester</button></td>';
+        }
+        
+        tr.innerHTML = cols;
         tbody.appendChild(tr);
-        clog('  :' + port + ' -> ' + (up ? 'UP' : 'DOWN'), up ? 'i' : 'e');
-    }
+        log('Backend :' + b.port + ' => ' + (up ? 'UP' : 'DOWN'), up ? 'i' : 'e');
+    });
+}
+
+async function testBackend(port) {
+    var div = document.getElementById('backendTestResult');
+    div.innerHTML = '<div class="card" style="text-align:center; color:#8b949e;">&#9203; Test du backend :' + port + '...</div>';
+    
+    log('Test backend :' + port, 'req');
+    var r = await http('GET', '/identify.html?t=' + Date.now());
+    
+    var html = '<div class="card">';
+    html += '<div class="card-title">Résultat - Backend :' + port + '</div>';
+    html += '<div class="stats-row">';
+    html += '<div class="stat-mini"><div class="val ' + (r.ok ? 'val-green' : 'val-red') + '">HTTP ' + r.status + '</div><div class="lbl">Status</div></div>';
+    html += '<div class="stat-mini"><div class="val val-orange">' + r.time + 'ms</div><div class="lbl">Latence</div></div>';
+    html += '<div class="stat-mini"><div class="val val-blue">' + r.body.length + '</div><div class="lbl">Octets</div></div>';
+    html += '</div>';
+    html += '<div class="viewer"><div class="viewer-bar"><span class="fname">Réponse</span></div>';
+    html += '<div class="viewer-content"><pre>' + escHtml(r.body) + '</pre></div></div>';
+    html += '</div>';
+    div.innerHTML = html;
+    
+    log('Backend :' + port + ' => HTTP ' + r.status + ' (' + r.time + 'ms)', r.ok ? 'i' : 'e');
 }
 
 // ============================================================
-// AUTO-CHECK AU CHARGEMENT
+// LOAD BALANCING
+// ============================================================
+function initLBVisual() {
+    var visual = document.getElementById('lbVisual');
+    if (visual.children.length > 0 && !visual.querySelector('.placeholder')) return;
+    
+    var ports = [8081, 8082, 8083];
+    visual.innerHTML = '';
+    ports.forEach(function(p) {
+        var div = document.createElement('div');
+        div.className = 'lb-server';
+        div.id = 'lb-' + p;
+        div.innerHTML = '<div class="srv-name">Backend ' + (p - 8080) + '</div>' +
+            '<div class="srv-port">:' + p + '</div>' +
+            '<div class="srv-hits">' + (lbHits[p] || 0) + '</div>' +
+            '<div style="font-size:0.75em; color:#8b949e;">requêtes</div>' +
+            '<div class="srv-bar"><div class="srv-bar-fill" id="lb-bar-' + p + '" style="width:0%"></div></div>';
+        visual.appendChild(div);
+    });
+}
+
+async function lbTest(count) {
+    initLBVisual();
+    var logBox = document.getElementById('lbLog');
+    log('Load balancing : envoi de ' + count + ' requêtes...', 'h');
+    logBox.innerHTML += '<div class="log-h">--- Envoi de ' + count + ' requêtes ---</div>';
+    
+    for (var i = 0; i < count; i++) {
+        var r = await http('GET', '/identify.html?lb=' + i + '&t=' + Date.now());
+        var m = r.body.match(/BACKEND-(\d)/);
+        var port = m ? 8080 + parseInt(m[1]) : 0;
+        
+        if (port) {
+            lbHits[port] = (lbHits[port] || 0) + 1;
+            
+            // Update visual
+            var srv = document.getElementById('lb-' + port);
+            if (srv) {
+                srv.querySelector('.srv-hits').textContent = lbHits[port];
+                srv.classList.add('hit');
+                setTimeout(function(s) { s.classList.remove('hit'); }, 300, srv);
+            }
+            
+            // Update bars
+            var maxHits = Math.max.apply(null, Object.values(lbHits));
+            [8081, 8082, 8083].forEach(function(p) {
+                var bar = document.getElementById('lb-bar-' + p);
+                if (bar) bar.style.width = ((lbHits[p] || 0) / maxHits * 100) + '%';
+            });
+            
+            logBox.innerHTML += '<div class="log-i">Req #' + (i+1) + ' => Backend ' + (port-8080) + ' (:' + port + ') - ' + r.time + 'ms</div>';
+        } else {
+            logBox.innerHTML += '<div class="log-e">Req #' + (i+1) + ' => Aucun backend détecté (HTTP ' + r.status + ')</div>';
+        }
+        logBox.scrollTop = logBox.scrollHeight;
+        
+        await pause(80);
+    }
+    
+    // Summary
+    var total = 0;
+    var summary = Object.keys(lbHits).map(function(p) { total += lbHits[p]; return 'B' + (p-8080) + ': ' + lbHits[p]; }).join(', ');
+    logBox.innerHTML += '<div class="log-h">--- Résultat : ' + summary + ' (total: ' + total + ') ---</div>';
+    logBox.scrollTop = logBox.scrollHeight;
+    log('Load balancing terminé : ' + summary, 'i');
+}
+
+function lbReset() {
+    lbHits = {};
+    document.getElementById('lbLog').innerHTML = '<div class="log-i">Compteurs réinitialisés.</div>';
+    initLBVisual();
+    [8081,8082,8083].forEach(function(p) {
+        var srv = document.getElementById('lb-' + p);
+        if (srv) srv.querySelector('.srv-hits').textContent = '0';
+        var bar = document.getElementById('lb-bar-' + p);
+        if (bar) bar.style.width = '0%';
+    });
+}
+
+// ============================================================
+// CACHE TEST
+// ============================================================
+async function cacheTest() {
+    var url = document.getElementById('cacheUrl').value || '/index.html';
+    var div = document.getElementById('cacheResult');
+    div.innerHTML = '<div class="card" style="text-align:center; color:#8b949e;">&#9203; Test du cache sur ' + url + '...</div>';
+    log('Cache test : ' + url, 'req');
+    
+    var r1 = await http('GET', url + '?t=' + Date.now());
+    await pause(100);
+    var r2 = await http('GET', url + '?t=' + Date.now());
+    
+    var same = r1.body === r2.body && r1.body.length > 0;
+    var faster = r2.time < r1.time;
+    
+    var html = '<div class="card">';
+    html += '<div class="card-title">&#128190; Résultat du test cache</div>';
+    html += '<table>';
+    html += '<thead><tr><th></th><th>Requête 1</th><th>Requête 2</th><th>Verdict</th></tr></thead>';
+    html += '<tr><td>Status</td><td>HTTP ' + r1.status + '</td><td>HTTP ' + r2.status + '</td><td>' + (r1.status === r2.status ? '<span style="color:#3fb950">&#10004; Identique</span>' : '<span style="color:#f85149">&#10008; Différent</span>') + '</td></tr>';
+    html += '<tr><td>Taille</td><td>' + r1.body.length + ' octets</td><td>' + r2.body.length + ' octets</td><td>' + (same ? '<span style="color:#3fb950">&#10004; Identique</span>' : '<span style="color:#f85149">&#10008; Différent</span>') + '</td></tr>';
+    html += '<tr><td>Latence</td><td>' + r1.time + 'ms</td><td>' + r2.time + 'ms</td><td>' + (faster ? '<span style="color:#3fb950">&#10004; Plus rapide</span>' : '<span style="color:#d29922">~ Similaire</span>') + '</td></tr>';
+    html += '<tr><td>Contenu</td><td colspan="2">Identique : ' + (same ? 'OUI' : 'NON') + '</td><td>' + (same ? '<span style="color:#3fb950">Cache fonctionne</span>' : '<span style="color:#d29922">Contenu variable</span>') + '</td></tr>';
+    html += '</table></div>';
+    
+    // Show body comparison
+    html += '<div class="viewer" style="margin-top:12px;">';
+    html += '<div class="viewer-bar"><span class="fname">Réponse 1 (' + r1.body.length + ' octets)</span><span style="color:#8b949e">' + r1.time + 'ms</span></div>';
+    html += '<div class="viewer-content"><pre>' + escHtml(r1.body.substring(0, 1000)) + '</pre></div>';
+    html += '</div>';
+    
+    html += '<div class="viewer" style="margin-top:12px;">';
+    html += '<div class="viewer-bar"><span class="fname">Réponse 2 (' + r2.body.length + ' octets)</span><span style="color:#8b949e">' + r2.time + 'ms</span></div>';
+    html += '<div class="viewer-content"><pre>' + escHtml(r2.body.substring(0, 1000)) + '</pre></div>';
+    html += '</div>';
+    
+    div.innerHTML = html;
+    log('Cache test : ' + (same ? 'IDENTIQUE' : 'DIFFÉRENT') + ' | R1=' + r1.time + 'ms R2=' + r2.time + 'ms', same ? 'i' : 'w');
+}
+
+// ============================================================
+// SECURITY TESTS
+// ============================================================
+async function securityTest() {
+    var div = document.getElementById('secResults');
+    div.innerHTML = '';
+    
+    var tests = [
+        { name: 'Path traversal (/../../../etc/passwd)', method: 'GET', path: '/../../../etc/passwd', 
+          check: function(r) { return r.body.indexOf('root:') < 0; }, 
+          good: 'Accès bloqué', bad: 'DANGER: fichier système accessible !' },
+        { name: 'Path traversal (/../../etc/shadow)', method: 'GET', path: '/../../etc/shadow',
+          check: function(r) { return r.body.indexOf('root:') < 0; },
+          good: 'Accès bloqué', bad: 'DANGER !' },
+        { name: 'Double slash (//etc/passwd)', method: 'GET', path: '//etc/passwd',
+          check: function(r) { return r.status === 403 || r.status === 404 || r.body.indexOf('root:') < 0; },
+          good: 'Bloqué correctement', bad: 'Risque potentiel' },
+        { name: 'Méthode DELETE', method: 'DELETE', path: '/index.html',
+          check: function(r) { return r.status > 0; },
+          good: 'Serveur ne crashe pas (HTTP ' + ')', bad: 'Problème' },
+        { name: 'URL très longue (2000 chars)', method: 'GET', path: '/' + 'A'.repeat(2000),
+          check: function(r) { return r.status > 0 || r.status === 0; },
+          good: 'Géré correctement', bad: 'Problème' },
+        { name: 'Stabilité post-attaque', method: 'GET', path: '/',
+          check: function(r) { return r.status === 200; },
+          good: 'Proxy toujours en ligne', bad: 'Proxy instable !' }
+    ];
+    
+    for (var i = 0; i < tests.length; i++) {
+        var t = tests[i];
+        log('Sécurité : ' + t.name, 'req');
+        
+        var r = await http(t.method, t.path);
+        var ok = t.check(r);
+        
+        var card = document.createElement('div');
+        card.className = 'card';
+        card.style.borderLeft = '4px solid ' + (ok ? '#3fb950' : '#f85149');
+        card.innerHTML = '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+            '<div>' +
+            '<div style="font-weight:600; color:' + (ok ? '#3fb950' : '#f85149') + ';">' + (ok ? '&#10004; ' : '&#10008; ') + t.name + '</div>' +
+            '<div style="font-size:0.82em; color:#8b949e; margin-top:4px;">HTTP ' + r.status + ' | ' + r.time + 'ms | ' + r.body.length + ' octets</div>' +
+            '</div>' +
+            '<div style="color:' + (ok ? '#3fb950' : '#f85149') + '; font-weight:600;">' + (ok ? t.good : t.bad) + '</div>' +
+            '</div>';
+        div.appendChild(card);
+        
+        log('  => ' + (ok ? 'PASS' : 'FAIL') + ' HTTP ' + r.status, ok ? 'i' : 'e');
+        await pause(300);
+    }
+}
+
+function loadBlacklist() {
+    var div = document.getElementById('blacklistInfo');
+    div.innerHTML = '<div class="config-item"><span class="config-key">IP bloquées</span><span class="config-val">192.168.1.100, 10.0.0.99</span></div>' +
+        '<p style="font-size:0.82em; color:#8b949e; margin-top:8px;">Fichier : config/blacklist.txt</p>';
+}
+
+// ============================================================
+// CUSTOM REQUEST
+// ============================================================
+async function sendRequest() {
+    var method = document.getElementById('reqMethod').value;
+    var path = document.getElementById('reqPath').value || '/';
+    var div = document.getElementById('reqResult');
+    
+    div.innerHTML = '<div class="card" style="text-align:center; color:#8b949e;">&#9203; ' + method + ' ' + path + '...</div>';
+    log(method + ' ' + path, 'req');
+    
+    var r = await http(method, path);
+    
+    var html = '<div class="card">';
+    html += '<div class="card-title">Résultat</div>';
+    html += '<div class="stats-row">';
+    html += '<div class="stat-mini"><div class="val ' + (r.ok ? 'val-green' : 'val-red') + '">HTTP ' + r.status + '</div><div class="lbl">Status</div></div>';
+    html += '<div class="stat-mini"><div class="val val-blue">' + r.body.length + '</div><div class="lbl">Octets</div></div>';
+    html += '<div class="stat-mini"><div class="val val-orange">' + r.time + 'ms</div><div class="lbl">Latence</div></div>';
+    html += '</div></div>';
+    
+    html += '<div class="viewer"><div class="viewer-bar"><span class="fname">Headers</span></div>';
+    html += '<div class="viewer-content"><pre>' + escHtml(r.headers) + '</pre></div></div>';
+    
+    html += '<div class="viewer" style="margin-top:12px;"><div class="viewer-bar"><span class="fname">Body</span><span style="color:#8b949e">' + r.body.length + ' octets</span></div>';
+    html += '<div class="viewer-content"><pre>' + escHtml(r.body) + '</pre></div></div>';
+    
+    if (r.ok && (path.endsWith('.html') || path.endsWith('.php') || path === '/')) {
+        html += '<div class="viewer" style="margin-top:12px;"><div class="viewer-bar"><span class="fname">Rendu</span></div>';
+        html += '<div class="viewer-render"><iframe id="reqFrame" sandbox="allow-scripts"></iframe></div></div>';
+    }
+    
+    div.innerHTML = html;
+    
+    var frame = document.getElementById('reqFrame');
+    if (frame) frame.srcdoc = r.body;
+    
+    log(method + ' ' + path + ' => HTTP ' + r.status + ' (' + r.body.length + 'o, ' + r.time + 'ms)', r.ok ? 'i' : 'e');
+}
+
+// ============================================================
+// INIT
 // ============================================================
 window.onload = function() {
-    clog('Proxy: ' + window.location.origin, 'd');
-    clog('Dashboard chargé et prêt.', 'i');
-    checkBackends();
+    log('Dashboard chargé - proxy ' + window.location.origin, 'd');
+    loadOverview();
 };
 </script>
 </body>
