@@ -503,9 +503,9 @@ Puis dans un 4ème terminal, lance le proxy :
 
   TEST : Tuer un backend et voir le failover
     # Lance les 3 backends + proxy
-    python3 -m http.server 8081 --directory /tmp/web1 &
-    python3 -m http.server 8082 --directory /tmp/web2 &
-    python3 -m http.server 8083 --directory /tmp/web3 &
+  python3 -m http.server 8081 --directory /tmp/web1 &
+  python3 -m http.server 8082 --directory /tmp/web2 &
+  python3 -m http.server 8083 --directory /tmp/web3 &
     ./proxy -p 8085 &
 
     # Vérifie que tout marche
