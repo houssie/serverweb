@@ -517,13 +517,18 @@
         <!-- ==================== CACHE ==================== -->
         <div class="tab-page" id="tab-cache">
             <div class="card">
-                <div class="card-title">&#128190; Test du système de cache</div>
-                <p style="font-size:0.82em; color:#8b949e; margin-bottom:12px;">
-                    Envoie 2 requêtes identiques et compare les réponses et le temps de réponse.
+                <div class="card-title">&#128190; Test du Cache</div>
+                <p style="font-size:0.82em; color:#8b949e; margin-bottom:8px;">
+                    Envoie <b>3 requêtes identiques</b> vers un backend et compare les temps de réponse.
                 </p>
+                <div style="background:#0d1117; border:1px solid #30363d; border-radius:8px; padding:12px; margin-bottom:14px; font-size:0.78em; color:#8b949e;">
+                    <b style="color:#d29922;">&#9888; Note :</b> Le cache ne fonctionne que pour les requêtes <b>redirigées vers un backend</b>.
+                    Les fichiers locaux (web/) sont servis directement sans cache.
+                    Utilisez une URL qui n'existe pas dans <code>web/</code> (ex: <code>/Makefile</code>, <code>/output.txt</code>).
+                </div>
                 <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
                     <span style="font-size:0.85em;">URL :</span>
-                    <input type="text" id="cacheUrl" value="/index.html" style="background:#0d1117; border:1px solid #30363d; color:#c9d1d9; padding:8px; border-radius:6px; width:200px;">
+                    <input type="text" id="cacheUrl" value="/Makefile" style="background:#0d1117; border:1px solid #30363d; color:#c9d1d9; padding:8px; border-radius:6px; width:200px;">
                     <button class="btn-green" onclick="cacheTest()">&#9654; Tester le cache</button>
                 </div>
             </div>
@@ -1000,41 +1005,63 @@ function lbReset() {
 // CACHE TEST
 // ============================================================
 async function cacheTest() {
-    var url = document.getElementById('cacheUrl').value || '/index.html';
+    var url = document.getElementById('cacheUrl').value || '/Makefile';
     var div = document.getElementById('cacheResult');
-    div.innerHTML = '<div class="card" style="text-align:center; color:#8b949e;">&#9203; Test du cache sur ' + url + '...</div>';
+    div.innerHTML = '<div class="card" style="text-align:center; color:#8b949e;">&#9203; Test du cache sur ' + url + '...<br><small>Envoi de 3 requêtes...</small></div>';
     log('Cache test : ' + url, 'req');
     
-    var r1 = await http('GET', url + '?t=' + Date.now());
-    await pause(100);
-    var r2 = await http('GET', url + '?t=' + Date.now());
+    // Requête 1 : MISS (backend contacté, réponse stockée en cache)
+    var r1 = await http('GET', url);
+    await pause(300);
+    // Requête 2 : HIT attendu (servie depuis le cache)
+    var r2 = await http('GET', url);
+    await pause(300);
+    // Requête 3 : HIT attendu (confirmation)
+    var r3 = await http('GET', url);
     
-    var same = r1.body === r2.body && r1.body.length > 0;
-    var faster = r2.time < r1.time;
+    var same12 = r1.body === r2.body && r1.body.length > 0;
+    var same23 = r2.body === r3.body && r2.body.length > 0;
+    var allSame = same12 && same23;
+    var faster2 = r2.time < r1.time;
+    var faster3 = r3.time < r1.time;
+    var cacheWorks = allSame && (faster2 || faster3);
     
     var html = '<div class="card">';
-    html += '<div class="card-title">&#128190; Résultat du test cache</div>';
+    html += '<div class="card-title">&#128190; Résultat du test cache';
+    if (cacheWorks) html += ' <span style="color:#3fb950; font-size:0.8em;">&#10004; Cache actif</span>';
+    else if (allSame) html += ' <span style="color:#d29922; font-size:0.8em;">~ Cache possible</span>';
+    else html += ' <span style="color:#f85149; font-size:0.8em;">&#10008; Pas de cache</span>';
+    html += '</div>';
     html += '<table>';
-    html += '<thead><tr><th></th><th>Requête 1</th><th>Requête 2</th><th>Verdict</th></tr></thead>';
-    html += '<tr><td>Status</td><td>HTTP ' + r1.status + '</td><td>HTTP ' + r2.status + '</td><td>' + (r1.status === r2.status ? '<span style="color:#3fb950">&#10004; Identique</span>' : '<span style="color:#f85149">&#10008; Différent</span>') + '</td></tr>';
-    html += '<tr><td>Taille</td><td>' + r1.body.length + ' octets</td><td>' + r2.body.length + ' octets</td><td>' + (same ? '<span style="color:#3fb950">&#10004; Identique</span>' : '<span style="color:#f85149">&#10008; Différent</span>') + '</td></tr>';
-    html += '<tr><td>Latence</td><td>' + r1.time + 'ms</td><td>' + r2.time + 'ms</td><td>' + (faster ? '<span style="color:#3fb950">&#10004; Plus rapide</span>' : '<span style="color:#d29922">~ Similaire</span>') + '</td></tr>';
-    html += '<tr><td>Contenu</td><td colspan="2">Identique : ' + (same ? 'OUI' : 'NON') + '</td><td>' + (same ? '<span style="color:#3fb950">Cache fonctionne</span>' : '<span style="color:#d29922">Contenu variable</span>') + '</td></tr>';
-    html += '</table></div>';
+    html += '<thead><tr><th></th><th>Requête 1<br><small style="color:#d29922">MISS attendu</small></th><th>Requête 2<br><small style="color:#3fb950">HIT attendu</small></th><th>Requête 3<br><small style="color:#3fb950">HIT attendu</small></th></tr></thead>';
+    html += '<tr><td>Status</td><td>HTTP ' + r1.status + '</td><td>HTTP ' + r2.status + '</td><td>HTTP ' + r3.status + '</td></tr>';
+    html += '<tr><td>Taille</td><td>' + r1.body.length + ' oct.</td><td>' + r2.body.length + ' oct.</td><td>' + r3.body.length + ' oct.</td></tr>';
+    html += '<tr><td>Latence</td><td>' + r1.time + 'ms</td><td style="color:' + (faster2 ? '#3fb950' : '#d29922') + '">' + r2.time + 'ms' + (faster2 ? ' &#9889;' : '') + '</td><td style="color:' + (faster3 ? '#3fb950' : '#d29922') + '">' + r3.time + 'ms' + (faster3 ? ' &#9889;' : '') + '</td></tr>';
+    html += '<tr><td>Contenu identique</td><td>—</td><td>' + (same12 ? '<span style="color:#3fb950">&#10004; OUI</span>' : '<span style="color:#f85149">&#10008; NON</span>') + '</td><td>' + (same23 ? '<span style="color:#3fb950">&#10004; OUI</span>' : '<span style="color:#f85149">&#10008; NON</span>') + '</td></tr>';
+    html += '</table>';
     
-    // Show body comparison
-    html += '<div class="viewer" style="margin-top:12px;">';
-    html += '<div class="viewer-bar"><span class="fname">Réponse 1 (' + r1.body.length + ' octets)</span><span style="color:#8b949e">' + r1.time + 'ms</span></div>';
-    html += '<div class="viewer-content"><pre>' + escHtml(r1.body.substring(0, 1000)) + '</pre></div>';
+    // Explication
+    html += '<div style="margin-top:12px; padding:10px; background:#0d1117; border-radius:6px; border:1px solid #30363d; font-size:0.8em;">';
+    if (cacheWorks) {
+        html += '<span style="color:#3fb950">&#10004; <b>Le cache fonctionne !</b></span> La requête 1 a contacté le backend (' + r1.time + 'ms). Les requêtes 2 et 3 ont été servies depuis le cache, plus rapidement.';
+    } else if (allSame && !faster2) {
+        html += '<span style="color:#d29922">&#9888; Contenu identique mais latence similaire.</span> Le cache stocke peut-être la réponse mais le gain de temps est faible (fichier petit ou backend rapide).';
+    } else if (r1.status === 200 && !allSame) {
+        html += '<span style="color:#d29922">&#9888; Le contenu varie entre les requêtes.</span> Cela peut arriver si le backend utilise le load balancing (différents serveurs répondent différemment).';
+    } else {
+        html += '<span style="color:#f85149">&#10008; Le cache ne semble pas actif pour cette URL.</span> Vérifiez que l\'URL ne correspond pas à un fichier local dans web/ et qu\'elle match une règle dans cache_rules.cfg.';
+    }
+    html += '</div>';
     html += '</div>';
     
+    // Aperçu de la réponse
     html += '<div class="viewer" style="margin-top:12px;">';
-    html += '<div class="viewer-bar"><span class="fname">Réponse 2 (' + r2.body.length + ' octets)</span><span style="color:#8b949e">' + r2.time + 'ms</span></div>';
-    html += '<div class="viewer-content"><pre>' + escHtml(r2.body.substring(0, 1000)) + '</pre></div>';
+    html += '<div class="viewer-bar"><span class="fname">Aperçu de la réponse (' + r1.body.length + ' octets)</span></div>';
+    html += '<div class="viewer-content"><pre>' + escHtml(r1.body.substring(0, 800)) + '</pre></div>';
     html += '</div>';
     
     div.innerHTML = html;
-    log('Cache test : ' + (same ? 'IDENTIQUE' : 'DIFFÉRENT') + ' | R1=' + r1.time + 'ms R2=' + r2.time + 'ms', same ? 'i' : 'w');
+    log('Cache: R1=' + r1.time + 'ms R2=' + r2.time + 'ms R3=' + r3.time + 'ms | Contenu=' + (allSame ? 'IDENTIQUE' : 'DIFFÉRENT'), cacheWorks ? 'i' : 'w');
 }
 
 // ============================================================
