@@ -12967,3 +12967,1905 @@ Accept-Encoding: gz
 [2026-02-16 06:49:03.840] [DEBUG] pclose status: 0
 [2026-02-16 06:49:03.840] [DEBUG] Sending PHP response
 [2026-02-16 06:49:03.841] [DEBUG] serve_php completed successfully
+[2026-02-16 07:14:09.087] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.087] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.087] [DEBUG] Rate limit check for 127.0.0.1: 1 requests in window
+[2026-02-16 07:14:09.088] [DEBUG] Read 481 bytes from client
+[2026-02-16 07:14:09.088] [DEBUG] Raw request: GET /dashboard.html HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_
+[2026-02-16 07:14:09.088] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.088] [DEBUG] Parsed request: method='GET', path='/dashboard.html', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.088] [DEBUG] Parsed headers (447 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Langua
+[2026-02-16 07:14:09.088] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.088] [INFO] GET /dashboard.html from 127.0.0.1
+[2026-02-16 07:14:09.088] [DEBUG] Full path: web/dashboard.html
+[2026-02-16 07:14:09.088] [DEBUG] File exists, serving web/dashboard.html
+[2026-02-16 07:14:09.088] [DEBUG] File size: 51463
+[2026-02-16 07:14:09.088] [DEBUG] header_len: 86
+[2026-02-16 07:14:09.088] [DEBUG] Sending headers: HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 51463
+Connection: close
+
+
+[2026-02-16 07:14:09.088] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:14:09.088] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:14:09.088] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:14:09.088] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:14:09.088] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:14:09.088] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:14:09.088] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:14:09.088] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:14:09.088] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:14:09.088] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:14:09.088] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:14:09.088] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:14:09.088] [DEBUG] Read 2311 bytes from file
+[2026-02-16 07:14:09.088] [DEBUG] Sent 2311 bytes to client
+[2026-02-16 07:14:09.088] [DEBUG] Total sent: 51463
+[2026-02-16 07:14:09.171] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.171] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.171] [DEBUG] Rate limit check for 127.0.0.1: 2 requests in window
+[2026-02-16 07:14:09.172] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:14:09.172] [DEBUG] Raw request: GET /identify.html?check=0&t=1771215249138 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:14:09.172] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.172] [DEBUG] Parsed request: method='GET', path='/identify.html?check=0&t=1771215249138', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.172] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.172] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.173] [INFO] GET /identify.html?check=0&t=1771215249138 from 127.0.0.1
+[2026-02-16 07:14:09.173] [DEBUG] Full path: web/identify.html?check=0&t=1771215249138
+[2026-02-16 07:14:09.173] [DEBUG] stat failed for web/identify.html?check=0&t=1771215249138: No such file or directory
+[2026-02-16 07:14:09.173] [DEBUG] File not found locally, trying backend for: /identify.html?check=0&t=1771215249138
+[2026-02-16 07:14:09.173] [DEBUG] Cache rule matched: /identify.html?check=0&t=1771215249138 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.173] [DEBUG] Cache check for /identify.html?check=0&t=1771215249138: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.173] [DEBUG] Cache MISS for: GET /identify.html?check=0&t=1771215249138 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.173] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:14:09.173] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:14:09.173] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:14:09.173] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:14:09.176] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.188] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.189] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.189] [DEBUG] Rate limit check for 127.0.0.1: 3 requests in window
+[2026-02-16 07:14:09.189] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:14:09.189] [DEBUG] Raw request: GET /identify.html?check=1&t=1771215249183 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:14:09.189] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.189] [DEBUG] Parsed request: method='GET', path='/identify.html?check=1&t=1771215249183', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.189] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.189] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.189] [INFO] GET /identify.html?check=1&t=1771215249183 from 127.0.0.1
+[2026-02-16 07:14:09.189] [DEBUG] Full path: web/identify.html?check=1&t=1771215249183
+[2026-02-16 07:14:09.189] [DEBUG] stat failed for web/identify.html?check=1&t=1771215249183: No such file or directory
+[2026-02-16 07:14:09.189] [DEBUG] File not found locally, trying backend for: /identify.html?check=1&t=1771215249183
+[2026-02-16 07:14:09.189] [DEBUG] Cache rule matched: /identify.html?check=1&t=1771215249183 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.189] [DEBUG] Cache check for /identify.html?check=1&t=1771215249183: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.189] [DEBUG] Cache MISS for: GET /identify.html?check=1&t=1771215249183 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.189] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:14:09.189] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:14:09.189] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:14:09.189] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:14:09.191] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.209] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.209] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.209] [DEBUG] Rate limit check for 127.0.0.1: 4 requests in window
+[2026-02-16 07:14:09.209] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:14:09.209] [DEBUG] Raw request: GET /identify.html?check=2&t=1771215249204 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:14:09.209] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.209] [DEBUG] Parsed request: method='GET', path='/identify.html?check=2&t=1771215249204', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.209] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.209] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.209] [INFO] GET /identify.html?check=2&t=1771215249204 from 127.0.0.1
+[2026-02-16 07:14:09.209] [DEBUG] Full path: web/identify.html?check=2&t=1771215249204
+[2026-02-16 07:14:09.210] [DEBUG] stat failed for web/identify.html?check=2&t=1771215249204: No such file or directory
+[2026-02-16 07:14:09.210] [DEBUG] File not found locally, trying backend for: /identify.html?check=2&t=1771215249204
+[2026-02-16 07:14:09.210] [DEBUG] Cache rule matched: /identify.html?check=2&t=1771215249204 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.210] [DEBUG] Cache check for /identify.html?check=2&t=1771215249204: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.210] [DEBUG] Cache MISS for: GET /identify.html?check=2&t=1771215249204 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.210] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:14:09.210] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:14:09.210] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:14:09.210] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:14:09.213] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.220] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.221] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.221] [DEBUG] Rate limit check for 127.0.0.1: 5 requests in window
+[2026-02-16 07:14:09.221] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:14:09.221] [DEBUG] Raw request: GET /identify.html?check=3&t=1771215249218 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:14:09.221] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.221] [DEBUG] Parsed request: method='GET', path='/identify.html?check=3&t=1771215249218', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.221] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.221] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.221] [INFO] GET /identify.html?check=3&t=1771215249218 from 127.0.0.1
+[2026-02-16 07:14:09.221] [DEBUG] Full path: web/identify.html?check=3&t=1771215249218
+[2026-02-16 07:14:09.221] [DEBUG] stat failed for web/identify.html?check=3&t=1771215249218: No such file or directory
+[2026-02-16 07:14:09.221] [DEBUG] File not found locally, trying backend for: /identify.html?check=3&t=1771215249218
+[2026-02-16 07:14:09.221] [DEBUG] Cache rule matched: /identify.html?check=3&t=1771215249218 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.221] [DEBUG] Cache check for /identify.html?check=3&t=1771215249218: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.221] [DEBUG] Cache MISS for: GET /identify.html?check=3&t=1771215249218 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.221] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:14:09.221] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:14:09.221] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:14:09.221] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:14:09.224] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.235] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.235] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.235] [DEBUG] Rate limit check for 127.0.0.1: 6 requests in window
+[2026-02-16 07:14:09.236] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:14:09.236] [DEBUG] Raw request: GET /identify.html?check=4&t=1771215249230 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:14:09.236] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.236] [DEBUG] Parsed request: method='GET', path='/identify.html?check=4&t=1771215249230', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.236] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.236] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.236] [INFO] GET /identify.html?check=4&t=1771215249230 from 127.0.0.1
+[2026-02-16 07:14:09.236] [DEBUG] Full path: web/identify.html?check=4&t=1771215249230
+[2026-02-16 07:14:09.236] [DEBUG] stat failed for web/identify.html?check=4&t=1771215249230: No such file or directory
+[2026-02-16 07:14:09.236] [DEBUG] File not found locally, trying backend for: /identify.html?check=4&t=1771215249230
+[2026-02-16 07:14:09.236] [DEBUG] Cache rule matched: /identify.html?check=4&t=1771215249230 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.236] [DEBUG] Cache check for /identify.html?check=4&t=1771215249230: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.236] [DEBUG] Cache MISS for: GET /identify.html?check=4&t=1771215249230 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.236] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:14:09.236] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:14:09.236] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:14:09.236] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:14:09.238] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.246] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.246] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.246] [DEBUG] Rate limit check for 127.0.0.1: 7 requests in window
+[2026-02-16 07:14:09.246] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:14:09.246] [DEBUG] Raw request: GET /identify.html?check=5&t=1771215249242 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:14:09.246] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.246] [DEBUG] Parsed request: method='GET', path='/identify.html?check=5&t=1771215249242', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.246] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.246] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.246] [INFO] GET /identify.html?check=5&t=1771215249242 from 127.0.0.1
+[2026-02-16 07:14:09.246] [DEBUG] Full path: web/identify.html?check=5&t=1771215249242
+[2026-02-16 07:14:09.246] [DEBUG] stat failed for web/identify.html?check=5&t=1771215249242: No such file or directory
+[2026-02-16 07:14:09.246] [DEBUG] File not found locally, trying backend for: /identify.html?check=5&t=1771215249242
+[2026-02-16 07:14:09.246] [DEBUG] Cache rule matched: /identify.html?check=5&t=1771215249242 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.246] [DEBUG] Cache check for /identify.html?check=5&t=1771215249242: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.246] [DEBUG] Cache MISS for: GET /identify.html?check=5&t=1771215249242 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.246] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:14:09.246] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:14:09.246] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:14:09.246] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:14:09.250] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.259] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.261] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.261] [DEBUG] Rate limit check for 127.0.0.1: 8 requests in window
+[2026-02-16 07:14:09.267] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:14:09.267] [DEBUG] Raw request: GET /identify.html?check=6&t=1771215249254 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:14:09.267] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.267] [DEBUG] Parsed request: method='GET', path='/identify.html?check=6&t=1771215249254', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.267] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.267] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.267] [INFO] GET /identify.html?check=6&t=1771215249254 from 127.0.0.1
+[2026-02-16 07:14:09.267] [DEBUG] Full path: web/identify.html?check=6&t=1771215249254
+[2026-02-16 07:14:09.267] [DEBUG] stat failed for web/identify.html?check=6&t=1771215249254: No such file or directory
+[2026-02-16 07:14:09.267] [DEBUG] File not found locally, trying backend for: /identify.html?check=6&t=1771215249254
+[2026-02-16 07:14:09.267] [DEBUG] Cache rule matched: /identify.html?check=6&t=1771215249254 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.267] [DEBUG] Cache check for /identify.html?check=6&t=1771215249254: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.267] [DEBUG] Cache MISS for: GET /identify.html?check=6&t=1771215249254 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.267] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:14:09.267] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:14:09.267] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:14:09.267] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:14:09.273] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.287] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.288] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.288] [DEBUG] Rate limit check for 127.0.0.1: 9 requests in window
+[2026-02-16 07:14:09.293] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:14:09.294] [DEBUG] Raw request: GET /identify.html?check=7&t=1771215249280 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:14:09.294] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.294] [DEBUG] Parsed request: method='GET', path='/identify.html?check=7&t=1771215249280', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.294] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.294] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.294] [INFO] GET /identify.html?check=7&t=1771215249280 from 127.0.0.1
+[2026-02-16 07:14:09.294] [DEBUG] Full path: web/identify.html?check=7&t=1771215249280
+[2026-02-16 07:14:09.294] [DEBUG] stat failed for web/identify.html?check=7&t=1771215249280: No such file or directory
+[2026-02-16 07:14:09.294] [DEBUG] File not found locally, trying backend for: /identify.html?check=7&t=1771215249280
+[2026-02-16 07:14:09.294] [DEBUG] Cache rule matched: /identify.html?check=7&t=1771215249280 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.294] [DEBUG] Cache check for /identify.html?check=7&t=1771215249280: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.294] [DEBUG] Cache MISS for: GET /identify.html?check=7&t=1771215249280 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.294] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:14:09.294] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:14:09.294] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:14:09.294] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:14:09.299] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.308] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.312] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.312] [DEBUG] Rate limit check for 127.0.0.1: 10 requests in window
+[2026-02-16 07:14:09.313] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:14:09.313] [DEBUG] Raw request: GET /identify.html?check=8&t=1771215249303 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:14:09.313] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.313] [DEBUG] Parsed request: method='GET', path='/identify.html?check=8&t=1771215249303', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.313] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.313] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.313] [INFO] GET /identify.html?check=8&t=1771215249303 from 127.0.0.1
+[2026-02-16 07:14:09.313] [DEBUG] Full path: web/identify.html?check=8&t=1771215249303
+[2026-02-16 07:14:09.313] [DEBUG] stat failed for web/identify.html?check=8&t=1771215249303: No such file or directory
+[2026-02-16 07:14:09.313] [DEBUG] File not found locally, trying backend for: /identify.html?check=8&t=1771215249303
+[2026-02-16 07:14:09.313] [DEBUG] Cache rule matched: /identify.html?check=8&t=1771215249303 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.313] [DEBUG] Cache check for /identify.html?check=8&t=1771215249303: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.313] [DEBUG] Cache MISS for: GET /identify.html?check=8&t=1771215249303 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.313] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:14:09.313] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:14:09.313] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:14:09.313] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:14:09.320] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.331] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.331] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.332] [DEBUG] Rate limit check for 127.0.0.1: 11 requests in window
+[2026-02-16 07:14:09.337] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:14:09.337] [DEBUG] Raw request: GET /identify.html?check=9&t=1771215249322 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:14:09.338] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.338] [DEBUG] Parsed request: method='GET', path='/identify.html?check=9&t=1771215249322', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.338] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.338] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.338] [INFO] GET /identify.html?check=9&t=1771215249322 from 127.0.0.1
+[2026-02-16 07:14:09.338] [DEBUG] Full path: web/identify.html?check=9&t=1771215249322
+[2026-02-16 07:14:09.338] [DEBUG] stat failed for web/identify.html?check=9&t=1771215249322: No such file or directory
+[2026-02-16 07:14:09.338] [DEBUG] File not found locally, trying backend for: /identify.html?check=9&t=1771215249322
+[2026-02-16 07:14:09.338] [DEBUG] Cache rule matched: /identify.html?check=9&t=1771215249322 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.338] [DEBUG] Cache check for /identify.html?check=9&t=1771215249322: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.338] [DEBUG] Cache MISS for: GET /identify.html?check=9&t=1771215249322 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.338] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:14:09.338] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:14:09.338] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:14:09.338] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:14:09.340] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.353] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.353] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.354] [DEBUG] Rate limit check for 127.0.0.1: 12 requests in window
+[2026-02-16 07:14:09.359] [DEBUG] Read 424 bytes from client
+[2026-02-16 07:14:09.359] [DEBUG] Raw request: GET /identify.html?check=10&t=1771215249346 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 
+[2026-02-16 07:14:09.359] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.359] [DEBUG] Parsed request: method='GET', path='/identify.html?check=10&t=1771215249346', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.359] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.359] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.359] [INFO] GET /identify.html?check=10&t=1771215249346 from 127.0.0.1
+[2026-02-16 07:14:09.360] [DEBUG] Full path: web/identify.html?check=10&t=1771215249346
+[2026-02-16 07:14:09.360] [DEBUG] stat failed for web/identify.html?check=10&t=1771215249346: No such file or directory
+[2026-02-16 07:14:09.360] [DEBUG] File not found locally, trying backend for: /identify.html?check=10&t=1771215249346
+[2026-02-16 07:14:09.360] [DEBUG] Cache rule matched: /identify.html?check=10&t=1771215249346 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.360] [DEBUG] Cache check for /identify.html?check=10&t=1771215249346: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.360] [DEBUG] Cache MISS for: GET /identify.html?check=10&t=1771215249346 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.360] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:14:09.360] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:14:09.360] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:14:09.360] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:14:09.362] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:14:09.370] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:14:09.370] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:14:09.370] [DEBUG] Rate limit check for 127.0.0.1: 13 requests in window
+[2026-02-16 07:14:09.374] [DEBUG] Read 424 bytes from client
+[2026-02-16 07:14:09.374] [DEBUG] Raw request: GET /identify.html?check=11&t=1771215249367 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 
+[2026-02-16 07:14:09.374] [DEBUG] About to parse HTTP request
+[2026-02-16 07:14:09.374] [DEBUG] Parsed request: method='GET', path='/identify.html?check=11&t=1771215249367', protocol='HTTP/1.1'
+[2026-02-16 07:14:09.374] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:14:09.374] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:14:09.374] [INFO] GET /identify.html?check=11&t=1771215249367 from 127.0.0.1
+[2026-02-16 07:14:09.374] [DEBUG] Full path: web/identify.html?check=11&t=1771215249367
+[2026-02-16 07:14:09.374] [DEBUG] stat failed for web/identify.html?check=11&t=1771215249367: No such file or directory
+[2026-02-16 07:14:09.374] [DEBUG] File not found locally, trying backend for: /identify.html?check=11&t=1771215249367
+[2026-02-16 07:14:09.374] [DEBUG] Cache rule matched: /identify.html?check=11&t=1771215249367 -> /* (age=5, size=51200)
+[2026-02-16 07:14:09.374] [DEBUG] Cache check for /identify.html?check=11&t=1771215249367: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:14:09.374] [DEBUG] Cache MISS for: GET /identify.html?check=11&t=1771215249367 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:14:09.374] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:14:09.374] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:14:09.374] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:14:09.374] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:14:09.379] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.273] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.273] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.273] [DEBUG] Rate limit check for 127.0.0.1: 1 requests in window
+[2026-02-16 07:16:34.273] [DEBUG] Read 481 bytes from client
+[2026-02-16 07:16:34.273] [DEBUG] Raw request: GET /dashboard.html HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_
+[2026-02-16 07:16:34.273] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.273] [DEBUG] Parsed request: method='GET', path='/dashboard.html', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.273] [DEBUG] Parsed headers (447 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Langua
+[2026-02-16 07:16:34.273] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.273] [INFO] GET /dashboard.html from 127.0.0.1
+[2026-02-16 07:16:34.273] [DEBUG] Full path: web/dashboard.html
+[2026-02-16 07:16:34.273] [DEBUG] File exists, serving web/dashboard.html
+[2026-02-16 07:16:34.273] [DEBUG] File size: 51463
+[2026-02-16 07:16:34.273] [DEBUG] header_len: 86
+[2026-02-16 07:16:34.273] [DEBUG] Sending headers: HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 51463
+Connection: close
+
+
+[2026-02-16 07:16:34.273] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:34.274] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:34.274] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:34.274] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:34.274] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:34.274] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:34.274] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:34.274] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:34.274] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:34.274] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:34.274] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:34.274] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:34.274] [DEBUG] Read 2311 bytes from file
+[2026-02-16 07:16:34.274] [DEBUG] Sent 2311 bytes to client
+[2026-02-16 07:16:34.274] [DEBUG] Total sent: 51463
+[2026-02-16 07:16:34.337] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.337] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.337] [DEBUG] Rate limit check for 127.0.0.1: 2 requests in window
+[2026-02-16 07:16:34.337] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:34.337] [DEBUG] Raw request: GET /identify.html?check=0&t=1771215394324 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:34.337] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.337] [DEBUG] Parsed request: method='GET', path='/identify.html?check=0&t=1771215394324', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.337] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.337] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.337] [INFO] GET /identify.html?check=0&t=1771215394324 from 127.0.0.1
+[2026-02-16 07:16:34.337] [DEBUG] Full path: web/identify.html?check=0&t=1771215394324
+[2026-02-16 07:16:34.337] [DEBUG] stat failed for web/identify.html?check=0&t=1771215394324: No such file or directory
+[2026-02-16 07:16:34.337] [DEBUG] File not found locally, trying backend for: /identify.html?check=0&t=1771215394324
+[2026-02-16 07:16:34.337] [DEBUG] Cache rule matched: /identify.html?check=0&t=1771215394324 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.337] [DEBUG] Cache check for /identify.html?check=0&t=1771215394324: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.337] [DEBUG] Cache MISS for: GET /identify.html?check=0&t=1771215394324 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.337] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:16:34.337] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:16:34.337] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:16:34.337] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:16:34.339] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.355] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.355] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.355] [DEBUG] Rate limit check for 127.0.0.1: 3 requests in window
+[2026-02-16 07:16:34.355] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:34.355] [DEBUG] Raw request: GET /identify.html?check=1&t=1771215394343 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:34.356] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.356] [DEBUG] Parsed request: method='GET', path='/identify.html?check=1&t=1771215394343', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.356] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.356] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.356] [INFO] GET /identify.html?check=1&t=1771215394343 from 127.0.0.1
+[2026-02-16 07:16:34.356] [DEBUG] Full path: web/identify.html?check=1&t=1771215394343
+[2026-02-16 07:16:34.356] [DEBUG] stat failed for web/identify.html?check=1&t=1771215394343: No such file or directory
+[2026-02-16 07:16:34.356] [DEBUG] File not found locally, trying backend for: /identify.html?check=1&t=1771215394343
+[2026-02-16 07:16:34.356] [DEBUG] Cache rule matched: /identify.html?check=1&t=1771215394343 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.356] [DEBUG] Cache check for /identify.html?check=1&t=1771215394343: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.356] [DEBUG] Cache MISS for: GET /identify.html?check=1&t=1771215394343 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.356] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:16:34.356] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:16:34.356] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:16:34.356] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:16:34.358] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.372] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.372] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.372] [DEBUG] Rate limit check for 127.0.0.1: 4 requests in window
+[2026-02-16 07:16:34.372] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:34.372] [DEBUG] Raw request: GET /identify.html?check=2&t=1771215394367 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:34.372] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.372] [DEBUG] Parsed request: method='GET', path='/identify.html?check=2&t=1771215394367', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.372] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.372] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.373] [INFO] GET /identify.html?check=2&t=1771215394367 from 127.0.0.1
+[2026-02-16 07:16:34.373] [DEBUG] Full path: web/identify.html?check=2&t=1771215394367
+[2026-02-16 07:16:34.373] [DEBUG] stat failed for web/identify.html?check=2&t=1771215394367: No such file or directory
+[2026-02-16 07:16:34.373] [DEBUG] File not found locally, trying backend for: /identify.html?check=2&t=1771215394367
+[2026-02-16 07:16:34.373] [DEBUG] Cache rule matched: /identify.html?check=2&t=1771215394367 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.373] [DEBUG] Cache check for /identify.html?check=2&t=1771215394367: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.373] [DEBUG] Cache MISS for: GET /identify.html?check=2&t=1771215394367 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.373] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:16:34.373] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:16:34.373] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:16:34.373] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:16:34.376] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.382] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.382] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.383] [DEBUG] Rate limit check for 127.0.0.1: 5 requests in window
+[2026-02-16 07:16:34.383] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:34.383] [DEBUG] Raw request: GET /identify.html?check=3&t=1771215394378 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:34.383] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.383] [DEBUG] Parsed request: method='GET', path='/identify.html?check=3&t=1771215394378', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.383] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.383] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.383] [INFO] GET /identify.html?check=3&t=1771215394378 from 127.0.0.1
+[2026-02-16 07:16:34.383] [DEBUG] Full path: web/identify.html?check=3&t=1771215394378
+[2026-02-16 07:16:34.383] [DEBUG] stat failed for web/identify.html?check=3&t=1771215394378: No such file or directory
+[2026-02-16 07:16:34.383] [DEBUG] File not found locally, trying backend for: /identify.html?check=3&t=1771215394378
+[2026-02-16 07:16:34.383] [DEBUG] Cache rule matched: /identify.html?check=3&t=1771215394378 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.383] [DEBUG] Cache check for /identify.html?check=3&t=1771215394378: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.383] [DEBUG] Cache MISS for: GET /identify.html?check=3&t=1771215394378 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.383] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:16:34.383] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:16:34.383] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:16:34.383] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:16:34.388] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.394] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.395] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.395] [DEBUG] Rate limit check for 127.0.0.1: 6 requests in window
+[2026-02-16 07:16:34.395] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:34.395] [DEBUG] Raw request: GET /identify.html?check=4&t=1771215394391 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:34.395] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.395] [DEBUG] Parsed request: method='GET', path='/identify.html?check=4&t=1771215394391', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.395] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.395] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.395] [INFO] GET /identify.html?check=4&t=1771215394391 from 127.0.0.1
+[2026-02-16 07:16:34.395] [DEBUG] Full path: web/identify.html?check=4&t=1771215394391
+[2026-02-16 07:16:34.395] [DEBUG] stat failed for web/identify.html?check=4&t=1771215394391: No such file or directory
+[2026-02-16 07:16:34.395] [DEBUG] File not found locally, trying backend for: /identify.html?check=4&t=1771215394391
+[2026-02-16 07:16:34.395] [DEBUG] Cache rule matched: /identify.html?check=4&t=1771215394391 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.395] [DEBUG] Cache check for /identify.html?check=4&t=1771215394391: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.395] [DEBUG] Cache MISS for: GET /identify.html?check=4&t=1771215394391 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.395] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:16:34.395] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:16:34.395] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:16:34.395] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:16:34.398] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.405] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.405] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.406] [DEBUG] Rate limit check for 127.0.0.1: 7 requests in window
+[2026-02-16 07:16:34.406] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:34.406] [DEBUG] Raw request: GET /identify.html?check=5&t=1771215394403 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:34.406] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.406] [DEBUG] Parsed request: method='GET', path='/identify.html?check=5&t=1771215394403', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.406] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.406] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.406] [INFO] GET /identify.html?check=5&t=1771215394403 from 127.0.0.1
+[2026-02-16 07:16:34.406] [DEBUG] Full path: web/identify.html?check=5&t=1771215394403
+[2026-02-16 07:16:34.406] [DEBUG] stat failed for web/identify.html?check=5&t=1771215394403: No such file or directory
+[2026-02-16 07:16:34.406] [DEBUG] File not found locally, trying backend for: /identify.html?check=5&t=1771215394403
+[2026-02-16 07:16:34.406] [DEBUG] Cache rule matched: /identify.html?check=5&t=1771215394403 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.406] [DEBUG] Cache check for /identify.html?check=5&t=1771215394403: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.406] [DEBUG] Cache MISS for: GET /identify.html?check=5&t=1771215394403 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.406] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:16:34.406] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:16:34.406] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:16:34.406] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:16:34.408] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.418] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.418] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.419] [DEBUG] Rate limit check for 127.0.0.1: 8 requests in window
+[2026-02-16 07:16:34.419] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:34.419] [DEBUG] Raw request: GET /identify.html?check=6&t=1771215394414 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:34.419] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.419] [DEBUG] Parsed request: method='GET', path='/identify.html?check=6&t=1771215394414', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.419] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.419] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.419] [INFO] GET /identify.html?check=6&t=1771215394414 from 127.0.0.1
+[2026-02-16 07:16:34.419] [DEBUG] Full path: web/identify.html?check=6&t=1771215394414
+[2026-02-16 07:16:34.419] [DEBUG] stat failed for web/identify.html?check=6&t=1771215394414: No such file or directory
+[2026-02-16 07:16:34.419] [DEBUG] File not found locally, trying backend for: /identify.html?check=6&t=1771215394414
+[2026-02-16 07:16:34.419] [DEBUG] Cache rule matched: /identify.html?check=6&t=1771215394414 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.419] [DEBUG] Cache check for /identify.html?check=6&t=1771215394414: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.419] [DEBUG] Cache MISS for: GET /identify.html?check=6&t=1771215394414 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.419] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:16:34.419] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:16:34.419] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:16:34.419] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:16:34.421] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.432] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.432] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.432] [DEBUG] Rate limit check for 127.0.0.1: 9 requests in window
+[2026-02-16 07:16:34.432] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:34.432] [DEBUG] Raw request: GET /identify.html?check=7&t=1771215394425 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:34.432] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.432] [DEBUG] Parsed request: method='GET', path='/identify.html?check=7&t=1771215394425', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.432] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.432] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.432] [INFO] GET /identify.html?check=7&t=1771215394425 from 127.0.0.1
+[2026-02-16 07:16:34.432] [DEBUG] Full path: web/identify.html?check=7&t=1771215394425
+[2026-02-16 07:16:34.432] [DEBUG] stat failed for web/identify.html?check=7&t=1771215394425: No such file or directory
+[2026-02-16 07:16:34.432] [DEBUG] File not found locally, trying backend for: /identify.html?check=7&t=1771215394425
+[2026-02-16 07:16:34.432] [DEBUG] Cache rule matched: /identify.html?check=7&t=1771215394425 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.432] [DEBUG] Cache check for /identify.html?check=7&t=1771215394425: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.432] [DEBUG] Cache MISS for: GET /identify.html?check=7&t=1771215394425 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.432] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:16:34.432] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:16:34.432] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:16:34.432] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:16:34.434] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.439] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.439] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.439] [DEBUG] Rate limit check for 127.0.0.1: 10 requests in window
+[2026-02-16 07:16:34.439] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:34.439] [DEBUG] Raw request: GET /identify.html?check=8&t=1771215394437 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:34.439] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.439] [DEBUG] Parsed request: method='GET', path='/identify.html?check=8&t=1771215394437', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.439] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.439] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.439] [INFO] GET /identify.html?check=8&t=1771215394437 from 127.0.0.1
+[2026-02-16 07:16:34.439] [DEBUG] Full path: web/identify.html?check=8&t=1771215394437
+[2026-02-16 07:16:34.439] [DEBUG] stat failed for web/identify.html?check=8&t=1771215394437: No such file or directory
+[2026-02-16 07:16:34.439] [DEBUG] File not found locally, trying backend for: /identify.html?check=8&t=1771215394437
+[2026-02-16 07:16:34.439] [DEBUG] Cache rule matched: /identify.html?check=8&t=1771215394437 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.439] [DEBUG] Cache check for /identify.html?check=8&t=1771215394437: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.439] [DEBUG] Cache MISS for: GET /identify.html?check=8&t=1771215394437 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.439] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:16:34.439] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:16:34.439] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:16:34.439] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:16:34.442] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.451] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.451] [DEBUG] Rate limit check for 127.0.0.1: 11 requests in window
+[2026-02-16 07:16:34.451] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.456] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:34.456] [DEBUG] Raw request: GET /identify.html?check=9&t=1771215394447 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:34.456] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.456] [DEBUG] Parsed request: method='GET', path='/identify.html?check=9&t=1771215394447', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.456] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.456] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.456] [INFO] GET /identify.html?check=9&t=1771215394447 from 127.0.0.1
+[2026-02-16 07:16:34.456] [DEBUG] Full path: web/identify.html?check=9&t=1771215394447
+[2026-02-16 07:16:34.456] [DEBUG] stat failed for web/identify.html?check=9&t=1771215394447: No such file or directory
+[2026-02-16 07:16:34.456] [DEBUG] File not found locally, trying backend for: /identify.html?check=9&t=1771215394447
+[2026-02-16 07:16:34.456] [DEBUG] Cache rule matched: /identify.html?check=9&t=1771215394447 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.456] [DEBUG] Cache check for /identify.html?check=9&t=1771215394447: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.456] [DEBUG] Cache MISS for: GET /identify.html?check=9&t=1771215394447 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.456] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:16:34.456] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:16:34.456] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:16:34.456] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:16:34.460] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.467] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.467] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.467] [DEBUG] Rate limit check for 127.0.0.1: 12 requests in window
+[2026-02-16 07:16:34.473] [DEBUG] Read 424 bytes from client
+[2026-02-16 07:16:34.473] [DEBUG] Raw request: GET /identify.html?check=10&t=1771215394463 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 
+[2026-02-16 07:16:34.473] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.473] [DEBUG] Parsed request: method='GET', path='/identify.html?check=10&t=1771215394463', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.473] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.473] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.473] [INFO] GET /identify.html?check=10&t=1771215394463 from 127.0.0.1
+[2026-02-16 07:16:34.473] [DEBUG] Full path: web/identify.html?check=10&t=1771215394463
+[2026-02-16 07:16:34.473] [DEBUG] stat failed for web/identify.html?check=10&t=1771215394463: No such file or directory
+[2026-02-16 07:16:34.473] [DEBUG] File not found locally, trying backend for: /identify.html?check=10&t=1771215394463
+[2026-02-16 07:16:34.473] [DEBUG] Cache rule matched: /identify.html?check=10&t=1771215394463 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.473] [DEBUG] Cache check for /identify.html?check=10&t=1771215394463: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.473] [DEBUG] Cache MISS for: GET /identify.html?check=10&t=1771215394463 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.473] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:16:34.473] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:16:34.473] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:16:34.473] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:16:34.478] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:34.485] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:34.485] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:34.485] [DEBUG] Rate limit check for 127.0.0.1: 13 requests in window
+[2026-02-16 07:16:34.491] [DEBUG] Read 424 bytes from client
+[2026-02-16 07:16:34.491] [DEBUG] Raw request: GET /identify.html?check=11&t=1771215394481 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 
+[2026-02-16 07:16:34.491] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:34.491] [DEBUG] Parsed request: method='GET', path='/identify.html?check=11&t=1771215394481', protocol='HTTP/1.1'
+[2026-02-16 07:16:34.491] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:34.491] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:34.491] [INFO] GET /identify.html?check=11&t=1771215394481 from 127.0.0.1
+[2026-02-16 07:16:34.491] [DEBUG] Full path: web/identify.html?check=11&t=1771215394481
+[2026-02-16 07:16:34.491] [DEBUG] stat failed for web/identify.html?check=11&t=1771215394481: No such file or directory
+[2026-02-16 07:16:34.491] [DEBUG] File not found locally, trying backend for: /identify.html?check=11&t=1771215394481
+[2026-02-16 07:16:34.491] [DEBUG] Cache rule matched: /identify.html?check=11&t=1771215394481 -> /* (age=5, size=51200)
+[2026-02-16 07:16:34.491] [DEBUG] Cache check for /identify.html?check=11&t=1771215394481: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:34.491] [DEBUG] Cache MISS for: GET /identify.html?check=11&t=1771215394481 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:34.491] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:16:34.491] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:16:34.491] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:16:34.492] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:16:34.495] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.147] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.147] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.147] [DEBUG] Rate limit check for 127.0.0.1: 14 requests in window
+[2026-02-16 07:16:35.147] [DEBUG] Read 481 bytes from client
+[2026-02-16 07:16:35.147] [DEBUG] Raw request: GET /dashboard.html HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_
+[2026-02-16 07:16:35.147] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.147] [DEBUG] Parsed request: method='GET', path='/dashboard.html', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.147] [DEBUG] Parsed headers (447 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Langua
+[2026-02-16 07:16:35.147] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.147] [INFO] GET /dashboard.html from 127.0.0.1
+[2026-02-16 07:16:35.148] [DEBUG] Full path: web/dashboard.html
+[2026-02-16 07:16:35.148] [DEBUG] File exists, serving web/dashboard.html
+[2026-02-16 07:16:35.148] [DEBUG] File size: 51463
+[2026-02-16 07:16:35.148] [DEBUG] header_len: 86
+[2026-02-16 07:16:35.148] [DEBUG] Sending headers: HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 51463
+Connection: close
+
+
+[2026-02-16 07:16:35.148] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:35.148] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:35.148] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:35.148] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:35.148] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:35.148] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:35.148] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:35.148] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:35.148] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:35.148] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:35.148] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:16:35.148] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:16:35.148] [DEBUG] Read 2311 bytes from file
+[2026-02-16 07:16:35.148] [DEBUG] Sent 2311 bytes to client
+[2026-02-16 07:16:35.148] [DEBUG] Total sent: 51463
+[2026-02-16 07:16:35.191] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.191] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.191] [DEBUG] Rate limit check for 127.0.0.1: 15 requests in window
+[2026-02-16 07:16:35.191] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:35.191] [DEBUG] Raw request: GET /identify.html?check=0&t=1771215395179 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:35.191] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.191] [DEBUG] Parsed request: method='GET', path='/identify.html?check=0&t=1771215395179', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.191] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.191] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.191] [INFO] GET /identify.html?check=0&t=1771215395179 from 127.0.0.1
+[2026-02-16 07:16:35.191] [DEBUG] Full path: web/identify.html?check=0&t=1771215395179
+[2026-02-16 07:16:35.191] [DEBUG] stat failed for web/identify.html?check=0&t=1771215395179: No such file or directory
+[2026-02-16 07:16:35.191] [DEBUG] File not found locally, trying backend for: /identify.html?check=0&t=1771215395179
+[2026-02-16 07:16:35.191] [DEBUG] Cache rule matched: /identify.html?check=0&t=1771215395179 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.191] [DEBUG] Cache check for /identify.html?check=0&t=1771215395179: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.191] [DEBUG] Cache MISS for: GET /identify.html?check=0&t=1771215395179 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.191] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:16:35.191] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:16:35.191] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:16:35.191] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:16:35.193] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.199] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.199] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.200] [DEBUG] Rate limit check for 127.0.0.1: 16 requests in window
+[2026-02-16 07:16:35.200] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:35.200] [DEBUG] Raw request: GET /identify.html?check=1&t=1771215395196 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:35.200] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.200] [DEBUG] Parsed request: method='GET', path='/identify.html?check=1&t=1771215395196', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.200] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.200] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.200] [INFO] GET /identify.html?check=1&t=1771215395196 from 127.0.0.1
+[2026-02-16 07:16:35.200] [DEBUG] Full path: web/identify.html?check=1&t=1771215395196
+[2026-02-16 07:16:35.200] [DEBUG] stat failed for web/identify.html?check=1&t=1771215395196: No such file or directory
+[2026-02-16 07:16:35.200] [DEBUG] File not found locally, trying backend for: /identify.html?check=1&t=1771215395196
+[2026-02-16 07:16:35.200] [DEBUG] Cache rule matched: /identify.html?check=1&t=1771215395196 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.200] [DEBUG] Cache check for /identify.html?check=1&t=1771215395196: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.200] [DEBUG] Cache MISS for: GET /identify.html?check=1&t=1771215395196 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.200] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:16:35.200] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:16:35.200] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:16:35.200] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:16:35.202] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.207] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.207] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.208] [DEBUG] Rate limit check for 127.0.0.1: 17 requests in window
+[2026-02-16 07:16:35.208] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:35.208] [DEBUG] Raw request: GET /identify.html?check=2&t=1771215395205 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:35.208] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.208] [DEBUG] Parsed request: method='GET', path='/identify.html?check=2&t=1771215395205', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.208] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.208] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.208] [INFO] GET /identify.html?check=2&t=1771215395205 from 127.0.0.1
+[2026-02-16 07:16:35.208] [DEBUG] Full path: web/identify.html?check=2&t=1771215395205
+[2026-02-16 07:16:35.208] [DEBUG] stat failed for web/identify.html?check=2&t=1771215395205: No such file or directory
+[2026-02-16 07:16:35.208] [DEBUG] File not found locally, trying backend for: /identify.html?check=2&t=1771215395205
+[2026-02-16 07:16:35.208] [DEBUG] Cache rule matched: /identify.html?check=2&t=1771215395205 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.208] [DEBUG] Cache check for /identify.html?check=2&t=1771215395205: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.208] [DEBUG] Cache MISS for: GET /identify.html?check=2&t=1771215395205 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.208] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:16:35.208] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:16:35.208] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:16:35.208] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:16:35.210] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.226] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.226] [DEBUG] Rate limit check for 127.0.0.1: 18 requests in window
+[2026-02-16 07:16:35.227] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.228] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:35.228] [DEBUG] Raw request: GET /identify.html?check=3&t=1771215395214 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:35.228] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.228] [DEBUG] Parsed request: method='GET', path='/identify.html?check=3&t=1771215395214', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.228] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.228] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.228] [INFO] GET /identify.html?check=3&t=1771215395214 from 127.0.0.1
+[2026-02-16 07:16:35.228] [DEBUG] Full path: web/identify.html?check=3&t=1771215395214
+[2026-02-16 07:16:35.228] [DEBUG] stat failed for web/identify.html?check=3&t=1771215395214: No such file or directory
+[2026-02-16 07:16:35.228] [DEBUG] File not found locally, trying backend for: /identify.html?check=3&t=1771215395214
+[2026-02-16 07:16:35.228] [DEBUG] Cache rule matched: /identify.html?check=3&t=1771215395214 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.228] [DEBUG] Cache check for /identify.html?check=3&t=1771215395214: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.228] [DEBUG] Cache MISS for: GET /identify.html?check=3&t=1771215395214 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.228] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:16:35.228] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:16:35.228] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:16:35.228] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:16:35.229] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.238] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.238] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.239] [DEBUG] Rate limit check for 127.0.0.1: 19 requests in window
+[2026-02-16 07:16:35.239] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:35.239] [DEBUG] Raw request: GET /identify.html?check=4&t=1771215395234 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:35.239] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.239] [DEBUG] Parsed request: method='GET', path='/identify.html?check=4&t=1771215395234', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.239] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.239] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.239] [INFO] GET /identify.html?check=4&t=1771215395234 from 127.0.0.1
+[2026-02-16 07:16:35.239] [DEBUG] Full path: web/identify.html?check=4&t=1771215395234
+[2026-02-16 07:16:35.239] [DEBUG] stat failed for web/identify.html?check=4&t=1771215395234: No such file or directory
+[2026-02-16 07:16:35.239] [DEBUG] File not found locally, trying backend for: /identify.html?check=4&t=1771215395234
+[2026-02-16 07:16:35.239] [DEBUG] Cache rule matched: /identify.html?check=4&t=1771215395234 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.239] [DEBUG] Cache check for /identify.html?check=4&t=1771215395234: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.239] [DEBUG] Cache MISS for: GET /identify.html?check=4&t=1771215395234 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.239] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:16:35.239] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:16:35.239] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:16:35.239] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:16:35.241] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.249] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.249] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.250] [DEBUG] Rate limit check for 127.0.0.1: 20 requests in window
+[2026-02-16 07:16:35.250] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:35.250] [DEBUG] Raw request: GET /identify.html?check=5&t=1771215395245 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:35.250] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.250] [DEBUG] Parsed request: method='GET', path='/identify.html?check=5&t=1771215395245', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.250] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.250] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.250] [INFO] GET /identify.html?check=5&t=1771215395245 from 127.0.0.1
+[2026-02-16 07:16:35.250] [DEBUG] Full path: web/identify.html?check=5&t=1771215395245
+[2026-02-16 07:16:35.250] [DEBUG] stat failed for web/identify.html?check=5&t=1771215395245: No such file or directory
+[2026-02-16 07:16:35.250] [DEBUG] File not found locally, trying backend for: /identify.html?check=5&t=1771215395245
+[2026-02-16 07:16:35.250] [DEBUG] Cache rule matched: /identify.html?check=5&t=1771215395245 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.250] [DEBUG] Cache check for /identify.html?check=5&t=1771215395245: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.250] [DEBUG] Cache MISS for: GET /identify.html?check=5&t=1771215395245 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.250] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:16:35.250] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:16:35.250] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:16:35.251] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:16:35.253] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.258] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.258] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.258] [DEBUG] Rate limit check for 127.0.0.1: 21 requests in window
+[2026-02-16 07:16:35.258] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:35.258] [DEBUG] Raw request: GET /identify.html?check=6&t=1771215395256 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:35.258] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.258] [DEBUG] Parsed request: method='GET', path='/identify.html?check=6&t=1771215395256', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.258] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.259] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.259] [INFO] GET /identify.html?check=6&t=1771215395256 from 127.0.0.1
+[2026-02-16 07:16:35.259] [DEBUG] Full path: web/identify.html?check=6&t=1771215395256
+[2026-02-16 07:16:35.259] [DEBUG] stat failed for web/identify.html?check=6&t=1771215395256: No such file or directory
+[2026-02-16 07:16:35.259] [DEBUG] File not found locally, trying backend for: /identify.html?check=6&t=1771215395256
+[2026-02-16 07:16:35.259] [DEBUG] Cache rule matched: /identify.html?check=6&t=1771215395256 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.259] [DEBUG] Cache check for /identify.html?check=6&t=1771215395256: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.259] [DEBUG] Cache MISS for: GET /identify.html?check=6&t=1771215395256 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.259] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:16:35.259] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:16:35.259] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:16:35.259] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:16:35.263] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.272] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.272] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.272] [DEBUG] Rate limit check for 127.0.0.1: 22 requests in window
+[2026-02-16 07:16:35.272] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:35.272] [DEBUG] Raw request: GET /identify.html?check=7&t=1771215395268 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:35.272] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.272] [DEBUG] Parsed request: method='GET', path='/identify.html?check=7&t=1771215395268', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.272] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.272] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.272] [INFO] GET /identify.html?check=7&t=1771215395268 from 127.0.0.1
+[2026-02-16 07:16:35.272] [DEBUG] Full path: web/identify.html?check=7&t=1771215395268
+[2026-02-16 07:16:35.272] [DEBUG] stat failed for web/identify.html?check=7&t=1771215395268: No such file or directory
+[2026-02-16 07:16:35.272] [DEBUG] File not found locally, trying backend for: /identify.html?check=7&t=1771215395268
+[2026-02-16 07:16:35.272] [DEBUG] Cache rule matched: /identify.html?check=7&t=1771215395268 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.272] [DEBUG] Cache check for /identify.html?check=7&t=1771215395268: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.272] [DEBUG] Cache MISS for: GET /identify.html?check=7&t=1771215395268 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.272] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:16:35.272] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:16:35.272] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:16:35.272] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:16:35.274] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.283] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.284] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.284] [DEBUG] Rate limit check for 127.0.0.1: 23 requests in window
+[2026-02-16 07:16:35.284] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:35.285] [DEBUG] Raw request: GET /identify.html?check=8&t=1771215395278 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:35.285] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.285] [DEBUG] Parsed request: method='GET', path='/identify.html?check=8&t=1771215395278', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.285] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.285] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.285] [INFO] GET /identify.html?check=8&t=1771215395278 from 127.0.0.1
+[2026-02-16 07:16:35.285] [DEBUG] Full path: web/identify.html?check=8&t=1771215395278
+[2026-02-16 07:16:35.285] [DEBUG] stat failed for web/identify.html?check=8&t=1771215395278: No such file or directory
+[2026-02-16 07:16:35.285] [DEBUG] File not found locally, trying backend for: /identify.html?check=8&t=1771215395278
+[2026-02-16 07:16:35.285] [DEBUG] Cache rule matched: /identify.html?check=8&t=1771215395278 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.285] [DEBUG] Cache check for /identify.html?check=8&t=1771215395278: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.285] [DEBUG] Cache MISS for: GET /identify.html?check=8&t=1771215395278 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.285] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:16:35.285] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:16:35.285] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:16:35.285] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:16:35.288] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.292] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.292] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.292] [DEBUG] Rate limit check for 127.0.0.1: 24 requests in window
+[2026-02-16 07:16:35.292] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:16:35.293] [DEBUG] Raw request: GET /identify.html?check=9&t=1771215395290 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:16:35.293] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.293] [DEBUG] Parsed request: method='GET', path='/identify.html?check=9&t=1771215395290', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.293] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.293] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.293] [INFO] GET /identify.html?check=9&t=1771215395290 from 127.0.0.1
+[2026-02-16 07:16:35.293] [DEBUG] Full path: web/identify.html?check=9&t=1771215395290
+[2026-02-16 07:16:35.293] [DEBUG] stat failed for web/identify.html?check=9&t=1771215395290: No such file or directory
+[2026-02-16 07:16:35.293] [DEBUG] File not found locally, trying backend for: /identify.html?check=9&t=1771215395290
+[2026-02-16 07:16:35.293] [DEBUG] Cache rule matched: /identify.html?check=9&t=1771215395290 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.293] [DEBUG] Cache check for /identify.html?check=9&t=1771215395290: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.293] [DEBUG] Cache MISS for: GET /identify.html?check=9&t=1771215395290 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.293] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:16:35.293] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:16:35.293] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:16:35.293] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:16:35.295] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.303] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.304] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.304] [DEBUG] Rate limit check for 127.0.0.1: 25 requests in window
+[2026-02-16 07:16:35.304] [DEBUG] Read 424 bytes from client
+[2026-02-16 07:16:35.304] [DEBUG] Raw request: GET /identify.html?check=10&t=1771215395298 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 
+[2026-02-16 07:16:35.304] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.304] [DEBUG] Parsed request: method='GET', path='/identify.html?check=10&t=1771215395298', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.304] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.304] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.304] [INFO] GET /identify.html?check=10&t=1771215395298 from 127.0.0.1
+[2026-02-16 07:16:35.304] [DEBUG] Full path: web/identify.html?check=10&t=1771215395298
+[2026-02-16 07:16:35.304] [DEBUG] stat failed for web/identify.html?check=10&t=1771215395298: No such file or directory
+[2026-02-16 07:16:35.304] [DEBUG] File not found locally, trying backend for: /identify.html?check=10&t=1771215395298
+[2026-02-16 07:16:35.304] [DEBUG] Cache rule matched: /identify.html?check=10&t=1771215395298 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.304] [DEBUG] Cache check for /identify.html?check=10&t=1771215395298: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.304] [DEBUG] Cache MISS for: GET /identify.html?check=10&t=1771215395298 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.304] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:16:35.304] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:16:35.304] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:16:35.304] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:16:35.307] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:16:35.314] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:16:35.315] [DEBUG] Rate limit check for 127.0.0.1: 26 requests in window
+[2026-02-16 07:16:35.315] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:16:35.315] [DEBUG] Read 424 bytes from client
+[2026-02-16 07:16:35.315] [DEBUG] Raw request: GET /identify.html?check=11&t=1771215395309 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 
+[2026-02-16 07:16:35.315] [DEBUG] About to parse HTTP request
+[2026-02-16 07:16:35.315] [DEBUG] Parsed request: method='GET', path='/identify.html?check=11&t=1771215395309', protocol='HTTP/1.1'
+[2026-02-16 07:16:35.315] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:16:35.315] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:16:35.315] [INFO] GET /identify.html?check=11&t=1771215395309 from 127.0.0.1
+[2026-02-16 07:16:35.315] [DEBUG] Full path: web/identify.html?check=11&t=1771215395309
+[2026-02-16 07:16:35.315] [DEBUG] stat failed for web/identify.html?check=11&t=1771215395309: No such file or directory
+[2026-02-16 07:16:35.315] [DEBUG] File not found locally, trying backend for: /identify.html?check=11&t=1771215395309
+[2026-02-16 07:16:35.315] [DEBUG] Cache rule matched: /identify.html?check=11&t=1771215395309 -> /* (age=5, size=51200)
+[2026-02-16 07:16:35.315] [DEBUG] Cache check for /identify.html?check=11&t=1771215395309: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:16:35.315] [DEBUG] Cache MISS for: GET /identify.html?check=11&t=1771215395309 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:16:35.315] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:16:35.315] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:16:35.315] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:16:35.315] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:16:35.318] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:26.814] [INFO] Starting reverse proxy on port 8085
+[2026-02-16 07:17:26.814] [INFO] Loaded backend: 127.0.0.1:8081 (weight: 3, max failures: 5)
+[2026-02-16 07:17:26.814] [INFO] Loaded backend: 127.0.0.1:8082 (weight: 2, max failures: 5)
+[2026-02-16 07:17:26.814] [INFO] Loaded backend: 127.0.0.1:8083 (weight: 1, max failures: 5)
+[2026-02-16 07:17:26.814] [INFO] Cache initialized with capacity 100
+[2026-02-16 07:17:26.814] [DEBUG] Loaded cache rule: *.html:10:102400
+[2026-02-16 07:17:26.814] [DEBUG] Loaded cache rule: *.css:30:1048576
+[2026-02-16 07:17:26.814] [DEBUG] Loaded cache rule: /*:5:51200
+[2026-02-16 07:17:26.814] [DEBUG] Loaded cache rule: /api/*:0:0
+[2026-02-16 07:17:26.814] [INFO] Loaded 4 cache rules from config/cache_rules.cfg
+[2026-02-16 07:17:26.815] [INFO] Health check thread started
+[2026-02-16 07:17:26.815] [INFO] Server listening on port 8085
+[2026-02-16 07:17:26.816] [INFO] Proxy server ready. Press Ctrl+C to stop.
+[2026-02-16 07:17:26.816] [DEBUG] Waiting for connection, running=1, active_threads=0
+[2026-02-16 07:17:32.567] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.567] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.567] [DEBUG] Rate limit check for 127.0.0.1: 1 requests in window
+[2026-02-16 07:17:32.567] [DEBUG] Read 481 bytes from client
+[2026-02-16 07:17:32.567] [DEBUG] Raw request: GET /dashboard.html HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_
+[2026-02-16 07:17:32.567] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.567] [DEBUG] Parsed request: method='GET', path='/dashboard.html', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.567] [DEBUG] Parsed headers (447 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Langua
+[2026-02-16 07:17:32.567] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.567] [INFO] GET /dashboard.html from 127.0.0.1
+[2026-02-16 07:17:32.567] [DEBUG] Full path: web/dashboard.html
+[2026-02-16 07:17:32.567] [DEBUG] File exists, serving web/dashboard.html
+[2026-02-16 07:17:32.567] [DEBUG] File size: 51463
+[2026-02-16 07:17:32.567] [DEBUG] header_len: 86
+[2026-02-16 07:17:32.567] [DEBUG] Sending headers: HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 51463
+Connection: close
+
+
+[2026-02-16 07:17:32.568] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:17:32.568] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:17:32.568] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:17:32.568] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:17:32.568] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:17:32.568] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:17:32.568] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:17:32.568] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:17:32.568] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:17:32.568] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:17:32.568] [DEBUG] Read 8192 bytes from file
+[2026-02-16 07:17:32.568] [DEBUG] Sent 8192 bytes to client
+[2026-02-16 07:17:32.568] [DEBUG] Read 2311 bytes from file
+[2026-02-16 07:17:32.568] [DEBUG] Sent 2311 bytes to client
+[2026-02-16 07:17:32.568] [DEBUG] Total sent: 51463
+[2026-02-16 07:17:32.704] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.704] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.705] [DEBUG] Rate limit check for 127.0.0.1: 2 requests in window
+[2026-02-16 07:17:32.705] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:17:32.705] [DEBUG] Raw request: GET /identify.html?check=0&t=1771215452694 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:17:32.705] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.705] [DEBUG] Parsed request: method='GET', path='/identify.html?check=0&t=1771215452694', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.705] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.705] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.705] [INFO] GET /identify.html?check=0&t=1771215452694 from 127.0.0.1
+[2026-02-16 07:17:32.705] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.705] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.705] [DEBUG] File not found locally, trying backend for: /identify.html?check=0&t=1771215452694
+[2026-02-16 07:17:32.705] [DEBUG] Cache rule matched: /identify.html?check=0&t=1771215452694 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.705] [DEBUG] Cache check for /identify.html?check=0&t=1771215452694: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.705] [DEBUG] Cache MISS for: GET /identify.html?check=0&t=1771215452694 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.705] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:17:32.705] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:17:32.705] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:17:32.705] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:17:32.713] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.730] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.730] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.730] [DEBUG] Rate limit check for 127.0.0.1: 3 requests in window
+[2026-02-16 07:17:32.730] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:17:32.730] [DEBUG] Raw request: GET /identify.html?check=1&t=1771215452726 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:17:32.730] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.730] [DEBUG] Parsed request: method='GET', path='/identify.html?check=1&t=1771215452726', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.730] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.730] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.730] [INFO] GET /identify.html?check=1&t=1771215452726 from 127.0.0.1
+[2026-02-16 07:17:32.730] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.730] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.730] [DEBUG] File not found locally, trying backend for: /identify.html?check=1&t=1771215452726
+[2026-02-16 07:17:32.730] [DEBUG] Cache rule matched: /identify.html?check=1&t=1771215452726 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.730] [DEBUG] Cache check for /identify.html?check=1&t=1771215452726: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.730] [DEBUG] Cache MISS for: GET /identify.html?check=1&t=1771215452726 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.730] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:17:32.730] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:17:32.730] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:17:32.730] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:17:32.741] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.750] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.750] [DEBUG] Rate limit check for 127.0.0.1: 4 requests in window
+[2026-02-16 07:17:32.750] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.752] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:17:32.752] [DEBUG] Raw request: GET /identify.html?check=2&t=1771215452746 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:17:32.752] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.752] [DEBUG] Parsed request: method='GET', path='/identify.html?check=2&t=1771215452746', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.752] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.752] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.752] [INFO] GET /identify.html?check=2&t=1771215452746 from 127.0.0.1
+[2026-02-16 07:17:32.752] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.752] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.752] [DEBUG] File not found locally, trying backend for: /identify.html?check=2&t=1771215452746
+[2026-02-16 07:17:32.752] [DEBUG] Cache rule matched: /identify.html?check=2&t=1771215452746 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.752] [DEBUG] Cache check for /identify.html?check=2&t=1771215452746: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.752] [DEBUG] Cache MISS for: GET /identify.html?check=2&t=1771215452746 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.752] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:17:32.752] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:17:32.752] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:17:32.752] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:17:32.761] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.765] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.765] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.766] [DEBUG] Rate limit check for 127.0.0.1: 5 requests in window
+[2026-02-16 07:17:32.766] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:17:32.766] [DEBUG] Raw request: GET /identify.html?check=3&t=1771215452763 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:17:32.766] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.766] [DEBUG] Parsed request: method='GET', path='/identify.html?check=3&t=1771215452763', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.766] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.766] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.766] [INFO] GET /identify.html?check=3&t=1771215452763 from 127.0.0.1
+[2026-02-16 07:17:32.766] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.766] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.766] [DEBUG] File not found locally, trying backend for: /identify.html?check=3&t=1771215452763
+[2026-02-16 07:17:32.766] [DEBUG] Cache rule matched: /identify.html?check=3&t=1771215452763 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.766] [DEBUG] Cache check for /identify.html?check=3&t=1771215452763: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.766] [DEBUG] Cache MISS for: GET /identify.html?check=3&t=1771215452763 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.766] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:17:32.766] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:17:32.766] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:17:32.766] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:17:32.768] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.773] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.773] [DEBUG] Rate limit check for 127.0.0.1: 6 requests in window
+[2026-02-16 07:17:32.773] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:17:32.773] [DEBUG] Raw request: GET /identify.html?check=4&t=1771215452770 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:17:32.773] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.773] [DEBUG] Parsed request: method='GET', path='/identify.html?check=4&t=1771215452770', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.773] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.773] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.773] [INFO] GET /identify.html?check=4&t=1771215452770 from 127.0.0.1
+[2026-02-16 07:17:32.773] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.773] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.773] [DEBUG] File not found locally, trying backend for: /identify.html?check=4&t=1771215452770
+[2026-02-16 07:17:32.773] [DEBUG] Cache rule matched: /identify.html?check=4&t=1771215452770 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.773] [DEBUG] Cache check for /identify.html?check=4&t=1771215452770: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.773] [DEBUG] Cache MISS for: GET /identify.html?check=4&t=1771215452770 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.773] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:17:32.773] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:17:32.773] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:17:32.773] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:17:32.773] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.776] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.784] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.784] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.784] [DEBUG] Rate limit check for 127.0.0.1: 7 requests in window
+[2026-02-16 07:17:32.784] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:17:32.784] [DEBUG] Raw request: GET /identify.html?check=5&t=1771215452780 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:17:32.784] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.784] [DEBUG] Parsed request: method='GET', path='/identify.html?check=5&t=1771215452780', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.785] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.785] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.785] [INFO] GET /identify.html?check=5&t=1771215452780 from 127.0.0.1
+[2026-02-16 07:17:32.785] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.785] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.785] [DEBUG] File not found locally, trying backend for: /identify.html?check=5&t=1771215452780
+[2026-02-16 07:17:32.785] [DEBUG] Cache rule matched: /identify.html?check=5&t=1771215452780 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.785] [DEBUG] Cache check for /identify.html?check=5&t=1771215452780: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.785] [DEBUG] Cache MISS for: GET /identify.html?check=5&t=1771215452780 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.785] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:17:32.785] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:17:32.785] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:17:32.785] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:17:32.786] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.792] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.792] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.793] [DEBUG] Rate limit check for 127.0.0.1: 8 requests in window
+[2026-02-16 07:17:32.793] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:17:32.793] [DEBUG] Raw request: GET /identify.html?check=6&t=1771215452788 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:17:32.793] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.793] [DEBUG] Parsed request: method='GET', path='/identify.html?check=6&t=1771215452788', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.793] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.793] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.793] [INFO] GET /identify.html?check=6&t=1771215452788 from 127.0.0.1
+[2026-02-16 07:17:32.793] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.793] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.793] [DEBUG] File not found locally, trying backend for: /identify.html?check=6&t=1771215452788
+[2026-02-16 07:17:32.793] [DEBUG] Cache rule matched: /identify.html?check=6&t=1771215452788 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.793] [DEBUG] Cache check for /identify.html?check=6&t=1771215452788: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.793] [DEBUG] Cache MISS for: GET /identify.html?check=6&t=1771215452788 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.793] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:17:32.793] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:17:32.793] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:17:32.793] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:17:32.797] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.803] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.803] [DEBUG] Rate limit check for 127.0.0.1: 9 requests in window
+[2026-02-16 07:17:32.803] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:17:32.803] [DEBUG] Raw request: GET /identify.html?check=7&t=1771215452800 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:17:32.803] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.803] [DEBUG] Parsed request: method='GET', path='/identify.html?check=7&t=1771215452800', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.803] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.803] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.803] [INFO] GET /identify.html?check=7&t=1771215452800 from 127.0.0.1
+[2026-02-16 07:17:32.803] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.803] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.803] [DEBUG] File not found locally, trying backend for: /identify.html?check=7&t=1771215452800
+[2026-02-16 07:17:32.803] [DEBUG] Cache rule matched: /identify.html?check=7&t=1771215452800 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.803] [DEBUG] Cache check for /identify.html?check=7&t=1771215452800: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.803] [DEBUG] Cache MISS for: GET /identify.html?check=7&t=1771215452800 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.803] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:17:32.803] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:17:32.803] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:17:32.803] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:17:32.803] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.805] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.815] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.815] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.816] [DEBUG] Rate limit check for 127.0.0.1: 10 requests in window
+[2026-02-16 07:17:32.816] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:17:32.816] [DEBUG] Raw request: GET /identify.html?check=8&t=1771215452811 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:17:32.816] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.816] [DEBUG] Parsed request: method='GET', path='/identify.html?check=8&t=1771215452811', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.816] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.816] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.816] [INFO] GET /identify.html?check=8&t=1771215452811 from 127.0.0.1
+[2026-02-16 07:17:32.816] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.816] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.816] [DEBUG] File not found locally, trying backend for: /identify.html?check=8&t=1771215452811
+[2026-02-16 07:17:32.816] [DEBUG] Cache rule matched: /identify.html?check=8&t=1771215452811 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.816] [DEBUG] Cache check for /identify.html?check=8&t=1771215452811: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.816] [DEBUG] Cache MISS for: GET /identify.html?check=8&t=1771215452811 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.816] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:17:32.816] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:17:32.816] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:17:32.816] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:17:32.819] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.824] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.824] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.824] [DEBUG] Rate limit check for 127.0.0.1: 11 requests in window
+[2026-02-16 07:17:32.825] [DEBUG] Read 423 bytes from client
+[2026-02-16 07:17:32.825] [DEBUG] Raw request: GET /identify.html?check=9&t=1771215452821 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 (
+[2026-02-16 07:17:32.825] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.825] [DEBUG] Parsed request: method='GET', path='/identify.html?check=9&t=1771215452821', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.825] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.825] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.825] [INFO] GET /identify.html?check=9&t=1771215452821 from 127.0.0.1
+[2026-02-16 07:17:32.825] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.825] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.825] [DEBUG] File not found locally, trying backend for: /identify.html?check=9&t=1771215452821
+[2026-02-16 07:17:32.825] [DEBUG] Cache rule matched: /identify.html?check=9&t=1771215452821 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.825] [DEBUG] Cache check for /identify.html?check=9&t=1771215452821: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.825] [DEBUG] Cache MISS for: GET /identify.html?check=9&t=1771215452821 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.825] [DEBUG] RR debug: index=0, healthy_count=3, idx=0
+[2026-02-16 07:17:32.825] [INFO] Selected backend: 127.0.0.1:8081
+[2026-02-16 07:17:32.825] [DEBUG] Selected backend 127.0.0.1:8081 (strategy: 0)
+[2026-02-16 07:17:32.825] [INFO] Forwarding to backend: 127.0.0.1:8081
+[2026-02-16 07:17:32.828] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.835] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.836] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.836] [DEBUG] Rate limit check for 127.0.0.1: 12 requests in window
+[2026-02-16 07:17:32.836] [DEBUG] Read 424 bytes from client
+[2026-02-16 07:17:32.836] [DEBUG] Raw request: GET /identify.html?check=10&t=1771215452831 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 
+[2026-02-16 07:17:32.836] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.836] [DEBUG] Parsed request: method='GET', path='/identify.html?check=10&t=1771215452831', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.836] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.836] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.836] [INFO] GET /identify.html?check=10&t=1771215452831 from 127.0.0.1
+[2026-02-16 07:17:32.836] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.836] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.836] [DEBUG] File not found locally, trying backend for: /identify.html?check=10&t=1771215452831
+[2026-02-16 07:17:32.837] [DEBUG] Cache rule matched: /identify.html?check=10&t=1771215452831 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.837] [DEBUG] Cache check for /identify.html?check=10&t=1771215452831: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.837] [DEBUG] Cache MISS for: GET /identify.html?check=10&t=1771215452831 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.837] [DEBUG] RR debug: index=1, healthy_count=3, idx=1
+[2026-02-16 07:17:32.837] [INFO] Selected backend: 127.0.0.1:8082
+[2026-02-16 07:17:32.837] [DEBUG] Selected backend 127.0.0.1:8082 (strategy: 0)
+[2026-02-16 07:17:32.837] [INFO] Forwarding to backend: 127.0.0.1:8082
+[2026-02-16 07:17:32.840] [INFO] Connection closed for 127.0.0.1
+[2026-02-16 07:17:32.850] [DEBUG] Waiting for connection, running=1, active_threads=1
+[2026-02-16 07:17:32.851] [DEBUG] Starting handle_client for 127.0.0.1
+[2026-02-16 07:17:32.852] [DEBUG] Rate limit check for 127.0.0.1: 13 requests in window
+[2026-02-16 07:17:32.852] [DEBUG] Read 424 bytes from client
+[2026-02-16 07:17:32.852] [DEBUG] Raw request: GET /identify.html?check=11&t=1771215452846 HTTP/1.1
+Host: localhost:8085
+User-Agent: Mozilla/5.0 
+[2026-02-16 07:17:32.852] [DEBUG] About to parse HTTP request
+[2026-02-16 07:17:32.852] [DEBUG] Parsed request: method='GET', path='/identify.html?check=11&t=1771215452846', protocol='HTTP/1.1'
+[2026-02-16 07:17:32.852] [DEBUG] Parsed headers (366 bytes): Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gz
+[2026-02-16 07:17:32.852] [DEBUG] HTTP request parsed successfully
+[2026-02-16 07:17:32.852] [INFO] GET /identify.html?check=11&t=1771215452846 from 127.0.0.1
+[2026-02-16 07:17:32.852] [DEBUG] Full path: web/identify.html
+[2026-02-16 07:17:32.852] [DEBUG] stat failed for web/identify.html: No such file or directory
+[2026-02-16 07:17:32.852] [DEBUG] File not found locally, trying backend for: /identify.html?check=11&t=1771215452846
+[2026-02-16 07:17:32.852] [DEBUG] Cache rule matched: /identify.html?check=11&t=1771215452846 -> /* (age=5, size=51200)
+[2026-02-16 07:17:32.852] [DEBUG] Cache check for /identify.html?check=11&t=1771215452846: should_cache=1, max_age=5, max_size=51200
+[2026-02-16 07:17:32.852] [DEBUG] Cache MISS for: GET /identify.html?check=11&t=1771215452846 Host: localhost:8085
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8085/dashboard.html
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+[2026-02-16 07:17:32.852] [DEBUG] RR debug: index=2, healthy_count=3, idx=2
+[2026-02-16 07:17:32.852] [INFO] Selected backend: 127.0.0.1:8083
+[2026-02-16 07:17:32.852] [DEBUG] Selected backend 127.0.0.1:8083 (strategy: 0)
+[2026-02-16 07:17:32.852] [INFO] Forwarding to backend: 127.0.0.1:8083
+[2026-02-16 07:17:32.855] [INFO] Connection closed for 127.0.0.1
