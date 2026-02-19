@@ -394,9 +394,9 @@ Puis dans un 4ème terminal, lance le proxy :
     echo "<h1>Backend 3 (port 8083)</h1>" > /tmp/web3/hello.html
 
   LANCER LES 3 BACKENDS :
-    python3 -m http.server 8081 --directory /tmp/web1 &
-    python3 -m http.server 8082 --directory /tmp/web2 &
-    python3 -m http.server 8083 --directory /tmp/web3 &
+    
+    
+    
 
   LANCER LE PROXY :
     ./proxy -p 8085 -s 0    # Round robin

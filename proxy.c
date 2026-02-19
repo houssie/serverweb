@@ -25,6 +25,7 @@
 
 /* === Variables globales === */
 volatile int running = 1;                   /* Flag principal : 1 = serveur en marche, 0 = arrêt demandé */
+static int server_port = 9999;              /* Port d'écoute du proxy (mis à jour dans main) */
 static volatile int shutdown_requested = 0; /* Empêche les signaux multiples d'interférer */
 static Cache *global_cache = NULL;          /* Cache HTTP partagé par tous les threads */
 static CacheRules *global_cache_rules = NULL; /* Règles de cache chargées depuis le fichier de config */
@@ -254,7 +255,6 @@ void serve_static(int client_sock, const char *path) {
  * 5. Envoie le résultat comme réponse HTTP
  */
 void serve_php(int client_sock, const char *path, const char *client_ip) {
-    (void)client_ip;  /* Paramètre non utilisé pour l'instant */
     log_message(LOG_DEBUG, "Starting serve_php for path: %s", path);
     
     /* Sécurité : bloquer les tentatives de path traversal */
@@ -284,9 +284,16 @@ void serve_php(int client_sock, const char *path, const char *client_ip) {
         return;
     }
     
-    /* Construire la commande PHP à exécuter */
+    /* Construire la commande PHP à exécuter avec les variables CGI */
     char command[4096];
-    int cmd_len = snprintf(command, sizeof(command), "php -f %s", full_path);
+    int cmd_len = snprintf(command, sizeof(command),
+        "SERVER_ADDR=127.0.0.1 SERVER_PORT=%d REMOTE_ADDR=%s "
+        "REQUEST_URI=%s SCRIPT_FILENAME=%s "
+        "DOCUMENT_ROOT=web GATEWAY_INTERFACE=CGI/1.1 "
+        "SERVER_SOFTWARE=ProxyReverse/1.0 "
+        "php -f %s",
+        server_port, client_ip ? client_ip : "127.0.0.1",
+        path, full_path, full_path);
     
     if (cmd_len < 0 || (size_t)cmd_len >= sizeof(command)) {
         log_message(LOG_ERROR, "PHP command too long");
@@ -750,6 +757,7 @@ void* handle_client(void *arg) {
  */
 int main(int argc, char *argv[]) {
     int proxy_port = 9999;                     /* Port d'écoute par défaut */
+    /* server_port sera mis à jour après parsing des arguments */
     char *config_file = "config/backends.cfg"; /* Fichier de config des backends par défaut */
     
     /* --- Parsing des arguments de la ligne de commande --- */
@@ -762,6 +770,9 @@ int main(int argc, char *argv[]) {
             lb_strategy = atoi(argv[++i]);  /* -s : définir la stratégie de load balancing */
         }
     }
+    
+    /* Synchroniser le port global pour serve_php */
+    server_port = proxy_port;
     
     /* --- Initialisation du système de logging --- */
     init_logger("proxy.log");
